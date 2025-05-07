@@ -21,17 +21,13 @@ public class Membership {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotNull(message = "The price can not be null.")
     @Column(columnDefinition = "double not null")
     private double price;
 
-    @NotNull(message = "Start date is required")
     private LocalDate startDate;
 
-    @NotNull(message = "End date is required")
     private LocalDate endDate;
 
-    @Column(columnDefinition = "boolean default false")
     private Boolean isActive = false;
 
     @Column(length = 20)
