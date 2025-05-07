@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,7 +19,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Pattern(regexp = "1|2|3|4|5") // What are the levels.
+    @Pattern(regexp = "amateur|beginner|professional")
     private String level;
 
     @OneToOne
@@ -28,6 +28,9 @@ public class Customer {
     private User user;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<CourseEnrollment> courseEnrollments;
+    private Set<CourseEnrollment> courseEnrollments;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Set<CourseReview> courseReviews;
 
 }
