@@ -3,10 +3,14 @@ package com.example.saheel.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
+
 //We need to discuss the attribute
 @Getter
 @Setter
@@ -20,6 +24,23 @@ public class Membership {
     @NotNull(message = "The price can not be null.")
     @Column(columnDefinition = "double not null")
     private double price;
+
+    @NotNull(message = "Start date is required")
+    private LocalDate startDate;
+
+    @NotNull(message = "End date is required")
+    private LocalDate endDate;
+
+    @Column(columnDefinition = "boolean default false")
+    private Boolean isActive = false;
+
+    @Column(length = 20)
+    @Pattern(regexp = "monthly|yearly")
+    private String membershipType; // "MONTHLY", "YEARLY"
+
+//    @Column(length = 20)
+//    private String paymentStatus = "PENDING"; // e.g., "PAID", "PENDING", "FAILED"
+
 
     @ManyToOne
     @JsonIgnore
