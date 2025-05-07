@@ -55,5 +55,8 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<CourseEnrollment> courseEnrollments;
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<CourseReview> courseReviews;
+
 
 }
