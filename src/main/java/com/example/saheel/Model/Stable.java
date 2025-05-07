@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class Stable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

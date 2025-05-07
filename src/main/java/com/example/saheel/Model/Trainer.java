@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -56,5 +57,5 @@ public class Trainer {
     private Stable stable;
 
     @OneToMany(mappedBy = "trainer", cascade = CascadeType.ALL)
-    private List<Course> courses;
+    private Set<Course> courses;
 }
