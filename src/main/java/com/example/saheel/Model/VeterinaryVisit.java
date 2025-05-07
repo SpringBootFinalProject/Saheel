@@ -30,6 +30,7 @@ public class VeterinaryVisit {
     @Column(columnDefinition = "int not null")
     private int durationInMinute; //Should this be removed? or added after the visit is completed?
 
+
     @ManyToOne
     @JsonIgnore
     private Veterinary veterinary;

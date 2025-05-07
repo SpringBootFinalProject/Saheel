@@ -19,9 +19,11 @@ public class Breeder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @NotEmpty(message = "The username can not be empty.")
     @Column(columnDefinition = "varchar(20) unique not null")
     private String username;
+
     @NotEmpty(message = "The password can not be empty.")
     @Column(columnDefinition = "varchar(50) not null")
     private String password;

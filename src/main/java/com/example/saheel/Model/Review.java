@@ -19,12 +19,15 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @NotEmpty(message = "The description can not be empty.")
     @Column(columnDefinition = "varchar(255) not null")
     private String description;
+
     @NotNull(message = "The rating can not be empty.")
     @Min(value = 1, message = "The minimum rating is 1.")
     @Max(value = 5, message = "The maximum rating is 5.")
     @Column(columnDefinition = "double")
     private double rating;
+
 }

@@ -20,20 +20,28 @@ public class Stable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @NotEmpty(message = "The name can not be empty.")
     @Column(columnDefinition = "varchar(20) not null")
     private String name;
+
     @NotEmpty(message = "The description can not be empty.")
     @Column(columnDefinition = "varchar(255) not null")
     private String description;
+
     @NotNull(message = "The capacity can not be empty.")
     @Column(columnDefinition = "int not null")
     private int capacity;
+
     @NotEmpty(message = "The location can not be empty.")
     @Column(columnDefinition = "varchar(50) not null")
     private String location; //What is the format of the location?
+
     @Column(columnDefinition = "double")
     private double rating;
+
+
+
 
     @ManyToOne
     @JsonIgnore
