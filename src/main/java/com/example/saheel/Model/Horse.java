@@ -47,3 +47,6 @@ public class Horse {
 //    @JsonIgnore
 //    private VeterinaryVisit veterinaryVisit; // One to one?
 }
+// StableReviewRepository
+// StableReviewController
+// StableReviewService

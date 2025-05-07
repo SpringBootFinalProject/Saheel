@@ -57,4 +57,7 @@ public class Stable {
 
     @OneToMany(mappedBy = "stable", cascade = CascadeType.ALL)
     private List<Membership> memberships;
+
+    @OneToMany(mappedBy = "stable", cascade = CascadeType.ALL)
+    private List<StableReview> stableReviews;
 }

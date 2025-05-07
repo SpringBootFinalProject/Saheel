@@ -29,7 +29,7 @@ public class User implements UserDetails {
     @Column(columnDefinition = "varchar(20) unique not null")
     private String username;
     @NotEmpty(message = "The password can not be empty.")
-    @Column(columnDefinition = "varchar(50) not null")
+    @Column(columnDefinition = "varchar(100) not null")
     private String password;
     @Pattern(regexp = "admin|customer|horseowner|satbleowner")
     @Column(columnDefinition = "varchar(15)")

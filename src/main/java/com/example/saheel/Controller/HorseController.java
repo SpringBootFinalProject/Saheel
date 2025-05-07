@@ -18,26 +18,33 @@ import java.util.List;
 public class HorseController {
     private final HorseService horseService;
 
+    // TODO: Enable @AuthenticationPrincipal User user
     @GetMapping("/get-owner-horses")
     public ResponseEntity<List<Horse>> getOwnerHorses(@AuthenticationPrincipal User user) {
         return ResponseEntity.status(HttpStatus.OK).body(horseService.getOwnerHorses(user.getId()));
     }
 
-    @PostMapping("/add-horse-by-owner")
-    public ResponseEntity<ApiResponse> addHorseByOwner(@AuthenticationPrincipal User user, @RequestBody Horse horse) {
-        horseService.addHorseByOwner(user.getId(), horse);
+    // TODO: Enable @AuthenticationPrincipal User user
+    @PostMapping("/add-horse-by-owner/{horseOwnerId}")
+    public ResponseEntity<ApiResponse> addHorseByOwner(@PathVariable Integer horseOwnerId, @RequestBody Horse horse) {
+//        horseService.addHorseByOwner(user.getId(), horse);
+        horseService.addHorseByOwner(horseOwnerId, horse);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Horse added successfully."));
     }
 
-    @PutMapping("/update-horse/{horseId}")
-    public ResponseEntity<ApiResponse> updateHorse(@AuthenticationPrincipal User user, @RequestBody Horse horse, @PathVariable Integer horseId) {
-        horseService.updateHorse(user.getId(), horseId, horse);
+    // TODO: Enable @AuthenticationPrincipal User user
+    @PutMapping("/update-horse/{horseOwnerId}/{horseId}")
+    public ResponseEntity<ApiResponse> updateHorse(@PathVariable Integer horseOwnerId, @RequestBody Horse horse, @PathVariable Integer horseId) {
+//        horseService.updateHorse(user.getId(), horseId, horse);
+        horseService.updateHorse(horseOwnerId, horseId, horse);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Horse updated successfully."));
     }
 
-    @DeleteMapping("/delete-horse/{horseId}")
-    public ResponseEntity<ApiResponse> removeHorse(@AuthenticationPrincipal User user, @PathVariable Integer horseId) {
-        horseService.deleteHorse(user.getId(), horseId);
+    // TODO: Enable @AuthenticationPrincipal User user
+    @DeleteMapping("/delete-horse/{horseOwnerId}/{horseId}")
+    public ResponseEntity<ApiResponse> removeHorse(@PathVariable Integer horseOwnerId, @PathVariable Integer horseId) {
+//        horseService.deleteHorse(user.getId(), horseId);
+        horseService.deleteHorse(horseOwnerId, horseId);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Horse deleted successfully."));
     }
 }
