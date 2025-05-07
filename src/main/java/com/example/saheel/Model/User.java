@@ -29,9 +29,9 @@ public class User implements UserDetails {
     @Column(columnDefinition = "varchar(20) unique not null")
     private String username;
     @NotEmpty(message = "The password can not be empty.")
-    @Column(columnDefinition = "varchar(50) not null")
+    @Column(columnDefinition = "varchar(255) not null")
     private String password;
-    @Pattern(regexp = "admin|customer|horseowner|satbleowner")
+    @Pattern(regexp = "ADMIN|CUSTOMER|HORSEOWNER|STABLEOWNER")
     @Column(columnDefinition = "varchar(15)")
     private String role;
     @NotEmpty(message = "The name can not be empty.")
@@ -44,6 +44,11 @@ public class User implements UserDetails {
     @NotEmpty(message = "The email can not be empty.")
     @Column(columnDefinition = "varchar(50) unique not null")
     private String email;
+
+    @NotEmpty(message = "The phone number can not be empty.")
+    @Pattern(regexp = "\\+\\d{12}", message = "Phone number must start with the country code followed by 9 digits.")
+    @Column(columnDefinition = "varchar(13) unique not null")
+    private String phoneNumber;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Customer horseOwner;
