@@ -30,6 +30,6 @@ public class HorseOwner {
     @OneToMany(mappedBy = "horseOwner", cascade = CascadeType.ALL)
     private List<Horse> horses;
 
-//    @OneToMany(mappedBy = "horseOwner", cascade = CascadeType.ALL)
-//    private List<Review> reviews;
+    @OneToMany(mappedBy = "horseOwner", cascade = CascadeType.ALL)
+    private List<StableReview> reviews;
 }

@@ -16,7 +16,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.sql.SQLIntegrityConstraintViolationException;
-
+//gjuiy
 @ControllerAdvice
 public class AdviseController {
     // Our Exception
@@ -94,6 +94,11 @@ public class AdviseController {
         String msg = e.getMessage();
         return ResponseEntity.status(400).body(new ApiResponse(msg));
     }
-
+    // RuntimeException
+    @ExceptionHandler(value = RuntimeException.class)
+    public ResponseEntity<ApiResponse> RuntimeException(RuntimeException e) {
+        String msg = e.getMessage();
+        return ResponseEntity.status(400).body(new ApiResponse(msg));
+    }
 
 }

@@ -23,12 +23,15 @@ public class VeterinaryVisit {
     @NotNull(message = "The date can not be empty.")
     @Future
     private LocalDateTime date;
+
     @NotNull(message = "The price can not be empty.")
     @Column(columnDefinition = "double not null")
     private double price;
+
     @NotNull(message = "The duration can not be empty.")
     @Column(columnDefinition = "int not null")
     private int durationInMinute; //Should this be removed? or added after the visit is completed?
+
 
     @ManyToOne
     @JsonIgnore
