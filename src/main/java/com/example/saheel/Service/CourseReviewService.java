@@ -36,6 +36,11 @@ public class CourseReviewService {
         // Check if the customer enrolled in the course.
         helperService.checkIfCustomerEnrolled(course, customer);
 
+        // Check if the customer reviewed this course.
+        if (!courseReviewRepository.findCourseReviewsByCourseAndCustomer(course, customer).isEmpty())
+            throw new ApiException("Customer can not make more than one review");
+
+
         // Set the customer
         courseReview.setCustomer(customer);
 
