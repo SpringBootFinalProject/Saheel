@@ -48,7 +48,7 @@ public class CustomerService {
 
     public void updateCustomer(Integer userId, CustomerDtoIn customerDtoIn) {
         // Get the user and check if it's in the database.
-        User user = getUserOrThrow(userId);
+        User user = helperService.getCustomerOrThrow(userId);
 
         // Update
         user.setPassword(new BCryptPasswordEncoder().encode(customerDtoIn.getPassword()));
@@ -65,15 +65,9 @@ public class CustomerService {
 
     public void deleteCustomer(Integer userId) {
         // Get the user and check if it's in the database.
-        User user = getUserOrThrow(userId);
+        User user = helperService.getCustomerOrThrow(userId);
 
         // Delete
         userRepository.delete(user);
-    }
-
-    public User getUserOrThrow(Integer userId) {
-        User user = userRepository.findUserById(userId);
-        if (user == null) throw new ApiException("Customer not found.");
-        return user;
     }
 }
