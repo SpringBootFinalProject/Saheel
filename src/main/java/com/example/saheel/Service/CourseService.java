@@ -34,7 +34,7 @@ public class CourseService {
         return courseRepository.findCoursesByStable(stable);
     }
 
-    public void addCourseByOwner(Integer stableOwnerId, Integer stableId, Course course){
+    public void addCourseByOwner(Integer stableOwnerId, Integer stableId, Course course) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
 
@@ -49,7 +49,7 @@ public class CourseService {
         courseRepository.save(course);
     }
 
-    public void updateCourse(Integer stableOwnerId, Integer stableId, Integer courseId, Course course){
+    public void updateCourse(Integer stableOwnerId, Integer stableId, Integer courseId, Course course) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
 
@@ -78,7 +78,7 @@ public class CourseService {
         courseRepository.save(oldCourse);
     }
 
-    public void deleteCourse(Integer stableOwnerId, Integer stableId,  Integer courseId){
+    public void deleteCourse(Integer stableOwnerId, Integer stableId, Integer courseId) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
 
@@ -98,23 +98,23 @@ public class CourseService {
         courseRepository.delete(course);
     }
 
-    public StableOwner getStableOwnerOrThrow(Integer stableOwnerId){
+    public StableOwner getStableOwnerOrThrow(Integer stableOwnerId) {
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwnerId);
-        if(stableOwner == null) throw new ApiException("Stable owner not found.");
+        if (stableOwner == null) throw new ApiException("Stable owner not found.");
         return stableOwner;
     }
 
-    public Stable getStableOrThrow(Integer stableId){
+    public Stable getStableOrThrow(Integer stableId) {
         Stable stable = stableRepository.findStableById(stableId);
-        if(stable == null) throw new ApiException("Stable not found.");
+        if (stable == null) throw new ApiException("Stable not found.");
         return stable;
     }
 
-    public void checkIfStableBelongsToOwner(Stable stable, StableOwner stableOwner){
-        if(!stableOwner.getStables().contains(stable)) throw new ApiException("Stable does not belong to the owner.");
+    public void checkIfStableBelongsToOwner(Stable stable, StableOwner stableOwner) {
+        if (!stableOwner.getStables().contains(stable)) throw new ApiException("Stable does not belong to the owner.");
     }
 
-    public void checkIfCourseBelongsToStable(Stable stable, Course course){
-        if(!course.getStable().equals(stable)) throw new ApiException("Course does not belong to the stable.");
+    public void checkIfCourseBelongsToStable(Stable stable, Course course) {
+        if (!course.getStable().equals(stable)) throw new ApiException("Course does not belong to the stable.");
     }
 }

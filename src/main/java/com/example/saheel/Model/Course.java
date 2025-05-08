@@ -43,6 +43,9 @@ public class Course {
     @NotNull(message = "The duration can not be empty.")
     @Column(columnDefinition = "int not null")
     private int durationInMinute;
+    @NotNull(message = "The final enrollment date can not be empty.")
+    @Future
+    private LocalDateTime finalEnrollmentDate;
 
     @ManyToOne
     @JsonIgnore
