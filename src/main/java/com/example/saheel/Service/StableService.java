@@ -16,7 +16,7 @@ public class StableService {
     private final StableOwnerRepository stableOwnerRepository;
 
 
-    //get by ID - Abeer
+    //get stable by ID - Abeer
     public Stable getStableById(Integer stable_Id) {
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null) {
@@ -34,9 +34,7 @@ public class StableService {
         stableRepository.save(stable);
     }
 
-
-
-
+    //update stable - Abeer
     public void updateStable(Integer stableOwner_Id,Integer stable_Id, Stable stable) {
         StableOwner oldStableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
         if (oldStableOwner == null) {
@@ -48,20 +46,16 @@ public class StableService {
             throw new ApiException("Error : stable is not found");
         }
         oldStable.setName(stable.getName());
-
-
-
-
-
+        oldStable.setCapacity(stable.getCapacity());
         stableRepository.save(stable);
     }
 
-    public void deleteContainer(Integer stable_Id) {
+    //delete stable
+    public void deleteStable(Integer stable_Id) {
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null) {
-            throw new ApiException(" Error : Stable is not found");
+            throw new ApiException("Error : Stable is not found");
         }
-
         stableRepository.delete(stable);
     }
 

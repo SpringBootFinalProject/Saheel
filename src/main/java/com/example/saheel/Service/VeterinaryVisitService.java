@@ -6,7 +6,6 @@ import com.example.saheel.Model.VeterinaryVisit;
 import com.example.saheel.Repository.VeterinaryRepository;
 import com.example.saheel.Repository.VeterinaryVisitRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +17,7 @@ public class VeterinaryVisitService {
 
     private final VeterinaryRepository veterinaryRepository;
 
-    // get by ID - Abeer
+    // get VeterinaryVisit by ID - Abeer
     public VeterinaryVisit getVeterinaryVisitById(Integer veterinaryVisit_id) {
         VeterinaryVisit recycleItem = veterinaryVisitRepository.findVeterinaryVisitById(veterinaryVisit_id);
         if (recycleItem == null) {
@@ -34,8 +33,33 @@ public class VeterinaryVisitService {
             throw new ApiException(" Error : Veterinary is not found");
         }
         veterinaryVisitRepository.save(veterinary);
-
     }
+
+    //update VeterinaryVisit - Abeer
+    public void updateVeterinaryVisit(Integer veterinary_Id,Integer veterinaryVisit_Id, VeterinaryVisit veterinaryVisit) {
+        Veterinary oldVeterinary = veterinaryRepository.findVeterinaryById(veterinary_Id);
+        if (oldVeterinary == null) {
+            throw new ApiException("Error: Veterinary not found");
+        }
+        VeterinaryVisit oldVeterinaryVisit = veterinaryVisitRepository.findVeterinaryVisitById(veterinaryVisit_Id);
+        if (oldVeterinaryVisit == null ){
+            throw new ApiException("Error : VeterinaryVisit is not found");
+        }
+        oldVeterinaryVisit.setDate(veterinaryVisit.getDate());
+        oldVeterinaryVisit.setPrice(veterinaryVisit.getPrice());
+        oldVeterinaryVisit.setDurationInMinute(veterinaryVisit.getDurationInMinute());
+        veterinaryVisitRepository.save(veterinaryVisit);
+    }
+
+    //delete  VeterinaryVisit - Abeer
+    public void deleteVeterinaryVisit(Integer veterinaryVisit_Id) {
+        VeterinaryVisit veterinaryVisit = veterinaryVisitRepository.findVeterinaryVisitById(veterinaryVisit_Id);
+        if (veterinaryVisit == null) {
+            throw new ApiException(" Error : VeterinaryVisit is not found");
+        }
+        veterinaryVisitRepository.delete(veterinaryVisit);
+    }
+
 
 
 }

@@ -21,18 +21,45 @@ public class BreederService {
     public Breeder getBreederById(Integer breeder_Id){
         Breeder breeder = breederRepository.findBreederById(breeder_Id);
         if (breeder == null){
-            throw new ApiException(" Error : breeder is not found");
+            throw new ApiException("Error : breeder is not found");
         }
         return breeder;
     }
 
-    // add Breeder - Abeer
+    //add Breeder - Abeer
     public void addBreeder(Integer stable_Id , Breeder breeder){
+        Stable stable = stableRepository.findStableById(stable_Id);
+        if (stable == null){
+            throw new ApiException("Error : stable is not fond");
+        }
+        breeder.setStable(stable);
+        breederRepository.save(breeder);
+    }
+    //update Breeder - Abeer
+    public void updateBreeder( Integer stable_Id ,Integer breeder_Id, Breeder breeder ) {
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null){
             throw new ApiException(" Error : stable is not fond");
         }
-        breederRepository.save(breeder);
+
+        Breeder oldBreeder = breederRepository.findBreederById(breeder_Id);
+        if (oldBreeder == null) {
+            throw new ApiException("Error: Breeder not found");
+        }
+
+        oldBreeder.setAge(breeder.getAge());
+        oldBreeder.setEmail(breeder.getEmail());
+        //...
+        breederRepository.save(oldBreeder);
+    }
+
+    //delete Breeder - Abeer
+    public void deleteBreeder(Integer breeder_Id) {
+        Breeder breeder = breederRepository.findBreederById(breeder_Id);
+        if (breeder == null) {
+            throw new ApiException("Error: Breeder not found");
+        }
+        breederRepository.delete(breeder);
     }
 
 }

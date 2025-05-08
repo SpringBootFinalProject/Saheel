@@ -6,7 +6,6 @@ import com.example.saheel.Model.Stable;
 import com.example.saheel.Repository.StableRepository;
 import com.example.saheel.Repository.TrainerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +20,7 @@ public class TrainerService {
     public Trainer getTrainerById(Integer trainer_Id){
         Trainer trainer = trainerRepository.findTrainerById(trainer_Id);
         if (trainer == null){
-            throw new ApiException(" Error : Trainer is not found");
+            throw new ApiException("Error : Trainer is not found");
         }
         return trainer;
     }
@@ -30,8 +29,34 @@ public class TrainerService {
     public void addTrainer(Integer stable_Id , Trainer trainer){
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null){
-            throw new ApiException(" Error : stable is not fond");
+            throw new ApiException("Error : stable is not fond");
         }
         trainerRepository.save(trainer);
+    }
+    //update Trainer - Abeer
+    public void updateTrainer( Integer stable_Id ,Integer trainer_Id, Trainer trainer ) {
+        Stable stable = stableRepository.findStableById(stable_Id);
+        if (stable == null){
+            throw new ApiException("Error : stable is not fond");
+        }
+
+        Trainer oldTrainer = trainerRepository.findTrainerById(trainer_Id);
+        if (oldTrainer == null) {
+            throw new ApiException("Error: Trainer not found");
+        }
+
+        oldTrainer.setAge(trainer.getAge());
+        oldTrainer.setEmail(trainer.getEmail());
+        //...
+        trainerRepository.save(trainer);
+    }
+
+    //delete Trainer - Abeer
+    public void deleteTrainer(Integer trainer_Id) {
+        Trainer trainer = trainerRepository.findTrainerById(trainer_Id);
+        if (trainer == null) {
+            throw new ApiException("Error: Trainer not found");
+        }
+        trainerRepository.delete(trainer);
     }
 }
