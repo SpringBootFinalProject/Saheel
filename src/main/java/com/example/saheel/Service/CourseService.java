@@ -3,6 +3,7 @@ package com.example.saheel.Service;
 
 import com.example.saheel.Api.ApiException;
 import com.example.saheel.Model.Course;
+import com.example.saheel.Model.CourseEnrollment;
 import com.example.saheel.Model.Stable;
 import com.example.saheel.Model.StableOwner;
 import com.example.saheel.Repository.CourseRepository;
@@ -21,22 +22,14 @@ public class CourseService {
     private final StableRepository stableRepository;
     private final HelperService helperService;
 
-    //#5
-    public List<Course> getStableCourses(Integer stableOwnerId, Integer stableId) {
-        // Get the stable owner and check if it's in the database.
-        StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
-
+    public List<Course> getStableCourses(Integer stableId) {
         // Get the stable and check if it's in the database.
         Stable stable = getStableOrThrow(stableId);
-
-        // Check if the stable belongs to the owner.
-        checkIfStableBelongsToOwner(stable, stableOwner);
 
         // Return the courses
         return courseRepository.findCoursesByStable(stable);
     }
 
-    //#6
     public void addCourseByOwner(Integer stableOwnerId, Integer stableId, Course course) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
@@ -46,13 +39,15 @@ public class CourseService {
 
         // Check if the stable belongs to the owner.
         checkIfStableBelongsToOwner(stable, stableOwner);
+
         // Check if the trainer available.
+        if (courseRepository.findCoursesByTrainer(course.getTrainer()).isEmpty())
+            throw new ApiException("Trainer not available.");
 
         // Add the stable to the course and save the object in the database.
         course.setStable(stable);
         courseRepository.save(course);
     }
-
 
     public void updateCourse(Integer stableOwnerId, Integer stableId, Integer courseId, Course course) {
         // Get the stable owner and check if it's in the database.
@@ -69,8 +64,10 @@ public class CourseService {
 
         // Check if the course belongs to the stable.
         checkIfCourseBelongsToStable(stable, oldCourse);
-        // Check if the trainer available.
 
+        // Check if the trainer available.
+        if (courseRepository.findCoursesByTrainer(course.getTrainer()).isEmpty())
+            throw new ApiException("Trainer not available.");
 
         //Update the course.
         oldCourse.setName(course.getName());
@@ -78,14 +75,13 @@ public class CourseService {
         oldCourse.setDescription(course.getDescription());
         oldCourse.setDurationInMinute(course.getDurationInMinute());
         oldCourse.setDate(course.getDate());
+        oldCourse.setNumberOfEnrolled(course.getNumberOfEnrolled());
 
         // Save
         courseRepository.save(oldCourse);
     }
 
-    //#7
-    // Cancel, add attribute to both course and enrollment
-    public void deleteCourse(Integer stableOwnerId, Integer stableId, Integer courseId) {
+    public void cancelCourse(Integer stableOwnerId, Integer stableId, Integer courseId) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
 
@@ -101,8 +97,18 @@ public class CourseService {
         // Check if the course belongs to the stable.
         checkIfCourseBelongsToStable(stable, course);
 
-        //Delete
-        courseRepository.delete(course);
+        // Cancel the course
+        course.setCourseCanceled(true);
+
+        // Change the status in the course enrollments object of this course.
+        changeEnrollmentsCourseStatus(course.getCourseEnrollments());
+
+        // Save
+        courseRepository.save(course);
+    }
+
+    public void changeEnrollmentsCourseStatus(List<CourseEnrollment> courseEnrollments){
+        for (CourseEnrollment courseEnrollment : courseEnrollments) courseEnrollment.setCourseCanceled(true);
     }
 
     public StableOwner getStableOwnerOrThrow(Integer stableOwnerId) {

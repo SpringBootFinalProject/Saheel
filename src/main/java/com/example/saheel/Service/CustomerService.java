@@ -1,6 +1,5 @@
 package com.example.saheel.Service;
 
-import com.example.saheel.Api.ApiException;
 import com.example.saheel.DtoIn.CustomerDtoIn;
 import com.example.saheel.Model.Customer;
 import com.example.saheel.Model.User;
@@ -35,7 +34,7 @@ public class CustomerService {
                 "CUSTOMER", customerDtoIn.getFullName(), customerDtoIn.getAge(), customerDtoIn.getEmail(), customerDtoIn.getPhoneNumber()
                 , null, null, null);
 
-        // Save the user/
+        // Save the user
         userRepository.save(user);
 
         // Create the customer and save it.
