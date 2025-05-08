@@ -19,8 +19,8 @@ public class CourseReviewController {
     private final CourseReviewService courseReviewService;
 
     @GetMapping("/get-stable-courseReviews/{courseId}")
-    public ResponseEntity<List<CourseReview>> getOwnerCourseReviews(@AuthenticationPrincipal User user, @PathVariable Integer courseId) {
-        return ResponseEntity.status(HttpStatus.OK).body(courseReviewService.getAllCourseReviewsByStableOwner(user.getId(), courseId));
+    public ResponseEntity<List<CourseReview>> getCourseReviews(@PathVariable Integer courseId) {
+        return ResponseEntity.status(HttpStatus.OK).body(courseReviewService.getAllCourseReviews(courseId));
     }
 
     @PostMapping("/add-courseReview-by-stable-owner/{courseId}")
