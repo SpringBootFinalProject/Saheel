@@ -50,6 +50,9 @@ public class Course {
     @NotNull(message = "The duration can not be empty.")
     @Column(columnDefinition = "int not null")
     private int durationInMinute;
+    @NotNull(message = "The final enrollment date can not be empty.")
+    @Future
+    private LocalDateTime finalEnrollmentDate;
 
     @ManyToOne
     @JsonIgnore
@@ -61,6 +64,9 @@ public class Course {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<CourseEnrollment> courseEnrollments;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<CourseReview> courseReviews;
 
 
 }

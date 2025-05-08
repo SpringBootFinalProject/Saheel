@@ -1,5 +1,6 @@
 package com.example.saheel.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -15,7 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Review {
+public class CourseReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -30,4 +31,11 @@ public class Review {
     @Column(columnDefinition = "double")
     private double rating;
 
+    @ManyToOne
+    @JsonIgnore
+    private Customer customer;
+
+    @ManyToOne
+    @JsonIgnore
+    private Course course;
 }

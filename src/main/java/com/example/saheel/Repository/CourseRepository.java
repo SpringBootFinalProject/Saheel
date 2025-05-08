@@ -1,12 +1,17 @@
 package com.example.saheel.Repository;
 
 import com.example.saheel.Model.Course;
+
+import com.example.saheel.Model.Stable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface CourseRepository extends JpaRepository<Course,Integer> {
+import java.util.List;
 
-    Course findCourseById(Integer course_Id);
+@Repository
+public interface CourseRepository extends JpaRepository<Course, Integer> {
+    Course findCourseById(Integer courseId);
+
+    List<Course> findCoursesByStable(Stable stable);
 
 }

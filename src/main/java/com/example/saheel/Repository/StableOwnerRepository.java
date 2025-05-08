@@ -10,5 +10,4 @@ public interface StableOwnerRepository extends JpaRepository<StableOwner , Integ
 
     StableOwner findStableOwnerById(Integer StableOwner_Id);
 
-
 }

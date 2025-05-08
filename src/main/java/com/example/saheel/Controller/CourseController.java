@@ -1,44 +1,45 @@
 package com.example.saheel.Controller;
 
+import com.example.saheel.Api.ApiResponse;
 import com.example.saheel.Model.Course;
+import com.example.saheel.Model.User;
 import com.example.saheel.Service.CourseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/aip/v1/course")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/saheel/course")
 public class CourseController {
 
     private final CourseService courseService;
 
-    // Get course by ID - Abeer
-    @GetMapping("/get/{id}")
-    public ResponseEntity<Course> getCourseById(@PathVariable Integer id) {
-        Course course = courseService.getCourseById(id);
-        return ResponseEntity.ok(course);
+    @GetMapping("/get-stable-courses/{stableId}")
+    public ResponseEntity<List<Course>> getOwnerCourses(@AuthenticationPrincipal User user, @PathVariable Integer stableId) {
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.getStableCourses(user.getId(), stableId));
     }
 
-    // Add new course - Abeer
-    @PostMapping("/add/{stable_Id}")
-    public ResponseEntity<String> addCourse(@PathVariable Integer stable_Id, @RequestBody Course course) {
-        courseService.addCourse(stable_Id, course);
-        return ResponseEntity.ok("Course added successfully");
+    @PostMapping("/add-course-by-stable-owner/{stableId}")
+    public ResponseEntity<ApiResponse> addCourseByOwner(@AuthenticationPrincipal User user, @PathVariable Integer stableId, @RequestBody Course course) {
+        courseService.addCourseByOwner(user.getId(), stableId, course);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course added successfully."));
     }
 
-    // Update course - Abeer
-    @PutMapping("/update/{stable_Id}/{course_Id}")
-    public ResponseEntity<String> updateCourse(@PathVariable Integer stable_Id, @PathVariable Integer course_Id, @RequestBody Course course) {
-        courseService.updateCourse(stable_Id, course_Id, course);
-        return ResponseEntity.ok("Course updated successfully");
+    @PutMapping("/update-course/{stableId}/{courseId}")
+    public ResponseEntity<ApiResponse> updateCourse(@AuthenticationPrincipal User user, @RequestBody Course course,
+                                                    @PathVariable Integer stableId, @PathVariable Integer courseId) {
+        courseService.updateCourse(user.getId(), stableId, courseId, course);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course updated successfully."));
     }
 
-    // Delete course - Abeer
-    @DeleteMapping("/delete/{course_Id}")
-    public ResponseEntity<String> deleteCourse(@PathVariable Integer course_Id) {
-        courseService.deleteCourse(course_Id);
-        return ResponseEntity.ok("Course deleted successfully");
+    @DeleteMapping("/delete-course/{stableId}/{courseId}")
+    public ResponseEntity<ApiResponse> removeCourse(@AuthenticationPrincipal User user, @PathVariable Integer stableId, @PathVariable Integer courseId) {
+        courseService.deleteCourse(user.getId(), stableId, courseId);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course deleted successfully."));
     }
-
 }

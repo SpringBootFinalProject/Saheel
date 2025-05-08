@@ -25,7 +25,7 @@ public class HorseService {
         return horseRepository.findAll();
     }
 
-    public void addHorseByOwner(Integer horseOwnerId, Horse horse){
+    public void addHorseByOwner(Integer horseOwnerId, Horse horse) {
         // Get the horse owner and check if it's in the database.
         HorseOwner horseOwner = getHorseOwnerOrThrow(horseOwnerId);
 
@@ -34,7 +34,7 @@ public class HorseService {
         horseRepository.save(horse);
     }
 
-    public void updateHorse(Integer horseOwnerId, Integer horseId, Horse horse){
+    public void updateHorse(Integer horseOwnerId, Integer horseId, Horse horse) {
         // Get the horse and check if it's in the database.
         Horse oldHorse = getHorseOrThrow(horseId);
 
@@ -42,7 +42,7 @@ public class HorseService {
         HorseOwner horseOwner = getHorseOwnerOrThrow(horseOwnerId);
 
         // Check if the horse belongs to the owner.
-        checkIfHorseBelongsToOwner(horse,horseOwner);
+        checkIfHorseBelongsToOwner(horse, horseOwner);
 
         //Update the horse.
         oldHorse.setName(horse.getName());
@@ -56,7 +56,7 @@ public class HorseService {
         horseRepository.save(oldHorse);
     }
 
-    public void deleteHorse(Integer horseOwnerId, Integer horseId){
+    public void deleteHorse(Integer horseOwnerId, Integer horseId) {
         // Get the horse and check if it's in the database.
         Horse horse = getHorseOrThrow(horseId);
 
@@ -64,27 +64,27 @@ public class HorseService {
         HorseOwner horseOwner = getHorseOwnerOrThrow(horseOwnerId);
 
         // Check if the horse belongs to the owner.
-        checkIfHorseBelongsToOwner(horse,horseOwner);
+        checkIfHorseBelongsToOwner(horse, horseOwner);
         //Delete
         horseRepository.delete(horse);
     }
 
-    public HorseOwner getHorseOwnerOrThrow(Integer horseOwnerId){
+    public HorseOwner getHorseOwnerOrThrow(Integer horseOwnerId) {
         // Get the horse owner and check if it's in the database.
         HorseOwner horseOwner = horseOwnerRepository.findHorseOwnerById(horseOwnerId);
-        if(horseOwner == null) throw new ApiException("Horse owner not found.");
+        if (horseOwner == null) throw new ApiException("Horse owner not found.");
         return horseOwner;
     }
 
-    public Horse getHorseOrThrow(Integer horseId){
+    public Horse getHorseOrThrow(Integer horseId) {
         // Get the horse and check if it's in the database.
         Horse horse = horseRepository.findHorseById(horseId);
-        if(horse == null) throw new ApiException("Horse not found.");
+        if (horse == null) throw new ApiException("Horse not found.");
         return horse;
     }
 
-    public void checkIfHorseBelongsToOwner(Horse horse, HorseOwner horseOwner){
-        if(horse.getHorseOwner() != horseOwner) throw new ApiException("Horse dose not belong to the owner.");
+    public void checkIfHorseBelongsToOwner(Horse horse, HorseOwner horseOwner) {
+        if (horse.getHorseOwner() != horseOwner) throw new ApiException("Horse dose not belong to the owner.");
     }
 
 }
