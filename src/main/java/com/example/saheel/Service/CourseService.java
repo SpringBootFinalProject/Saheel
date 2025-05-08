@@ -64,6 +64,9 @@ public class CourseService {
         // Check if the course belongs to the stable.
         checkIfCourseBelongsToStable(stable, oldCourse);
 
+        // Check if the trainer available.
+        if (courseRepository.findCoursesByTrainer(course.getTrainer()).isEmpty())
+            throw new ApiException("Trainer not available.");
 
         //Update the course.
         oldCourse.setName(course.getName());
