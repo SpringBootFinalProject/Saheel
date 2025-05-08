@@ -34,7 +34,7 @@ public class CustomerService {
                 "CUSTOMER", customerDtoIn.getFullName(), customerDtoIn.getAge(), customerDtoIn.getEmail(), customerDtoIn.getPhoneNumber()
                 , null, null, null);
 
-        // Save the user/
+        // Save the user
         userRepository.save(user);
 
         // Create the customer and save it.

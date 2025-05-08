@@ -21,15 +21,9 @@ public class CourseService {
     private final StableRepository stableRepository;
     private final HelperService helperService;
 
-    public List<Course> getStableCourses(Integer stableOwnerId, Integer stableId) {
-        // Get the stable owner and check if it's in the database.
-        StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
-
+    public List<Course> getStableCourses(Integer stableId) {
         // Get the stable and check if it's in the database.
         Stable stable = getStableOrThrow(stableId);
-
-        // Check if the stable belongs to the owner.
-        checkIfStableBelongsToOwner(stable, stableOwner);
 
         // Return the courses
         return courseRepository.findCoursesByStable(stable);
