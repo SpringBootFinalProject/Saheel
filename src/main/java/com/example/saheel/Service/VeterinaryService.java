@@ -20,7 +20,7 @@ public class VeterinaryService {
     public Veterinary getVeterinaryById( Integer veterinary_Id){
         Veterinary veterinary = veterinaryRepository.findVeterinaryById(veterinary_Id);
         if (veterinary == null){
-            throw new ApiException(" Error : Veterinary is not found");
+            throw new ApiException("Error : Veterinary is not found");
         }
 
         return veterinary;
@@ -30,7 +30,7 @@ public class VeterinaryService {
     public void addVeterinary(Integer stable_Id , Veterinary veterinary){
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null){
-            throw new ApiException(" Error : stable is not fond");
+            throw new ApiException("Error : stable is not fond");
         }
         veterinaryRepository.save(veterinary);
     }
@@ -39,7 +39,7 @@ public class VeterinaryService {
     public void updateVeterinary(Integer stable_Id ,Integer veterinary_Id, Veterinary veterinary ) {
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null){
-            throw new ApiException(" Error : stable is not fond");
+            throw new ApiException("Error : stable is not fond");
         }
 
         Veterinary oldVeterinary = veterinaryRepository.findVeterinaryById(veterinary_Id);

@@ -3,9 +3,12 @@ package com.example.saheel.Service;
 import com.example.saheel.Api.ApiException;
 import com.example.saheel.DTO.StableOwnerDTO;
 import com.example.saheel.Model.StableOwner;
+import com.example.saheel.Model.User;
 import com.example.saheel.Repository.StableOwnerRepository;
 import com.example.saheel.Repository.StableRepository;
+import com.example.saheel.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +17,7 @@ public class StableOwnerService {
 
         private final StableOwnerRepository stableOwnerRepository;
         private final StableRepository stableRepository;
+        private final UserRepository userRepository;
 
         // get StableOwner by ID - Abeer
         public StableOwner getStableOwnerById(Integer stableOwner_Id){
@@ -26,20 +30,38 @@ public class StableOwnerService {
         }
 
         //add stableOwner
-        public void addStableOwner (StableOwnerDTO stableOwnerDTO) {
-//                stableOwnerRepository.save(stableOwnerDTO);
-        }
+        public void registerStableOwner (StableOwnerDTO stableOwnerDTO) {
+                User user = new User();
+               user.setUsername(stableOwnerDTO.getUsername());
+               user.setPassword(new BCryptPasswordEncoder().encode(stableOwnerDTO.getPassword()));
+               user.setRole("SATBLEOWNER");
+               user.setFullName(stableOwnerDTO.getFullName());
+               user.setAge(stableOwnerDTO.getAge());
+               user.setEmail(stableOwnerDTO.getEmail());
 
+               userRepository.save(user);
+
+                StableOwner stableOwner = new StableOwner(null,user,null);
+                stableOwner.setUser(user);
+                stableOwnerRepository.save(stableOwner);
+        }
         //update StableOwner - Abeer
-//        public void updateStableOwner(Integer stableOwner_Id, StableOwnerDTO stableOwnerDTO) {
-//                StableOwner oldStableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
-//                if (oldStableOwner == null) {
-//                        throw new ApiException("Error: StableOwner not found");
-//                }
-//                oldStableOwner.s(stable.getName());
-//               ;
-//                stableOwnerRepository.save(stable);
-//        }
+        public void updateStableOwner(Integer stableOwner_Id, StableOwnerDTO stableOwnerDTO) {
+                StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
+                if (stableOwner == null) {
+                        throw new RuntimeException("HorseOwner not found");
+                }
+                User user = stableOwner.getUser();
+                user.setUsername(stableOwnerDTO.getUsername());
+                user.setPassword(new BCryptPasswordEncoder().encode(stableOwnerDTO.getPassword()));
+                user.setFullName(stableOwnerDTO.getFullName());
+                user.setEmail(stableOwnerDTO.getEmail());
+                user.setAge(stableOwnerDTO.getAge());
+
+                // Save changes
+                userRepository.save(user);
+                stableOwnerRepository.save(stableOwner);
+        }
 
         //delete stable
         public void deleteStableOwner(Integer stableOwner_Id) {

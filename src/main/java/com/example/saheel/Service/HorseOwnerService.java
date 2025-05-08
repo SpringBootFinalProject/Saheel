@@ -30,6 +30,7 @@ public class HorseOwnerService {
         user.setUsername(horseOwnerDTO.getUsername());
         user.setPassword(new BCryptPasswordEncoder().encode(horseOwnerDTO.getPassword()));
         user.setRole("horseowner");
+        user.setPhoneNumber(horseOwnerDTO.getPhoneNumber());
         user.setFullName(horseOwnerDTO.getFullName());
         user.setAge(horseOwnerDTO.getAge());
         user.setEmail(horseOwnerDTO.getEmail());
