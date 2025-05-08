@@ -3,6 +3,7 @@ package com.example.saheel.Repository;
 import com.example.saheel.Model.Course;
 
 import com.example.saheel.Model.Stable;
+import com.example.saheel.Model.Trainer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +15,5 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     List<Course> findCoursesByStable(Stable stable);
 
+    List<Course> findCoursesByTrainer(Trainer trainer);
 }

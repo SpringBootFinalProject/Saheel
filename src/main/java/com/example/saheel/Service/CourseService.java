@@ -39,6 +39,10 @@ public class CourseService {
         // Check if the stable belongs to the owner.
         checkIfStableBelongsToOwner(stable, stableOwner);
 
+        // Check if the trainer available.
+        if (courseRepository.findCoursesByTrainer(course.getTrainer()).isEmpty())
+            throw new ApiException("Trainer not available.");
+
         // Add the stable to the course and save the object in the database.
         course.setStable(stable);
         courseRepository.save(course);
