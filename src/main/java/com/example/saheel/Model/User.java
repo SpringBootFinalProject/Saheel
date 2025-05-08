@@ -52,7 +52,7 @@ public class User implements UserDetails {
 
     @NotEmpty(message = "The phone number can not be empty.")
     @Pattern(regexp = "\\+\\d{12}", message = "Phone number must start with the country code followed by 9 digits.")
-    @Column(columnDefinition = "varchar(13) unique not null")
+    @Column(columnDefinition = "varchar(20) unique not null")
     private String phoneNumber;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

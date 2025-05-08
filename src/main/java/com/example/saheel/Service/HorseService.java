@@ -3,9 +3,11 @@ package com.example.saheel.Service;
 import com.example.saheel.Api.ApiException;
 import com.example.saheel.Model.Horse;
 import com.example.saheel.Model.HorseOwner;
+import com.example.saheel.Model.Membership;
 import com.example.saheel.Model.User;
 import com.example.saheel.Repository.HorseOwnerRepository;
 import com.example.saheel.Repository.HorseRepository;
+import com.example.saheel.Repository.MembershipRepository;
 import com.example.saheel.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ public class HorseService {
     private final HorseRepository horseRepository;
     private final UserRepository userRepository;
     private final HorseOwnerRepository horseOwnerRepository;
+    private final MembershipRepository membershipRepository;
 
     //
     public List<Horse> getOwnerHorses(Integer horseOwnerId) {
@@ -34,6 +37,37 @@ public class HorseService {
         horse.setHorseOwner(horseOwner);
         horseRepository.save(horse);
     }
+
+    public void assignHorseToOwner(Integer horseId, Integer ownerId) {
+        HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
+        if (owner == null) {
+            throw new ApiException("Horse owner not found");
+        }
+
+        Horse horse = getHorseOrThrow(horseId);
+        if (horse == null) {
+            throw new ApiException("Horse not found");
+        }
+
+        Membership membership = membershipRepository.findByHorseOwnerAndIsActive(owner, true);
+        if (membership == null) {
+            throw new ApiException("Owner has no active membership");
+        }
+
+        int maxHorses = membership.getMembershipType().equalsIgnoreCase("monthly") ? 3 : 6;
+
+        int currentCount = horseRepository.countByMembership(membership);
+        System.out.println("Current count for owner " + owner.getId() + " = " + currentCount);
+        if (currentCount >= maxHorses) {
+            throw new ApiException("Maximum number of horses reached for this membership");
+        }
+
+        horse.setHorseOwner(owner);
+        horse.setMembership(membership);
+        horseRepository.save(horse);
+    }
+
+
 
     public void updateHorse(Integer horseOwnerId, Integer horseId, Horse horse) {
         // Get the horse and check if it's in the database.

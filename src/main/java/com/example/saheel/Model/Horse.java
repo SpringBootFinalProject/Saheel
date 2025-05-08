@@ -41,6 +41,11 @@ public class Horse {
 
     @ManyToOne
     @JsonIgnore
+    private Membership membership;
+
+
+    @ManyToOne
+    @JsonIgnore
     private HorseOwner horseOwner;
 
 //    @OneToOne
