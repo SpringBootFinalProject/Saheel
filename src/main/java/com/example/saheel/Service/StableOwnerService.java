@@ -27,10 +27,10 @@ public class StableOwnerService {
 
         //add stableOwner
         public void addStableOwner (StableOwnerDTO stableOwnerDTO) {
-                stableOwnerRepository.save(stableOwnerDTO);
+//                stableOwnerRepository.save(stableOwnerDTO);
         }
 
-//        //update StableOwner - Abeer
+        //update StableOwner - Abeer
 //        public void updateStableOwner(Integer stableOwner_Id, StableOwnerDTO stableOwnerDTO) {
 //                StableOwner oldStableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
 //                if (oldStableOwner == null) {

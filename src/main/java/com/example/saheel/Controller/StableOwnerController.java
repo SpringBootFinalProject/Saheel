@@ -36,7 +36,7 @@ public class StableOwnerController {
 //        return ResponseEntity.ok("Stable owner updated successfully");
 //    }
 
-    // Delete stable owner -Abeer
+    // Delete stable owner - Abeer
     @DeleteMapping("/delete/{stableOwner_Id}")
     public ResponseEntity<String> deleteStableOwner(@PathVariable Integer stableOwner_Id) {
         stableOwnerService.deleteStableOwner(stableOwner_Id);

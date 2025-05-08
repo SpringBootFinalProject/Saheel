@@ -32,7 +32,7 @@ public class VeterinaryVisitService {
         if (veterinary == null){
             throw new ApiException(" Error : Veterinary is not found");
         }
-        veterinaryVisitRepository.save(veterinary);
+//        veterinaryVisitRepository.save(veterinary);
     }
 
     //update VeterinaryVisit - Abeer
