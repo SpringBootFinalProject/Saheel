@@ -17,6 +17,7 @@ public class CourseReviewService {
     private final CustomerRepository customerRepository;
     private final StableOwnerRepository stableOwnerRepository;
 
+    //#3
     public List<CourseReview> getAllCourseReviewsByStableOwner(Integer stableOwnerId, Integer courseId) {
         // Get the owner object and check if it's in the database.
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwnerId);
@@ -33,6 +34,7 @@ public class CourseReviewService {
         return courseReviewRepository.findCourseReviewsByCourse(course);
     }
 
+    //#4
     public void ReviewCourseByCustomer(Integer customerId, Integer courseId, CourseReview courseReview) {
         // Get the customer and check if it's in the database.
         Customer customer = customerRepository.findCustomerById(customerId);
@@ -43,6 +45,10 @@ public class CourseReviewService {
 
         // Check if the customer enrolled in the course.
         helperService.checkIfCustomerEnrolled(course, customer);
+
+        // Check if
+        if (!courseReviewRepository.findCourseReviewsByCourseAndCustomer(course, customer).isEmpty())
+            throw new ApiException("Customer can not make more than one review");
 
         // Set the customer
         courseReview.setCustomer(customer);

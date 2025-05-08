@@ -1,5 +1,6 @@
 package com.example.saheel.Service;
 
+import com.example.saheel.Api.ApiException;
 import com.example.saheel.DTO.HorseOwnerDTO;
 import com.example.saheel.Model.Horse;
 import com.example.saheel.Model.HorseOwner;
@@ -23,13 +24,14 @@ public class HorseOwnerService {
         return horseOwnerRepository.findAll();
     }
 
+    //#9
     // register HorseOwner
     public void registerHorseOwner(HorseOwnerDTO horseOwnerDTO) {
         // Create and configure the user account.
         User user = new User();
         user.setUsername(horseOwnerDTO.getUsername());
         user.setPassword(new BCryptPasswordEncoder().encode(horseOwnerDTO.getPassword()));
-        user.setRole("horseowner");
+        user.setRole("HORSEOWNER");
         user.setPhoneNumber(horseOwnerDTO.getPhoneNumber());
         user.setFullName(horseOwnerDTO.getFullName());
         user.setAge(horseOwnerDTO.getAge());
@@ -48,7 +50,7 @@ public class HorseOwnerService {
         // Get the horse owner and check if it's in the database.
         HorseOwner horseOwner = horseOwnerRepository.findHorseOwnerById(id);
         if (horseOwner == null) {
-            throw new RuntimeException("HorseOwner not found");
+            throw new ApiException("HorseOwner not found");
         }
 
         // Update user information.

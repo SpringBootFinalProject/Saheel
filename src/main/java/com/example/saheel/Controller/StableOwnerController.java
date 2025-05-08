@@ -2,9 +2,11 @@ package com.example.saheel.Controller;
 
 import com.example.saheel.DTO.StableOwnerDTO;
 import com.example.saheel.Model.StableOwner;
+import com.example.saheel.Model.User;
 import com.example.saheel.Service.StableOwnerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 //test
@@ -31,8 +33,8 @@ public class StableOwnerController {
 
     //Update stable owner - Abeer
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateStableOwner(@PathVariable Integer id, @RequestBody StableOwnerDTO stableOwnerDTO) {
-        stableOwnerService.updateStableOwner(id, stableOwnerDTO);
+    public ResponseEntity<String> updateStableOwner(@AuthenticationPrincipal User user, @RequestBody StableOwnerDTO stableOwnerDTO) {
+        //stableOwnerService.updateStableOwner(stableOwner_Id,stableOwnerDTO);
         return ResponseEntity.ok("Stable owner updated successfully");
     }
 

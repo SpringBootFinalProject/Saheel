@@ -19,6 +19,7 @@ public class StableOwnerService {
         private final StableRepository stableRepository;
         private final UserRepository userRepository;
 
+
         // get StableOwner by ID - Abeer
         public StableOwner getStableOwnerById(Integer stableOwner_Id){
                 StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
@@ -29,15 +30,17 @@ public class StableOwnerService {
                 return stableOwner;
         }
 
+    //#14
         //add stableOwner
         public void registerStableOwner (StableOwnerDTO stableOwnerDTO) {
                 User user = new User();
                user.setUsername(stableOwnerDTO.getUsername());
                user.setPassword(new BCryptPasswordEncoder().encode(stableOwnerDTO.getPassword()));
-               user.setRole("SATBLEOWNER");
+               user.setRole("STABLEOWNER");
                user.setFullName(stableOwnerDTO.getFullName());
                user.setAge(stableOwnerDTO.getAge());
                user.setEmail(stableOwnerDTO.getEmail());
+               user.setPhoneNumber(stableOwnerDTO.getPhoneNumber());
 
                userRepository.save(user);
 
@@ -57,6 +60,7 @@ public class StableOwnerService {
                 user.setFullName(stableOwnerDTO.getFullName());
                 user.setEmail(stableOwnerDTO.getEmail());
                 user.setAge(stableOwnerDTO.getAge());
+                user.setPhoneNumber(stableOwnerDTO.getPhoneNumber());
 
                 // Save changes
                 userRepository.save(user);

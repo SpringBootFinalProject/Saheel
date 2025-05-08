@@ -17,11 +17,13 @@ public class MembershipService {
     private final MembershipRepository membershipRepository;
     private final HorseOwnerRepository horseOwnerRepository;
 
-    // get All Memberships
+    //#10
+    // get All Memberships//تتغير
     public List<Membership> getAllMemberships() {
         return membershipRepository.findAll();
     }
 
+    //#11
     // add Membership
     public void addMembership(Membership membership, Integer ownerId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
@@ -59,6 +61,7 @@ public class MembershipService {
     }
 
 
+    //#12//shen name
     // update Membership
     public void updateMembership(Integer id, Membership newMembership) {
         // Get existing membership
@@ -101,6 +104,7 @@ public class MembershipService {
     }
 
 
+    //#13
     // delete Membership
     public void deleteMembership(Integer id) {
         // Get the membership and check

@@ -18,11 +18,14 @@ public class StableReviewService {
     private final HorseOwnerRepository horseOwnerRepository;
     private final StableRepository stableRepository;
 
+    //#15
     // Get all stable reviews
     public List<StableReview> getAllStableReviews() {
         return stableReviewRepository.findAll();
+        //by stable
     }
 
+    //#16
     // add Review
     public void addReview(StableReview review, Integer horseOwnerId, Integer stableId) {
         // Get the horse owner and check
@@ -61,6 +64,7 @@ public class StableReviewService {
         stableReviewRepository.save(existingReview);
     }
 
+
     //delete Review
     public void deleteReview(Integer reviewId, Integer horseOwnerId) {
         // Get the horse owner and check
@@ -73,7 +77,7 @@ public class StableReviewService {
         if (review == null) {
             throw new RuntimeException("Review not found");
         }
-        //  set owner before delete
+        //  set owner before delete//تغيير
         review.setHorseOwner(horseOwner);
         stableReviewRepository.delete(review);
     }

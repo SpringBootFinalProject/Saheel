@@ -21,6 +21,7 @@ public class CourseService {
     private final StableRepository stableRepository;
     private final HelperService helperService;
 
+    //#5
     public List<Course> getStableCourses(Integer stableOwnerId, Integer stableId) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
@@ -35,6 +36,7 @@ public class CourseService {
         return courseRepository.findCoursesByStable(stable);
     }
 
+    //#6
     public void addCourseByOwner(Integer stableOwnerId, Integer stableId, Course course) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
@@ -44,11 +46,13 @@ public class CourseService {
 
         // Check if the stable belongs to the owner.
         checkIfStableBelongsToOwner(stable, stableOwner);
+        // Check if the trainer available.
 
         // Add the stable to the course and save the object in the database.
         course.setStable(stable);
         courseRepository.save(course);
     }
+
 
     public void updateCourse(Integer stableOwnerId, Integer stableId, Integer courseId, Course course) {
         // Get the stable owner and check if it's in the database.
@@ -65,6 +69,7 @@ public class CourseService {
 
         // Check if the course belongs to the stable.
         checkIfCourseBelongsToStable(stable, oldCourse);
+        // Check if the trainer available.
 
 
         //Update the course.
@@ -73,12 +78,13 @@ public class CourseService {
         oldCourse.setDescription(course.getDescription());
         oldCourse.setDurationInMinute(course.getDurationInMinute());
         oldCourse.setDate(course.getDate());
-        oldCourse.setNumberOfEnrolled(course.getNumberOfEnrolled());
 
         // Save
         courseRepository.save(oldCourse);
     }
 
+    //#7
+    // Cancel, add attribute to both course and enrollment
     public void deleteCourse(Integer stableOwnerId, Integer stableId, Integer courseId) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);

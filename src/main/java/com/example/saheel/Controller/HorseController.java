@@ -41,10 +41,10 @@ public class HorseController {
     }
 
     // TODO: Enable @AuthenticationPrincipal User user
-    @DeleteMapping("/delete-horse/{horseOwnerId}/{horseId}")
-    public ResponseEntity<ApiResponse> removeHorse(@PathVariable Integer horseOwnerId, @PathVariable Integer horseId) {
-//        horseService.deleteHorse(user.getId(), horseId);
-        horseService.deleteHorse(horseOwnerId, horseId);
+    @DeleteMapping("/delete-horse/{horseId}")
+    public ResponseEntity<ApiResponse> removeHorse(@AuthenticationPrincipal User user, @PathVariable Integer horseId) {
+        horseService.deleteHorse(user.getId(), horseId);
+       // horseService.deleteHorse(horseOwnerId, horseId);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Horse deleted successfully."));
     }
 }

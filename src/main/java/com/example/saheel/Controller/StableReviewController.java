@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/saheel/tableReview")
+@RequestMapping("/api/v1/saheel/stableReview")
 @RequiredArgsConstructor
 public class StableReviewController {
     private final StableReviewService stableReviewService;

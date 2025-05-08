@@ -19,6 +19,7 @@ public class HorseService {
     private final UserRepository userRepository;
     private final HorseOwnerRepository horseOwnerRepository;
 
+    //
     public List<Horse> getOwnerHorses(Integer horseOwnerId) {
         // Get the horse owner and check if it's in the database.
         HorseOwner horseOwner = getHorseOwnerOrThrow(horseOwnerId);

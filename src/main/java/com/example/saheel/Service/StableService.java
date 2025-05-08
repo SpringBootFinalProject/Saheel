@@ -31,6 +31,7 @@ public class StableService {
         if (stableOwner == null ){
             throw new ApiException("Error : Stable owner is not fond");
         }
+        stable.setStableOwner(stableOwner);
         stableRepository.save(stable);
     }
 
