@@ -1,7 +1,6 @@
 package com.example.saheel.Controller;
 
 import com.example.saheel.Api.ApiResponse;
-import com.example.saheel.Model.Review;
 import com.example.saheel.Model.StableReview;
 import com.example.saheel.Repository.UserRepository;
 import com.example.saheel.Service.StableReviewService;

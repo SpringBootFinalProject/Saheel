@@ -21,7 +21,7 @@ public class VeterinaryVisitService {
     public VeterinaryVisit getVeterinaryVisitById(Integer veterinaryVisit_id) {
         VeterinaryVisit recycleItem = veterinaryVisitRepository.findVeterinaryVisitById(veterinaryVisit_id);
         if (recycleItem == null) {
-            throw new ApiException(" Error : Veterinary Visit not found");
+            throw new ApiException("Error : Veterinary Visit not found");
         }
         return recycleItem;
     }
@@ -30,9 +30,9 @@ public class VeterinaryVisitService {
     public void addVeterinaryVisit(Integer veterinary_Id, VeterinaryVisit veterinaryVisit){
         Veterinary veterinary = veterinaryRepository.findVeterinaryById(veterinary_Id);
         if (veterinary == null){
-            throw new ApiException(" Error : Veterinary is not found");
+            throw new ApiException("Error : Veterinary is not found");
         }
-//        veterinaryVisitRepository.save(veterinary);
+       veterinaryVisitRepository.save(veterinaryVisit);
     }
 
     //update VeterinaryVisit - Abeer
@@ -55,7 +55,7 @@ public class VeterinaryVisitService {
     public void deleteVeterinaryVisit(Integer veterinaryVisit_Id) {
         VeterinaryVisit veterinaryVisit = veterinaryVisitRepository.findVeterinaryVisitById(veterinaryVisit_Id);
         if (veterinaryVisit == null) {
-            throw new ApiException(" Error : VeterinaryVisit is not found");
+            throw new ApiException("Error : VeterinaryVisit is not found");
         }
         veterinaryVisitRepository.delete(veterinaryVisit);
     }
