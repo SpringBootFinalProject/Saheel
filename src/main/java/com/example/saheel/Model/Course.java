@@ -57,7 +57,7 @@ public class Course {
 
     @ManyToOne
     @JsonIgnore
-    private Stable trainer;
+    private Trainer trainer;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<CourseEnrollment> courseEnrollments;
