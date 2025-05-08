@@ -5,6 +5,7 @@ import com.example.saheel.Model.Course;
 import com.example.saheel.Model.Stable;
 import com.example.saheel.Model.Trainer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,5 +16,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     List<Course> findCoursesByStable(Stable stable);
 
+    @Query("select c from Course c where c.trainer = ?1 and c.courseCanceled = false")
     List<Course> findCoursesByTrainer(Trainer trainer);
 }

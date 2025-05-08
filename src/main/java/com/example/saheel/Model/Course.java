@@ -55,6 +55,8 @@ public class Course {
     @Future
     private LocalDateTime finalEnrollmentDate;
 
+    private Boolean courseCanceled = false;
+
     @ManyToOne
     @JsonIgnore
     private Stable stable; // Should this be removed, since there is relationship through the trainer.

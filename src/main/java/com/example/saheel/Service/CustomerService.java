@@ -1,6 +1,5 @@
 package com.example.saheel.Service;
 
-import com.example.saheel.Api.ApiException;
 import com.example.saheel.DtoIn.CustomerDtoIn;
 import com.example.saheel.Model.Customer;
 import com.example.saheel.Model.User;
