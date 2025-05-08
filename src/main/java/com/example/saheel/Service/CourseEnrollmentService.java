@@ -57,11 +57,16 @@ public class CourseEnrollmentService {
         helperService.checkIfCustomerEnrolled(course, customer);
 
         // Create the courseEnrollmentObject.
-        CourseEnrollment courseEnrollment = new CourseEnrollment(null, course.getDate(), course.getPrice(), course.getDurationInMinute(), customer, course);
+        CourseEnrollment courseEnrollment = new CourseEnrollment(null, course.getDate(), course.getPrice(),
+                course.getDurationInMinute(), false, false, customer, course);
 
         // Save the object
         courseEnrollmentRepository.save(courseEnrollment);
     }
+
+//    public void cancelEnrollment(Integer customerId, ){
+//
+//    }
 
     public Customer getCustomerOrThrow(Integer customerId) {
         Customer customer = customerRepository.findCustomerById(customerId);
