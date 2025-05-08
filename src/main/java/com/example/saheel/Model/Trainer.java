@@ -23,15 +23,20 @@ public class Trainer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @NotEmpty(message = "The username can not be empty.")
     @Column(columnDefinition = "varchar(20) unique not null")
     private String username;
+
     @NotEmpty(message = "The password can not be empty.")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "Password must be at least 8 characters and include uppercase, lowercase, and a number")
     @Column(columnDefinition = "varchar(50) not null")
     private String password;
+
     @NotEmpty(message = "The name can not be empty.")
     @Column(columnDefinition = "varchar(20) not null")
     private String fullName;
+
     @NotNull(message = "The password can not be empty.")
     @Column(columnDefinition = "int not null")
     private int age;
