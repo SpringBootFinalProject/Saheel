@@ -28,10 +28,6 @@ public class Trainer {
     @Column(columnDefinition = "varchar(20) unique not null")
     private String username;
 
-    @NotEmpty(message = "The password can not be empty.")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "Password must be at least 8 characters and include uppercase, lowercase, and a number")
-    @Column(columnDefinition = "varchar(50) not null")
-    private String password;
 
     @NotEmpty(message = "The name can not be empty.")
     @Column(columnDefinition = "varchar(20) not null")
@@ -40,22 +36,29 @@ public class Trainer {
     @NotNull(message = "The password can not be empty.")
     @Column(columnDefinition = "int not null")
     private int age;
+
     @Email
     @NotEmpty(message = "The email can not be empty.")
     @Column(columnDefinition = "varchar(50) unique not null")
     private String email;
+
     @NotEmpty(message = "The membership number can not be empty.")
     @Column(columnDefinition = "varchar(20) not null")
     private String membershipNumber;
+
     @NotEmpty(message = "The specialty can not be empty.")
     @Pattern(regexp = "XXXX|XXXXXXX") // What are the specialties.
     @Column(columnDefinition = "varchar(20) not null")
     private String specialty;
+
     @NotNull(message = "The years of experience can not be empty.")
     @Column(columnDefinition = "int not null")
     private int yearsOfExperience;
+
     @Column(columnDefinition = "double")
     private double rating;
+
+
 
     @ManyToOne
     @JsonIgnore

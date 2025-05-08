@@ -25,16 +25,16 @@ public class StableOwnerController {
     // Add new stable owner
     @PostMapping("/add")
     public ResponseEntity<String> addStableOwner(@RequestBody StableOwnerDTO stableOwnerDTO) {
-        stableOwnerService.addStableOwner(stableOwnerDTO);
+        stableOwnerService.registerStableOwner(stableOwnerDTO);
         return ResponseEntity.ok("Stable owner added successfully");
     }
 
-//    //Update stable owner - Abeer
-//    @PutMapping("/update/{id}")
-//    public ResponseEntity<String> updateStableOwner(@PathVariable Integer id, @RequestBody StableOwnerDTO stableOwnerDTO) {
-//        stableOwnerService.updateStableOwner(id, stableOwnerDTO);
-//        return ResponseEntity.ok("Stable owner updated successfully");
-//    }
+    //Update stable owner - Abeer
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateStableOwner(@PathVariable Integer id, @RequestBody StableOwnerDTO stableOwnerDTO) {
+        stableOwnerService.updateStableOwner(id, stableOwnerDTO);
+        return ResponseEntity.ok("Stable owner updated successfully");
+    }
 
     // Delete stable owner - Abeer
     @DeleteMapping("/delete/{stableOwner_Id}")

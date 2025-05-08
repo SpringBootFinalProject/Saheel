@@ -16,10 +16,6 @@ import lombok.Data;
 
 public class StableOwnerDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
     @NotEmpty(message = "The username can not be empty.")
     private String username;
 

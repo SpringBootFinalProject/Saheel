@@ -34,10 +34,10 @@ public class CourseService {
         courseRepository.save(course);
     }
     //update Course - Abeer
-    public void updateCourse( Integer stable_Id ,Integer course_Id,Course course) {
+    public void updateCourse(Integer stable_Id ,Integer course_Id,Course course) {
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null){
-            throw new ApiException(" Error : stable is not fond");
+            throw new ApiException("Error : stable is not fond");
         }
 
         Course oldCourse = courseRepository.findCourseById(course_Id);
@@ -45,9 +45,12 @@ public class CourseService {
             throw new ApiException("Error: Course not found");
         }
 
-        oldCourse.setCapacity(course.getCapacity());
         oldCourse.setName(course.getName());
-        //...
+        oldCourse.setDescription(course.getDescription());
+        oldCourse.setCapacity(course.getCapacity());
+        oldCourse.setNumberOfEnrolled(course.getNumberOfEnrolled());
+        oldCourse.setDate(course.getDate());
+
         courseRepository.save(course);
     }
 
