@@ -24,6 +24,9 @@ public class StableOwner {
     @JsonIgnore
     private User user;
 
+    private Boolean isApproved = false;
+
+
     @OneToMany(mappedBy = "stableOwner", cascade = CascadeType.ALL)
     private List<Stable> stables;
 }

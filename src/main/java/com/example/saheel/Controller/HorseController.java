@@ -18,7 +18,6 @@ import java.util.List;
 public class HorseController {
     private final HorseService horseService;
 
-    // TODO: Enable @AuthenticationPrincipal User user
     @GetMapping("/get-owner-horses")
     public ResponseEntity<List<Horse>> getOwnerHorses(@AuthenticationPrincipal User user) {
         return ResponseEntity.status(HttpStatus.OK).body(horseService.getOwnerHorses(user.getId()));
@@ -26,27 +25,49 @@ public class HorseController {
 
 
     @PostMapping("/add-horse-by-owner")
-    public ResponseEntity<ApiResponse> addHorseByOwner(@AuthenticationPrincipal User user, @RequestBody Horse horse) {
+    public ResponseEntity<?> addHorseByOwner(@AuthenticationPrincipal User user, @RequestBody Horse horse) {
         horseService.addHorseByOwner(user.getId(), horse);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Horse added successfully."));
     }
+
     @PostMapping("/assign/{horseId}")
     public ResponseEntity<?> assignHorse(@AuthenticationPrincipal User user, @PathVariable Integer horseId) {
-        horseService.assignHorseToOwner(horseId, user.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).body("Horse assigned successfully");
+        horseService.assignHorseToMembership(horseId, user.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Horse assigned successfully"));
     }
 
 
     @PutMapping("/update-horse/{horseId}")
-    public ResponseEntity<ApiResponse> updateHorse(@AuthenticationPrincipal User user, @RequestBody Horse horse, @PathVariable Integer horseId) {
+    public ResponseEntity<?> updateHorse(@AuthenticationPrincipal User user, @RequestBody Horse horse, @PathVariable Integer horseId) {
         horseService.updateHorse(user.getId(), horseId, horse);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Horse updated successfully."));
     }
 
     @DeleteMapping("/delete-horse/{horseId}")
-    public ResponseEntity<ApiResponse> removeHorse(@AuthenticationPrincipal User user, @PathVariable Integer horseId) {
+    public ResponseEntity<?> removeHorse(@AuthenticationPrincipal User user, @PathVariable Integer horseId) {
         horseService.deleteHorse(user.getId(), horseId);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Horse deleted successfully."));
     }
+
+    // ( #19 of 50 endpoints)
+    // This method gets all horses for one specific owner
+    // that do not have a membership.
+    @GetMapping("/owner/horses-without-membership")
+    public ResponseEntity<List<Horse>> getHorsesWithoutMembership(@AuthenticationPrincipal User user) {
+        List<Horse> horses = horseService.getHorsesWithoutMembershipByOwner(user.getId());
+        return ResponseEntity.ok(horses);
+    }
+
+    // ( #20 of 50 endpoints)
+    // This method sends (gifts) a horse to a new owner.
+    // The horse must have an active membership to be gifted.
+    @PutMapping("/gift/{horseId}/to/{newOwnerId}")
+    public ResponseEntity<?> giftHorse(@AuthenticationPrincipal User user,
+                                       @PathVariable Integer horseId,
+                                       @PathVariable Integer newOwnerId) {
+        horseService.giftHorseToOwner(horseId, newOwnerId);
+        return ResponseEntity.ok(new ApiResponse("Horse gifted successfully."));
+    }
+
 }
 

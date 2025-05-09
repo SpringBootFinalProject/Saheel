@@ -38,7 +38,8 @@ public class HorseService {
         horseRepository.save(horse);
     }
 
-    public void assignHorseToOwner(Integer horseId, Integer ownerId) {
+    // #17
+    public void assignHorseToMembership(Integer horseId, Integer ownerId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
         if (owner == null) {
             throw new ApiException("Horse owner not found");
@@ -66,7 +67,6 @@ public class HorseService {
         horse.setMembership(membership);
         horseRepository.save(horse);
     }
-
 
 
     public void updateHorse(Integer horseOwnerId, Integer horseId, Horse horse) {
@@ -120,6 +120,37 @@ public class HorseService {
 
     public void checkIfHorseBelongsToOwner(Horse horse, HorseOwner horseOwner) {
         if (horse.getHorseOwner() != horseOwner) throw new ApiException("Horse dose not belong to the owner.");
+    }
+
+
+    // ( #19 of 50 endpoints)
+    // This method gets all horses for one specific owner
+    // that do not have a membership.
+    public List<Horse> getHorsesWithoutMembershipByOwner(Integer ownerId) {
+        return horseRepository.findByHorseOwnerIdAndMembershipIsNull(ownerId);
+    }
+
+    // ( #20 of 50 endpoints)
+    // This method sends (gifts) a horse to a new owner.
+    // The horse must have an active membership to be gifted.
+    public void giftHorseToOwner(Integer horseId, Integer newOwnerId) {
+        Horse horse = horseRepository.findHorseById(horseId);
+        if (horse == null) {
+            throw new ApiException("Horse not found");
+        }
+
+        if (horse.getMembership() == null || !horse.getMembership().getIsActive()) {
+            throw new RuntimeException("Only horses with active memberships can be gifted.");
+        }
+
+        HorseOwner newOwner = horseOwnerRepository.findHorseOwnerById(newOwnerId);
+        if (newOwner == null) {
+            throw new ApiException(" New Horse owner not found");
+        }
+
+
+        horse.setHorseOwner(newOwner);
+        horseRepository.save(horse);
     }
 
 }

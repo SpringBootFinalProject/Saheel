@@ -16,6 +16,7 @@ public interface HorseRepository extends JpaRepository<Horse, Integer> {
     int countByHorseOwner(HorseOwner horseOwner);
     int countByMembership(Membership membership);
     List<Horse> findAllByMembership(Membership membership);
+    List<Horse> findByHorseOwnerIdAndMembershipIsNull(Integer ownerId);
 
 
 

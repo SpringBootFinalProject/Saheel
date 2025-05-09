@@ -30,6 +30,7 @@ public class CourseService {
         return courseRepository.findCoursesByStable(stable);
     }
 
+//    #5
     public void addCourseByOwner(Integer stableOwnerId, Integer stableId, Course course) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
@@ -106,6 +107,7 @@ public class CourseService {
         // Save
         courseRepository.save(course);
     }
+
 
     public void changeEnrollmentsCourseStatus(List<CourseEnrollment> courseEnrollments){
         for (CourseEnrollment courseEnrollment : courseEnrollments) courseEnrollment.setCourseCanceled(true);

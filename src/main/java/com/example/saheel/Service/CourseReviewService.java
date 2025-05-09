@@ -25,6 +25,7 @@ public class CourseReviewService {
         return courseReviewRepository.findCourseReviewsByCourse(course);
     }
 
+//    #4
     public void ReviewCourseByCustomer(Integer customerId, Integer courseId, CourseReview courseReview) {
         // Get the customer and check if it's in the database.
         Customer customer = customerRepository.findCustomerById(customerId);

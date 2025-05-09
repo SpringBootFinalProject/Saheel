@@ -92,5 +92,11 @@ public class StableReviewService {
         stableReviewRepository.delete(review);
     }
 
+    // ( #22 of 50 endpoints)
+    // The reviews are sorted from best rating to worst rating.
+    public List<StableReview> getAllReviewsSortedByRating() {
+        return stableReviewRepository.findAllByOrderByRatingDesc();
+    }
+
 
 }

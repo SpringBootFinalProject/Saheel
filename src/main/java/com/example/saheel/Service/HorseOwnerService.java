@@ -80,5 +80,11 @@ public class HorseOwnerService {
         userRepository.delete(user);
     }
 
+    // ( #18 of 50 endpoints)
+    // This method finds the horse owner who owns the most horses.
+    // It can return more than one owner if they have the same number of horses.
+    public List<HorseOwner> getOwnersWithMostHorses() {
+        return horseOwnerRepository.findHorseOwnersWithMostHorses();
+    }
 
 }
