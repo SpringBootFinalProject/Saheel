@@ -23,14 +23,14 @@ public class Stable {
     private Integer id;
 
     @NotEmpty(message = "The name can not be empty.")
-    @Column(columnDefinition = "varchar(20) not null")
+    @Column(columnDefinition = "varchar(20) not null unique")
     private String name;
 
     @NotEmpty(message = "The description can not be empty.")
-    @Column(columnDefinition = "varchar(255) not null")
+    @Column(columnDefinition = "varchar(500) not null")
     private String description;
 
-    @NotNull(message = "The capacity can not be empty.")
+    @NotNull(message = "The capacity can not be empty.")//can not be zero
     @Column(columnDefinition = "int not null")
     private int capacity;
 

@@ -23,7 +23,7 @@ public class StableOwnerController {
     private final StableOwnerService stableOwnerService;
 
     // Get stableOwner by ID - Abeer
-    @GetMapping("/by-my-stable")
+    @GetMapping("/get-my-stable")
     public ResponseEntity<StableOwner> getStableOwnerById(@AuthenticationPrincipal User user ) {
         StableOwner stableOwner = stableOwnerService.getStableOwnerById(user.getId());
         return ResponseEntity.ok(stableOwner);
@@ -37,7 +37,7 @@ public class StableOwnerController {
     }
 
     //Update stable owner - Abeer
-    @PutMapping("/update/{id}")
+    @PutMapping("/update")
     public ResponseEntity<ApiResponse> updateStableOwner(@AuthenticationPrincipal User user, @RequestBody StableOwnerDTO stableOwnerDTO) {
         stableOwnerService.updateStableOwner(user.getId(),stableOwnerDTO);
         return ResponseEntity.ok(new ApiResponse("Stable owner updated successfully"));

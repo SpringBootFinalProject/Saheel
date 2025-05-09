@@ -32,6 +32,7 @@ public class VeterinaryService {
         if (stable == null){
             throw new ApiException("Error : stable is not fond");
         }
+        veterinary.setStable(stable);
         veterinaryRepository.save(veterinary);
     }
 
