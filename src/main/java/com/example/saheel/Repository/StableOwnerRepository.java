@@ -2,6 +2,7 @@ package com.example.saheel.Repository;
 
 import com.example.saheel.Model.Stable;
 import com.example.saheel.Model.StableOwner;
+import com.example.saheel.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +14,5 @@ public interface StableOwnerRepository extends JpaRepository<StableOwner , Integ
 
     StableOwner findStableOwnerById(Integer StableOwner_Id);
 
+    StableOwner findStableOwnerByUser(User user);
 }

@@ -4,6 +4,7 @@ import com.example.saheel.Api.ApiException;
 import com.example.saheel.Model.*;
 import com.example.saheel.Repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class StaffManagerService {
         breederRepository.save(breeder);
     }
 
-    public void assignBreederToHorse(Integer breeder_Id ,Integer horse_Id) {
+    public void assignBreederToHorse(Integer breeder_Id, Integer horse_Id) {
 
         Membership membership = membershipRepository.findByHorsesIdAndIsActiveTrue(horse_Id);
         if (membership == null) {
@@ -92,7 +93,6 @@ public class StaffManagerService {
     }
 
 
-
     //move veterinary To Another Stable -Abeer
     public void moveVeterinaryToAnotherStable(Integer stableOwner_Id, Integer veterinary_Id, Integer stable_Id) {
 
@@ -115,7 +115,7 @@ public class StaffManagerService {
         veterinaryRepository.save(veterinary);
     }
 
-    public void assignVeterinaryToHorse(Integer veterinary_Id ,Integer horse_Id) {
+    public void assignVeterinaryToHorse(Integer veterinary_Id, Integer horse_Id) {
 
         Membership membership = membershipRepository.findByHorsesIdAndIsActiveTrue(horse_Id);
         if (membership == null) {
@@ -140,19 +140,12 @@ public class StaffManagerService {
         horseRepository.save(horse);
     }
 
-    public List<Trainer> getAvailableTrainer(){
+    public List<Trainer> getAvailableTrainer() {
         List<Trainer> trainers = trainerRepository.findTrainersByIsActiveTrue();
 
         if (trainers.isEmpty()) {
-            throw new ApiException ("Error: No active trainers found");
+            throw new ApiException("Error: No active trainers found");
         }
         return trainers;
     }
-
-
-
-
-
-
-
 }
