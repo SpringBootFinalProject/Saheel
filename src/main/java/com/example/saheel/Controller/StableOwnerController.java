@@ -2,12 +2,10 @@ package com.example.saheel.Controller;
 
 import com.example.saheel.Api.ApiResponse;
 import com.example.saheel.DTO.StableOwnerDTO;
-import com.example.saheel.Model.Horse;
 import com.example.saheel.Model.StableOwner;
 import com.example.saheel.Model.User;
 import com.example.saheel.Service.StableOwnerService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;

@@ -80,6 +80,28 @@ public class TrainerService {
         trainerRepository.save(trainer);
     }
 
+    //move Trainer To Another Stable -Abeer
+    public void moveTrainerToAnotherStable(Integer stableOwner_Id, Integer trainer_Id, Integer stable_Id) {
+
+        Trainer trainer = trainerRepository.findTrainerById(trainer_Id);
+        if (trainer == null) {
+            throw new ApiException("Error Trainer is not found");
+        }
+
+        Stable newStable = stableRepository.findStableById(stable_Id);
+        if (newStable == null) {
+            throw new ApiException("Target stable not found");
+        }
+
+        // Check that this stable belongs to the registered owner.
+        if (!newStable.getStableOwner().getId().equals(stableOwner_Id)) {
+            throw new ApiException("Error : You are not the owner of this stable");
+        }
+
+        trainer.setStable(newStable);
+        trainerRepository.save(trainer);
+    }
+
     //update Trainer - Abeer
     public void updateTrainer(Integer stableOwner_Id ,Integer stable_Id ,Integer trainer_Id, Trainer trainer ) {
         Stable stable = stableRepository.findStableById(stable_Id);

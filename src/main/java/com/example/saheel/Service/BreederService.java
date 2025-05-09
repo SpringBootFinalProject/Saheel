@@ -3,7 +3,10 @@ package com.example.saheel.Service;
 import com.example.saheel.Api.ApiException;
 import com.example.saheel.Model.Breeder;
 import com.example.saheel.Model.Stable;
+import com.example.saheel.Model.StableOwner;
+import com.example.saheel.Model.Veterinary;
 import com.example.saheel.Repository.BreederRepository;
+import com.example.saheel.Repository.StableOwnerRepository;
 import com.example.saheel.Repository.StableRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ public class BreederService {
 
     private final BreederRepository breederRepository;
 
+    private final StableOwnerRepository stableOwnerRepository;
     private final StableRepository stableRepository;
 
     //get Breeder by ID - Abeer
@@ -26,25 +30,71 @@ public class BreederService {
         return breeder;
     }
 
+    public Breeder searchBreederByName(Integer stableOwner_Id , String fullName){
+
+        StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
+        if (stableOwner == null) {
+            throw new ApiException("Error : stable owner is not found");
+        }
+        Breeder breeder = breederRepository.findBreederByFullName(fullName);
+        if (breeder == null){
+            throw new ApiException("Error : breeder is not found");
+        }
+        return breeder;
+    }
+
+
     //add Breeder - Abeer
-    public void addBreeder(Integer stable_Id , Breeder breeder){
+    public void addBreeder(Integer stableOwner_Id ,Integer stable_Id , Breeder breeder){
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null){
             throw new ApiException("Error : stable is not fond");
         }
+        // Check that this stable belongs to the registered owner.
+        if (!stable.getStableOwner().getId().equals(stableOwner_Id)) {
+            throw new ApiException("Unauthorized error: This stable does not belong to the logged-in stable owner");
+        }
         breeder.setStable(stable);
         breederRepository.save(breeder);
     }
+
+    //move breeder To Another Stable -Abeer
+    public void moveBreederToAnotherStable(Integer stableOwner_Id, Integer breeder_Id, Integer stable_Id) {
+
+        Breeder breeder = breederRepository.findBreederById(breeder_Id);
+        if (breeder == null) {
+            throw new ApiException("Error Breeder is not found");
+        }
+
+        Stable newStable = stableRepository.findStableById(stable_Id);
+        if (newStable == null) {
+            throw new ApiException("Target stable not found");
+        }
+
+        // Check that this stable belongs to the registered owner.
+        if (!newStable.getStableOwner().getId().equals(stableOwner_Id)) {
+            throw new ApiException("Error : You are not the owner of this stable");
+        }
+
+        breeder.setStable(newStable);
+        breederRepository.save(breeder);
+    }
+
     //update Breeder - Abeer
-    public void updateBreeder( Integer stable_Id ,Integer breeder_Id, Breeder breeder ) {
+    public void updateBreeder( Integer stableOwner_Id ,Integer stable_Id ,Integer breeder_Id, Breeder breeder ) {
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null){
-            throw new ApiException(" Error : stable is not fond");
+            throw new ApiException("Error : stable is not fond");
         }
 
         Breeder oldBreeder = breederRepository.findBreederById(breeder_Id);
         if (oldBreeder == null) {
             throw new ApiException("Error: Breeder not found");
+        }
+
+        // Check that this stable belongs to the registered owner.
+        if (!stable.getStableOwner().getId().equals(stableOwner_Id)) {
+            throw new ApiException("Unauthorized error: This stable does not belong to the logged-in stable owner");
         }
 
         oldBreeder.setUsername(breeder.getUsername());
@@ -58,10 +108,14 @@ public class BreederService {
     }
 
     //delete Breeder - Abeer
-    public void deleteBreeder(Integer breeder_Id) {
+    public void deleteBreeder(Integer stableOwner_Id ,Integer breeder_Id) {
         Breeder breeder = breederRepository.findBreederById(breeder_Id);
         if (breeder == null) {
             throw new ApiException("Error: Breeder not found");
+        }
+        Stable stable = breeder.getStable();
+        if (stable == null || !stable.getStableOwner().getId().equals(stableOwner_Id)) {
+            throw new ApiException("Error: You do not have permission to delete this veterinary");
         }
         breederRepository.delete(breeder);
     }
