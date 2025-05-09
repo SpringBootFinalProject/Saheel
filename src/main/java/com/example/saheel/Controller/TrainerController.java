@@ -3,6 +3,7 @@ package com.example.saheel.Controller;
 import com.example.saheel.Api.ApiException;
 import com.example.saheel.Model.Trainer;
 import com.example.saheel.Model.User;
+import com.example.saheel.Service.StaffManagerService;
 import com.example.saheel.Service.TrainerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class TrainerController {
     private final TrainerService trainerService;
+    private final StaffManagerService staffManagerService;
 
     // Get trainer by ID - Abeer
     @GetMapping("/get/{trainer_Id}")
@@ -36,6 +38,7 @@ public class TrainerController {
         return ResponseEntity.ok(new ApiException("Trainer added successfully"));
     }
 
+
     //assign Trainer To Stable by stable owner - Abeer
     @PostMapping("/assignTrainer/{trainer_Id}/ToStable/{stable_Id}")
     public ResponseEntity<ApiException> assignTrainerToStable(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer trainer_Id) {
@@ -43,12 +46,6 @@ public class TrainerController {
         return ResponseEntity.ok(new ApiException("Trainer assign successfully"));
     }
 
-    //move Trainer To Stable by stable owner - Abeer
-    @PostMapping("/moveTrainer/{trainer_Id}/ToStable/{stable_Id}")
-    public ResponseEntity<ApiException> moveTrainerToAnotherStable(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer trainer_Id) {
-        trainerService.moveTrainerToAnotherStable(user.getId(), stable_Id,trainer_Id);
-        return ResponseEntity.ok(new ApiException("Trainer assign successfully"));
-    }
 
     // Update trainer - Abeer
     @PutMapping("/update-trainer/{trainer_Id}/by-stable/{stable_Id}")

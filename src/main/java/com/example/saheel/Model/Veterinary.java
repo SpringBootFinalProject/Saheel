@@ -50,6 +50,8 @@ public class Veterinary {
     @Column(columnDefinition = "double")
     private double rating;
 
+    private Boolean isActive = false;
+
     @ManyToOne
     @JsonIgnore
     private Stable stable;
