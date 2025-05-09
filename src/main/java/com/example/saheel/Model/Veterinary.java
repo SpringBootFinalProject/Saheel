@@ -55,5 +55,8 @@ public class Veterinary {
     private Stable stable;
 
     @OneToMany(mappedBy = "veterinary", cascade = CascadeType.ALL)
+    private List<Horse> horses;
+
+    @OneToMany(mappedBy = "veterinary", cascade = CascadeType.ALL)
     private List<VeterinaryVisit> veterinaryVisits;
 }

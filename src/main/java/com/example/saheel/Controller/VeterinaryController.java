@@ -46,6 +46,13 @@ public class VeterinaryController {
         return ResponseEntity.ok(new ApiException("Trainer assign successfully"));
     }
 
+    //assignVeterinaryToHorse - abeer
+    @PutMapping("/assignVeterinary/{veterinary_Id}/ToHorse/{horse_Id}")
+    public ResponseEntity<ApiException> assignVeterinaryToHorse(@PathVariable Integer veterinary_Id,@PathVariable Integer horse_Id) {
+        veterinaryService.assignVeterinaryToHorse(veterinary_Id, horse_Id);
+        return ResponseEntity.ok(new ApiException("veterinary Assign to horse successfully"));
+    }
+
     // Update veterinary - Abeer
     @PutMapping("/update/{stable_Id}/{veterinary_Id}")
     public ResponseEntity<ApiException> updateVeterinary(@AuthenticationPrincipal User user, @PathVariable Integer stable_Id, @PathVariable Integer veterinary_Id, @RequestBody Veterinary veterinary) {

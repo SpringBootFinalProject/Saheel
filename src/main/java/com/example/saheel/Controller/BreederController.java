@@ -45,12 +45,21 @@ public class BreederController {
         return ResponseEntity.ok(new ApiException("Breeder assign successfully"));
     }
 
+    //assignBreederToHorse - abeer
+    @PutMapping("/assignBreeder/{breeder_Id}/ToHorse/{horse_Id}")
+    public ResponseEntity<ApiException> assignBreederToHorse(@PathVariable Integer breeder_Id,@PathVariable Integer horse_Id) {
+        breederService.assignBreederToHorse(breeder_Id, horse_Id);
+        return ResponseEntity.ok(new ApiException("Breeder Assign to horse successfully"));
+    }
+
+
     // Update breeder - Abeer
     @PutMapping("/update-breeder/{breeder_Id}/by-stable/{stable_Id}")
     public ResponseEntity<ApiException> updateBreeder(@AuthenticationPrincipal User user, @PathVariable Integer stable_Id, @PathVariable Integer breeder_Id, @RequestBody Breeder breeder) {
         breederService.updateBreeder(user.getId(), stable_Id, breeder_Id, breeder);
         return ResponseEntity.ok(new ApiException("Breeder updated successfully"));
     }
+
 
     // Delete breeder - Abeer
     @DeleteMapping("/delete/{breeder_Id}")

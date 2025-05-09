@@ -1,13 +1,8 @@
 package com.example.saheel.Service;
 
 import com.example.saheel.Api.ApiException;
-import com.example.saheel.Model.Breeder;
-import com.example.saheel.Model.Stable;
-import com.example.saheel.Model.StableOwner;
-import com.example.saheel.Model.Veterinary;
-import com.example.saheel.Repository.BreederRepository;
-import com.example.saheel.Repository.StableOwnerRepository;
-import com.example.saheel.Repository.StableRepository;
+import com.example.saheel.Model.*;
+import com.example.saheel.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +15,8 @@ public class BreederService {
 
     private final StableOwnerRepository stableOwnerRepository;
     private final StableRepository stableRepository;
+    private final HorseRepository horseRepository;
+    private final MembershipRepository membershipRepository;
 
     //get Breeder by ID - Abeer
     public Breeder getBreederById(Integer breeder_Id){
@@ -78,6 +75,31 @@ public class BreederService {
 
         breeder.setStable(newStable);
         breederRepository.save(breeder);
+    }
+
+    public void assignBreederToHorse( Integer breeder_Id ,Integer horse_Id) {
+
+        Membership membership = membershipRepository.findByHorsesIdAndIsActiveTrue(horse_Id);
+        if (membership == null) {
+            throw new ApiException("Error: This horse does not have an active membership");
+        }
+
+        Horse horse = horseRepository.findHorseById(horse_Id);
+        if (horse == null) {
+            throw new ApiException("Error: Horse is not found");
+        }
+
+        Breeder breeder = breederRepository.findBreederById(breeder_Id);
+        if (breeder == null) {
+            throw new ApiException("Error: Breeder not found");
+        }
+
+        if (!membership.getStable().getId().equals(breeder.getStable().getId())) {
+            throw new ApiException("Error: Breeder and horse must belong to the same stable");
+        }
+
+        horse.setBreeder(breeder);
+        horseRepository.save(horse);
     }
 
     //update Breeder - Abeer

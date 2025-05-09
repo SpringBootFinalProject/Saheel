@@ -10,4 +10,6 @@ public interface MembershipRepository extends JpaRepository<Membership,Integer> 
     Membership findMembershipById(Integer id);
     Membership findByHorseOwnerAndIsActive(HorseOwner horseOwner, boolean isActive);
 
+    Membership findByHorsesIdAndIsActiveTrue(Integer horse_Id);
+
 }

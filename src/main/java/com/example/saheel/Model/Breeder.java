@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -51,4 +53,7 @@ public class Breeder {
     @ManyToOne
     @JsonIgnore
     private Stable stable;
+
+    @OneToMany(mappedBy = "breeder", cascade = CascadeType.ALL)
+    private List<Horse> horses;
 }

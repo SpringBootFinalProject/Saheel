@@ -1,12 +1,8 @@
 package com.example.saheel.Service;
 
 import com.example.saheel.Api.ApiException;
-import com.example.saheel.Model.Stable;
-import com.example.saheel.Model.StableOwner;
-import com.example.saheel.Model.Veterinary;
-import com.example.saheel.Repository.StableOwnerRepository;
-import com.example.saheel.Repository.StableRepository;
-import com.example.saheel.Repository.VeterinaryRepository;
+import com.example.saheel.Model.*;
+import com.example.saheel.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +13,8 @@ public class VeterinaryService {
     private final VeterinaryRepository veterinaryRepository;
 
     private final StableOwnerRepository stableOwnerRepository;
+    private final MembershipRepository membershipRepository;
+    private final HorseRepository horseRepository;
     private final StableRepository stableRepository;
 
     // get Veterinary by ID - Abeer
@@ -76,6 +74,31 @@ public class VeterinaryService {
 
         veterinary.setStable(newStable);
         veterinaryRepository.save(veterinary);
+    }
+
+    public void assignVeterinaryToHorse(Integer veterinary_Id ,Integer horse_Id) {
+
+        Membership membership = membershipRepository.findByHorsesIdAndIsActiveTrue(horse_Id);
+        if (membership == null) {
+            throw new ApiException("Error: This horse does not have an active membership");
+        }
+
+        Horse horse = horseRepository.findHorseById(horse_Id);
+        if (horse == null) {
+            throw new ApiException("Error: Horse is not found");
+        }
+
+        Veterinary veterinary = veterinaryRepository.findVeterinaryById(veterinary_Id);
+        if (veterinary == null) {
+            throw new ApiException("Error: veterinary is not found");
+        }
+
+        if (!membership.getStable().getId().equals(veterinary.getStable().getId())) {
+            throw new ApiException("Error: Veterinary and horse must belong to the same stable");
+        }
+
+        horse.setVeterinary(veterinary);
+        horseRepository.save(horse);
     }
 
     //update Veterinary - Abeer

@@ -48,6 +48,14 @@ public class Horse {
     @JsonIgnore
     private HorseOwner horseOwner;
 
+    @ManyToOne
+    @JsonIgnore
+    private Breeder breeder;
+
+    @ManyToOne
+    @JsonIgnore
+    private Veterinary veterinary;
+
 //    @OneToOne
 //    @JsonIgnore
 //    private VeterinaryVisit veterinaryVisit; // One to one?
