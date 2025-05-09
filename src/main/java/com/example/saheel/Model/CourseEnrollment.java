@@ -29,6 +29,8 @@ public class CourseEnrollment {
     @NotNull(message = "The duration can not be empty.")
     @Column(columnDefinition = "int not null")
     private int durationInMinute;
+    private Boolean courseCanceled = false;
+    private Boolean enrollmentCanceled = false;
 
     @ManyToOne
     @JsonIgnore

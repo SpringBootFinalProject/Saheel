@@ -23,9 +23,6 @@ public class StableOwnerDTO {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "Password must be at least 8 characters and include uppercase, lowercase, and a number")
     private String password;
 
-    @Pattern(regexp = "admin|customer|horseowner|satbleowner")
-    private String role;
-
     @NotEmpty(message = "The name can not be empty.")
     private String fullName;
 
@@ -35,5 +32,10 @@ public class StableOwnerDTO {
     @Email
     @NotEmpty(message = "The email can not be empty.")
     private String email;
+
+    @NotEmpty(message = "The phone number can not be empty.")
+    @Pattern(regexp = "\\+\\d{12}", message = "Phone number must start with the country code followed by 9 digits.")
+    private String phoneNumber;
+
 
 }

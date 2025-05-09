@@ -19,6 +19,8 @@ public class TrainerController {
         return ResponseEntity.ok(trainer);
     }
 
+
+
     // Add trainer - Abeer
     @PostMapping("/add/{stable_Id}")
     public ResponseEntity<String> addTrainer(@PathVariable Integer stable_Id, @RequestBody Trainer trainer) {

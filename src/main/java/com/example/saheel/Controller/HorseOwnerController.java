@@ -26,21 +26,16 @@ public class HorseOwnerController {
     }
 
 
-    // TODO:  @AuthenticationPrincipal User user
-    // For now, we’re using the ID directly until we implement proper authorization.
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateHorseOwner(@PathVariable Integer id, @Valid @RequestBody HorseOwnerDTO horseOwnerDTO) {
-//  TODO:       horseService.updateHorseOwner(user.getId(), horseOwnerDTO);
-        horseService.updateHorseOwner(id, horseOwnerDTO);
+    @PutMapping("/update")
+    public ResponseEntity<?> updateHorseOwner(@AuthenticationPrincipal User user, @Valid @RequestBody HorseOwnerDTO horseOwnerDTO) {
+        horseService.updateHorseOwner(user.getId(), horseOwnerDTO);
         return ResponseEntity.status(200).body(new ApiResponse("Horse owner updated"));
     }
 
     // delete HorseOwner
-    // TODO:  @AuthenticationPrincipal User user
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteHorseOwner(@PathVariable Integer id) {
-        horseService.deleteHorseOwner(id);
-// TODO:     horseService.deleteHorseOwner(user.getId());
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteHorseOwner(@AuthenticationPrincipal User user) {
+        horseService.deleteHorseOwner(user.getId());
         return ResponseEntity.status(200).body(new ApiResponse("Horse owner deleted"));
     }
 }

@@ -17,17 +17,9 @@ public class CourseReviewService {
     private final CustomerRepository customerRepository;
     private final StableOwnerRepository stableOwnerRepository;
 
-    public List<CourseReview> getAllCourseReviewsByStableOwner(Integer stableOwnerId, Integer courseId) {
-        // Get the owner object and check if it's in the database.
-        StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwnerId);
-        if (stableOwner == null) throw new ApiException("Owner not found.");
-
+    public List<CourseReview> getAllCourseReviews(Integer courseId) {
         // Get the course and check if it's in the database.
         Course course = helperService.getCourseOrThrow(courseId);
-
-        // Check if the course belongs to the owner
-        if (!stableOwner.getStables().contains(course.getStable()))
-            throw new ApiException("The course does not belong to the owner.");
 
         // Return the reviews
         return courseReviewRepository.findCourseReviewsByCourse(course);
@@ -43,6 +35,11 @@ public class CourseReviewService {
 
         // Check if the customer enrolled in the course.
         helperService.checkIfCustomerEnrolled(course, customer);
+
+        // Check if the customer reviewed this course.
+        if (!courseReviewRepository.findCourseReviewsByCourseAndCustomer(course, customer).isEmpty())
+            throw new ApiException("Customer can not make more than one review");
+
 
         // Set the customer
         courseReview.setCustomer(customer);

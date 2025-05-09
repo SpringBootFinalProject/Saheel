@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StableRepository extends JpaRepository<Stable,Integer> {
-    Stable findStableById(Integer id);
+    Stable findStableById(Integer stable_Id);
 
 }

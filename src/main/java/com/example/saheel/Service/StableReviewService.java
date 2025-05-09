@@ -1,5 +1,6 @@
 package com.example.saheel.Service;
 
+import com.example.saheel.Api.ApiException;
 import com.example.saheel.Model.HorseOwner;
 import com.example.saheel.Model.Stable;
 import com.example.saheel.Model.StableReview;
@@ -18,11 +19,19 @@ public class StableReviewService {
     private final HorseOwnerRepository horseOwnerRepository;
     private final StableRepository stableRepository;
 
+    //#15
     // Get all stable reviews
-    public List<StableReview> getAllStableReviews() {
-        return stableReviewRepository.findAll();
+    public List<StableReview> getReviewsByStable(Integer stableId) {
+        Stable stable = stableRepository.findStableById(stableId);
+        if (stable == null) {
+            throw new ApiException("Stable not found");
+        }
+
+        return stableReviewRepository.findAllByStable(stable);
     }
 
+
+    //#16
     // add Review
     public void addReview(StableReview review, Integer horseOwnerId, Integer stableId) {
         // Get the horse owner and check
@@ -35,6 +44,11 @@ public class StableReviewService {
         if (stable == null) {
             throw new RuntimeException("Stable not found");
         }
+
+        // Check if
+        if (!stableReviewRepository.findCourseReviewsByStableAndHorseOwner(stable, horseOwner).isEmpty())
+            throw new ApiException("Customer can not make more than one review");
+
         // Set relationships and save the review.
         review.setHorseOwner(horseOwner);
         review.setStable(stable);
@@ -61,6 +75,7 @@ public class StableReviewService {
         stableReviewRepository.save(existingReview);
     }
 
+
     //delete Review
     public void deleteReview(Integer reviewId, Integer horseOwnerId) {
         // Get the horse owner and check
@@ -73,8 +88,7 @@ public class StableReviewService {
         if (review == null) {
             throw new RuntimeException("Review not found");
         }
-        //  set owner before delete
-        review.setHorseOwner(horseOwner);
+
         stableReviewRepository.delete(review);
     }
 

@@ -2,55 +2,55 @@ package com.example.saheel.Controller;
 
 import com.example.saheel.Api.ApiResponse;
 import com.example.saheel.Model.StableReview;
+import com.example.saheel.Model.User;
 import com.example.saheel.Repository.UserRepository;
 import com.example.saheel.Service.StableReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/v1/saheel/tableReview")
+@RequestMapping("/api/v1/saheel/stableReview")
 @RequiredArgsConstructor
 public class StableReviewController {
     private final StableReviewService stableReviewService;
     private final UserRepository userRepository;
 
+
+    @GetMapping("/stables/{stableId}/reviews")
+    public ResponseEntity<List<StableReview>> getReviewsByStable(@PathVariable Integer stableId) {
+        List<StableReview> reviews = stableReviewService.getReviewsByStable(stableId);
+        return ResponseEntity.ok(reviews);
+    }
+
     //  add Review of  Stable
-    // TODO:  @AuthenticationPrincipal User user
-    @PostMapping("/add/{ownerId}/{stableId}")
-    public ResponseEntity<?> addReview(@PathVariable Integer ownerId,
+    @PostMapping("/add/{stableId}")
+    public ResponseEntity<?> addReview(@AuthenticationPrincipal User user,
                                        @PathVariable Integer stableId,
                                        @RequestBody StableReview review) {
-        stableReviewService.addReview(review, ownerId, stableId);
-//    TODO:    stableReviewService.addReview(review, ownerId, user.getId());
+        stableReviewService.addReview(review, user.getId(), stableId);
         return ResponseEntity.status(200).body(new ApiResponse("Review added"));
     }
 
-    // Get All Reviews
-    // TODO:  @AuthenticationPrincipal User user
-    @GetMapping("/get")
-    public ResponseEntity<?> getAllReviews() {
-        return ResponseEntity.status(200).body(stableReviewService.getAllStableReviews());
-    }
+
 
 
     // Update Review
-    // TODO:  @AuthenticationPrincipal User user
-    @PutMapping("/update/{reviewId}/{ownerId}")
-    public ResponseEntity<?> updateReview(@PathVariable Integer reviewId,
-                                          @RequestBody StableReview review, @PathVariable Integer ownerId) {
-        stableReviewService.updateReview(reviewId, review, ownerId);
-        //   TODO:      stableReviewService.updateReview(reviewId, review ,user.getId());
+    @PutMapping("/update/{reviewId}")
+    public ResponseEntity<?> updateReview(@AuthenticationPrincipal User user,
+                                          @RequestBody StableReview review, @PathVariable Integer reviewId) {
+     stableReviewService.updateReview(reviewId, review ,user.getId());
 
         return ResponseEntity.status(200).body(new ApiResponse("Review Updated"));
     }
 
     // Delete Review
-    // TODO:  @AuthenticationPrincipal User user
-    @DeleteMapping("/delete/{reviewId}/{ownerId}")
-    public ResponseEntity<?> deleteReview(@PathVariable Integer reviewId, @PathVariable Integer ownerId) {
-        stableReviewService.deleteReview(reviewId, ownerId);
-//   TODO     stableReviewService.deleteReview(reviewId, user.getId());
+    @DeleteMapping("/delete/{reviewId}")
+    public ResponseEntity<?> deleteReview(@AuthenticationPrincipal User user, @PathVariable Integer reviewId) {
+ stableReviewService.deleteReview(reviewId, user.getId());
         return ResponseEntity.status(200).body(new ApiResponse("Review Deleted"));
     }
 

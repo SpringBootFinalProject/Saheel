@@ -17,7 +17,7 @@ public class VeterinaryService {
     private final StableRepository stableRepository;
 
     // get Veterinary by ID - Abeer
-    public Veterinary getVeterinaryById( Integer veterinary_Id){
+    public Veterinary getVeterinaryById(Integer veterinary_Id){
         Veterinary veterinary = veterinaryRepository.findVeterinaryById(veterinary_Id);
         if (veterinary == null){
             throw new ApiException("Error : Veterinary is not found");

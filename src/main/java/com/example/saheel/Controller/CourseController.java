@@ -20,8 +20,8 @@ public class CourseController {
     private final CourseService courseService;
 
     @GetMapping("/get-stable-courses/{stableId}")
-    public ResponseEntity<List<Course>> getOwnerCourses(@AuthenticationPrincipal User user, @PathVariable Integer stableId) {
-        return ResponseEntity.status(HttpStatus.OK).body(courseService.getStableCourses(user.getId(), stableId));
+    public ResponseEntity<List<Course>> getStableCourses(@PathVariable Integer stableId) {
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.getStableCourses(stableId));
     }
 
     @PostMapping("/add-course-by-stable-owner/{stableId}")
@@ -39,7 +39,7 @@ public class CourseController {
 
     @DeleteMapping("/delete-course/{stableId}/{courseId}")
     public ResponseEntity<ApiResponse> removeCourse(@AuthenticationPrincipal User user, @PathVariable Integer stableId, @PathVariable Integer courseId) {
-        courseService.deleteCourse(user.getId(), stableId, courseId);
+        courseService.cancelCourse(user.getId(), stableId, courseId);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course deleted successfully."));
     }
 }

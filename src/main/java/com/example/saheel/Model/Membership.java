@@ -2,6 +2,7 @@ package com.example.saheel.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 //We need to discuss the attribute
 @Getter
@@ -32,10 +34,14 @@ public class Membership {
 
     @Column(length = 20)
     @Pattern(regexp = "monthly|yearly")
+    @NotEmpty(message = "The membership Type can not be empty.")
     private String membershipType; // "MONTHLY", "YEARLY"
 
+    @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
+    private List<Horse> horses;
+
 //    @Column(length = 20)
-//    private String paymentStatus = "PENDING"; // e.g., "PAID", "PENDING", "FAILED"
+//    private String paymentStatus = "PENDING"; // "PAID", "PENDING", "FAILED"
 
 
     @ManyToOne
