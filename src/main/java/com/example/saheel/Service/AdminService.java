@@ -3,10 +3,7 @@ package com.example.saheel.Service;
 import com.example.saheel.Api.ApiException;
 import com.example.saheel.DTO.HorseOwnerDTO;
 import com.example.saheel.Model.*;
-import com.example.saheel.Repository.CustomerRepository;
-import com.example.saheel.Repository.MembershipRepository;
-import com.example.saheel.Repository.StableOwnerRepository;
-import com.example.saheel.Repository.UserRepository;
+import com.example.saheel.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +18,18 @@ public class AdminService {
     private final UserRepository userRepository;
     private final EmailService emailService;
     private final MembershipRepository membershipRepository;
+    private final HorseOwnerRepository horseOwnerRepository;
 
+
+    // ( #18 of 50 endpoints)
+    // This method finds the horse owner who owns the most horses.
+    // It can return more than one owner if they have the same number of horses.
+    public List<HorseOwner> getOwnersWithMostHorses() {
+        return horseOwnerRepository.findHorseOwnersWithMostHorses();
+    }
+
+    // ( #25 of 50 endpoints )
+    // This method sends a welcome email to all customers in the system.
     public void sendWelcomeEmailsToAllCustomer(Integer adminId) {
         User admin = userRepository.findUserByIdAndRole(adminId, "ADMIN");
         if (admin == null) {
@@ -33,6 +41,8 @@ public class AdminService {
         }
     }
 
+    // ( #26 of 50 endpoints )
+    // This method sends a welcome email to all horse owners in the system.
     public void sendWelcomeEmailsToAllHorseOwner(Integer adminId) {
         User admin = userRepository.findUserByIdAndRole(adminId, "ADMIN");
         if (admin == null) {
@@ -57,6 +67,8 @@ public class AdminService {
         emailService.sendEmail(to, subject, body);
     }
 
+    // ( #27 of 50 endpoints )
+    // This method allows an admin to approve a stable owner account.
     public void approveStableOwner(Integer adminId, Integer stableId) {
         User admin = userRepository.findUserByIdAndRole(adminId, "ADMIN");
         if (admin == null) {
