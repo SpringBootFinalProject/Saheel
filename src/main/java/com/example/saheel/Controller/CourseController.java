@@ -39,7 +39,7 @@ public class CourseController {
 
     @DeleteMapping("/delete-course/{stableId}/{courseId}")
     public ResponseEntity<ApiResponse> removeCourse(@AuthenticationPrincipal User user, @PathVariable Integer stableId, @PathVariable Integer courseId) {
-        courseService.deleteCourse(user.getId(), stableId, courseId);
+        courseService.cancelCourse(user.getId(), stableId, courseId);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course deleted successfully."));
     }
 }

@@ -20,6 +20,7 @@ public class StableOwnerService {
         private final UserRepository userRepository;
 
 
+
         // get StableOwner by ID - Abeer
         public StableOwner getStableOwnerById(Integer stableOwner_Id){
                 StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
@@ -29,9 +30,8 @@ public class StableOwnerService {
 
                 return stableOwner;
         }
-
-    //#14
-        //add stableOwner
+    //#1
+        //register stableOwner
         public void registerStableOwner (StableOwnerDTO stableOwnerDTO) {
                 User user = new User();
                user.setUsername(stableOwnerDTO.getUsername());
@@ -73,7 +73,10 @@ public class StableOwnerService {
                 if (stableOwner == null) {
                         throw new ApiException(" Error : Stable is not found");
                 }
-                stableOwnerRepository.delete(stableOwner);
+                User user = stableOwner.getUser();
+
+            userRepository.delete(user);
+            stableOwnerRepository.delete(stableOwner);
         }
 
 

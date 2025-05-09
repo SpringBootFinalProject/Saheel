@@ -5,7 +5,13 @@ import com.example.saheel.Model.*;
 import com.example.saheel.Repository.StableOwnerRepository;
 import com.example.saheel.Repository.StableRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,6 +21,9 @@ public class StableService {
 
     private final StableOwnerRepository stableOwnerRepository;
 
+    public List<Stable> getOwnerHorses() {
+        return stableRepository.findAll();
+    }
 
     //get stable by ID - Abeer
     public Stable getStableById(Integer stable_Id) {
@@ -52,7 +61,7 @@ public class StableService {
     }
 
     //delete stable
-    public void deleteStable(Integer stable_Id) {
+    public void deleteStable(Integer stableOwner_Id, Integer stable_Id) {
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null) {
             throw new ApiException("Error : Stable is not found");
