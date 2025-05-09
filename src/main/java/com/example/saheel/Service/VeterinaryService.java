@@ -48,9 +48,12 @@ public class VeterinaryService {
             throw new ApiException("Error: Veterinary not found");
         }
 
+        oldVeterinary.setUsername(veterinary.getUsername());
+        oldVeterinary.setFullName(veterinary.getFullName());
         oldVeterinary.setAge(veterinary.getAge());
         oldVeterinary.setEmail(veterinary.getEmail());
-       //...
+        oldVeterinary.setYearsOfExperience(veterinary.getYearsOfExperience());
+        oldVeterinary.setRating(veterinary.getRating());
         veterinaryRepository.save(veterinary);
     }
 

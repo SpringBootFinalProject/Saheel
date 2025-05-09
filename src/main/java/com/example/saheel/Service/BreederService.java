@@ -47,9 +47,13 @@ public class BreederService {
             throw new ApiException("Error: Breeder not found");
         }
 
+        oldBreeder.setUsername(breeder.getUsername());
+        oldBreeder.setFullName(breeder.getFullName());
         oldBreeder.setAge(breeder.getAge());
         oldBreeder.setEmail(breeder.getEmail());
-        //...
+        oldBreeder.setYearsOfExperience(breeder.getYearsOfExperience());
+        oldBreeder.setRating(breeder.getRating());
+
         breederRepository.save(oldBreeder);
     }
 
