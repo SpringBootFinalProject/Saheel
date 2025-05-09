@@ -33,6 +33,9 @@ public class VeterinaryService {
         if (stableOwner == null) {
             throw new ApiException("Error : stable owner is not found");
         }
+        if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
+            throw new ApiException("Your account is not approved. Please wait for admin approval.");
+        }
         Veterinary veterinary = veterinaryRepository.findVeterinaryByFullName(fullName);
         if (veterinary == null){
             throw new ApiException("Error : veterinary is not found");

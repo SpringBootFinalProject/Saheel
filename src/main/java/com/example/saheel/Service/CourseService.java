@@ -41,6 +41,9 @@ public class CourseService {
         // Check if the stable belongs to the owner.
         checkIfStableBelongsToOwner(stable, stableOwner);
 
+        if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
+            throw new ApiException("Your account is not approved. Please wait for admin approval.");
+        }
         // Check if the trainer available.
         if (courseRepository.findCoursesByTrainer(course.getTrainer()).isEmpty())
             throw new ApiException("Trainer not available.");
