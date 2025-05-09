@@ -1,5 +1,6 @@
 package com.example.saheel.Controller;
 
+import com.example.saheel.Api.ApiException;
 import com.example.saheel.Model.Breeder;
 import com.example.saheel.Service.BreederService;
 import lombok.RequiredArgsConstructor;
@@ -14,31 +15,31 @@ public class BreederController {
     private final BreederService breederService;
 
     // Get breeder by ID - Abeer
-    @GetMapping("/get/{id}")
-    public ResponseEntity<Breeder> getBreederById(@PathVariable Integer id) {
-        Breeder breeder = breederService.getBreederById(id);
+    @GetMapping("/get/{breeder_Id}")
+    public ResponseEntity<Breeder> getBreederById(@PathVariable Integer breeder_Id) {
+        Breeder breeder = breederService.getBreederById(breeder_Id);
         return ResponseEntity.ok(breeder);
     }
 
     // Add new breeder - Abeer
     @PostMapping("/add/{stable_Id}")
-    public ResponseEntity<String> addBreeder(@PathVariable Integer stable_Id, @RequestBody Breeder breeder) {
+    public ResponseEntity<ApiException> addBreeder(@PathVariable Integer stable_Id, @RequestBody Breeder breeder) {
         breederService.addBreeder(stable_Id, breeder);
-        return ResponseEntity.ok("Breeder added successfully");
+        return ResponseEntity.ok(new ApiException("Breeder added successfully"));
     }
 
     // Update breeder - Abeer
-    @PutMapping("/update/{stable_Id}/{breeder_Id}")
-    public ResponseEntity<String> updateBreeder(@PathVariable Integer stable_Id, @PathVariable Integer breeder_Id, @RequestBody Breeder breeder) {
+    @PutMapping("/update-breeder/{breeder_Id}/by-stable/{stable_Id}")
+    public ResponseEntity<ApiException> updateBreeder(@PathVariable Integer stable_Id, @PathVariable Integer breeder_Id, @RequestBody Breeder breeder) {
         breederService.updateBreeder(stable_Id, breeder_Id, breeder);
-        return ResponseEntity.ok("Breeder updated successfully");
+        return ResponseEntity.ok(new ApiException("Breeder updated successfully"));
     }
 
     // Delete breeder - Abeer
     @DeleteMapping("/delete/{breeder_Id}")
-    public ResponseEntity<String> deleteBreeder(@PathVariable Integer breeder_Id) {
+    public ResponseEntity<ApiException> deleteBreeder(@PathVariable Integer breeder_Id) {
         breederService.deleteBreeder(breeder_Id);
-        return ResponseEntity.ok("Breeder deleted successfully");
+        return ResponseEntity.ok(new  ApiException("Breeder deleted successfully"));
     }
 
 }

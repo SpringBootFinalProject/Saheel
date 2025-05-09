@@ -38,16 +38,16 @@ public class TrainerController {
     }
 
     // Update trainer - Abeer
-    @PutMapping("/update/{stable_Id}/{trainer_Id}")
-    public ResponseEntity<String> updateTrainer( @AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer trainer_Id, @RequestBody Trainer trainer) {
+    @PutMapping("/update-trainer/{trainer_Id}/by-stable/{stable_Id}")
+    public ResponseEntity<ApiException> updateTrainer( @AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer trainer_Id, @RequestBody Trainer trainer) {
         trainerService.updateTrainer(user.getId(), stable_Id, trainer_Id, trainer);
-        return ResponseEntity.ok("Trainer updated successfully");
+        return ResponseEntity.ok(new ApiException("Trainer updated successfully"));
     }
 
     // Delete trainer - Abeer
-    @DeleteMapping("/delete/{trainer_Id}")
-    public ResponseEntity<String> deleteTrainer(@AuthenticationPrincipal User user, @PathVariable Integer trainer_Id) {
+    @DeleteMapping("/delete-trainer/{trainer_Id}")
+    public ResponseEntity<ApiException> deleteTrainer(@AuthenticationPrincipal User user, @PathVariable Integer trainer_Id) {
         trainerService.deleteTrainer(user.getId(), trainer_Id);
-        return ResponseEntity.ok("Trainer deleted successfully");
+        return ResponseEntity.ok(new ApiException("Trainer deleted successfully"));
     }
 }
