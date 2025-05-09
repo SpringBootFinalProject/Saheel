@@ -1,5 +1,6 @@
 package com.example.saheel.Controller;
 
+import com.example.saheel.Api.ApiResponse;
 import com.example.saheel.Model.Stable;
 import com.example.saheel.Model.User;
 import com.example.saheel.Service.StableService;
@@ -25,31 +26,31 @@ public class StableController {
 
 
     // Get stable by ID - Abeer
-    @GetMapping("/get /{stable_Id}")
+    @GetMapping("/get-my-stable/{stable_Id}")
     public ResponseEntity<Stable> getStableById(@PathVariable Integer stable_Id) {
         Stable stable = stableService.getStableById(stable_Id);
         return ResponseEntity.ok(stable);
     }
 
     // Add new stable - Abeer
-    @PostMapping("/add/")
-    public ResponseEntity<String> addStable(@AuthenticationPrincipal User user , @RequestBody Stable stable) {
+    @PostMapping("/add")
+    public ResponseEntity<ApiResponse> addStable(@AuthenticationPrincipal User user , @RequestBody Stable stable) {
         stableService.addStable(user.getId(), stable);
-        return ResponseEntity.ok("Stable added successfully");
+        return ResponseEntity.ok(new ApiResponse("Stable added successfully"));
     }
 
     // Update stable - Abeer
     @PutMapping("/update/{stable_Id}")
-    public ResponseEntity<String> updateStable(@AuthenticationPrincipal User user, @PathVariable Integer stable_Id, @RequestBody Stable stable) {
+    public ResponseEntity<ApiResponse> updateStable(@AuthenticationPrincipal User user, @PathVariable Integer stable_Id, @RequestBody Stable stable) {
         stableService.updateStable(user.getId(), stable_Id, stable);
-        return ResponseEntity.ok("Stable updated successfully");
+        return ResponseEntity.ok(new ApiResponse("Stable updated successfully"));
     }
 
     // Delete stable - Abeer
     @DeleteMapping("/delete/{stable_Id}")
-    public ResponseEntity<String> deleteStable( @AuthenticationPrincipal User user , @PathVariable Integer stable_Id) {
+    public ResponseEntity<ApiResponse> deleteStable( @AuthenticationPrincipal User user , @PathVariable Integer stable_Id) {
         stableService.deleteStable(user.getId(), stable_Id);
-        return ResponseEntity.ok("Stable deleted successfully");
+        return ResponseEntity.ok(new ApiResponse("Stable deleted successfully"));
     }
 
 }

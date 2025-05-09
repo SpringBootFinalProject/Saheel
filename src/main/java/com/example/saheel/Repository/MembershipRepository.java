@@ -16,4 +16,6 @@ public interface MembershipRepository extends JpaRepository<Membership,Integer> 
     List<Membership> findByStartDate(LocalDate startDate);
 
 
+    Membership findByHorsesIdAndIsActiveTrue(Integer horse_Id);
+
 }

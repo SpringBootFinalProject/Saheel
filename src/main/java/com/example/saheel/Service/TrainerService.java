@@ -1,8 +1,10 @@
 package com.example.saheel.Service;
 
 import com.example.saheel.Api.ApiException;
+import com.example.saheel.Model.StableOwner;
 import com.example.saheel.Model.Trainer;
 import com.example.saheel.Model.Stable;
+import com.example.saheel.Repository.StableOwnerRepository;
 import com.example.saheel.Repository.StableRepository;
 import com.example.saheel.Repository.TrainerRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ public class TrainerService {
 
     private TrainerRepository trainerRepository;
 
+    private StableOwnerRepository stableOwnerRepository;
     private StableRepository stableRepository;
 
     //get Trainer by ID - Abeer
@@ -25,16 +28,82 @@ public class TrainerService {
         return trainer;
     }
 
-    // add Trainer - Abeer
-    public void addTrainer(Integer stable_Id , Trainer trainer){
-        Stable stable = stableRepository.findStableById(stable_Id);
-        if (stable == null){
-            throw new ApiException("Error : stable is not fond");
+    public Trainer searchByTrainerName(Integer stableOwner_Id ,String fullName){
+
+        StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
+        if (stableOwner == null) {
+            throw new ApiException("Error : stable owner is not found");
         }
+        Trainer trainer = trainerRepository.findTrainerByFullName(fullName);
+        if (trainer == null){
+            throw new ApiException("Error : Trainer is not found");
+        }
+
+        return trainer;
+    }
+
+    // add Trainer - Abeer
+    public void addTrainer(Integer stableOwner_Id  ,Integer stable_Id, Trainer trainer) {
+        Stable stable = stableRepository.findStableById(stable_Id);
+        if (stable == null) {
+            throw new ApiException("Error : Stable is not found");
+        }
+
+        // Check that this stable belongs to the registered owner.
+        if (!stable.getStableOwner().getId().equals(stableOwner_Id)) {
+            throw new ApiException("Unauthorized error: This stable does not belong to the logged-in stable owner");
+        }
+
+
         trainerRepository.save(trainer);
     }
+
+    //assign trainer to stable by stable owner - Abeer
+    public void assignTrainerToStable(Integer stableOwner_Id,Integer stable_Id, Integer trainer_Id) {
+
+        Stable stable = stableRepository.findStableById(stable_Id);
+        if (stable == null) {
+           throw new ApiException ("Error : Stable is not found");
+        }
+
+        // Check that this stable belongs to the registered owner.
+        if (!stable.getStableOwner().getId().equals(stableOwner_Id)) {
+            throw new ApiException("Error : You are not the owner of this stable");
+        }
+
+        Trainer trainer = trainerRepository.findTrainerById(trainer_Id);
+        if (trainer == null) {
+           throw  new ApiException("Error : Trainer is not found");
+        }
+
+        trainer.setStable(stable);
+        trainerRepository.save(trainer);
+    }
+
+    //move Trainer To Another Stable -Abeer
+    public void moveTrainerToAnotherStable(Integer stableOwner_Id, Integer trainer_Id, Integer stable_Id) {
+
+        Trainer trainer = trainerRepository.findTrainerById(trainer_Id);
+        if (trainer == null) {
+            throw new ApiException("Error Trainer is not found");
+        }
+
+        Stable newStable = stableRepository.findStableById(stable_Id);
+        if (newStable == null) {
+            throw new ApiException("Target stable not found");
+        }
+
+        // Check that this stable belongs to the registered owner.
+        if (!newStable.getStableOwner().getId().equals(stableOwner_Id)) {
+            throw new ApiException("Error : You are not the owner of this stable");
+        }
+
+        trainer.setStable(newStable);
+        trainerRepository.save(trainer);
+    }
+
     //update Trainer - Abeer
-    public void updateTrainer( Integer stable_Id ,Integer trainer_Id, Trainer trainer ) {
+    public void updateTrainer(Integer stableOwner_Id ,Integer stable_Id ,Integer trainer_Id, Trainer trainer ) {
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null){
             throw new ApiException("Error : stable is not fond");
@@ -45,18 +114,34 @@ public class TrainerService {
             throw new ApiException("Error: Trainer not found");
         }
 
+        if (!stable.getStableOwner().getId().equals(stableOwner_Id)) {
+            throw new ApiException("Unauthorized: This stable does not belong to the logged-in stable owner");
+        }
+
+        oldTrainer.setUsername(trainer.getUsername());
+        oldTrainer.setFullName(trainer.getFullName());
         oldTrainer.setAge(trainer.getAge());
         oldTrainer.setEmail(trainer.getEmail());
-        //...
-        trainerRepository.save(trainer);
+        oldTrainer.setMembershipNumber(trainer.getMembershipNumber());
+        oldTrainer.setSpecialty(trainer.getSpecialty());
+        oldTrainer.setYearsOfExperience(trainer.getYearsOfExperience());
+        oldTrainer.setRating(trainer.getRating());
+
+        trainerRepository.save(oldTrainer);
     }
 
     //delete Trainer - Abeer
-    public void deleteTrainer(Integer trainer_Id) {
+    public void deleteTrainer(Integer stableOwner_Id , Integer trainer_Id) {
         Trainer trainer = trainerRepository.findTrainerById(trainer_Id);
         if (trainer == null) {
             throw new ApiException("Error: Trainer not found");
         }
+
+        Stable stable = trainer.getStable();
+        if (stable == null || !stable.getStableOwner().getId().equals(stableOwner_Id)) {
+            throw new ApiException("Error: You do not have permission to delete this trainer");
+        }
+
         trainerRepository.delete(trainer);
     }
 }

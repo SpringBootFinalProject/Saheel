@@ -20,6 +20,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 public class Trainer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -30,7 +31,7 @@ public class Trainer {
 
 
     @NotEmpty(message = "The name can not be empty.")
-    @Column(columnDefinition = "varchar(20) not null")
+    @Column(columnDefinition = "varchar(20) not null unique")
     private String fullName;
 
     @NotNull(message = "The password can not be empty.")

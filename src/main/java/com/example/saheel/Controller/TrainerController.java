@@ -1,9 +1,12 @@
 package com.example.saheel.Controller;
 
+import com.example.saheel.Api.ApiException;
 import com.example.saheel.Model.Trainer;
+import com.example.saheel.Model.User;
 import com.example.saheel.Service.TrainerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,26 +22,45 @@ public class TrainerController {
         return ResponseEntity.ok(trainer);
     }
 
+    @GetMapping("/search-byName/{fullName}")
+    public ResponseEntity<Trainer> searchTrainerByName(@AuthenticationPrincipal User user, @PathVariable String fullName) {
+        Trainer trainer = trainerService.searchByTrainerName(user.getId(),fullName);
+        return ResponseEntity.ok(trainer);
+    }
 
 
     // Add trainer - Abeer
-    @PostMapping("/add/{stable_Id}")
-    public ResponseEntity<String> addTrainer(@PathVariable Integer stable_Id, @RequestBody Trainer trainer) {
-        trainerService.addTrainer(stable_Id, trainer);
-        return ResponseEntity.ok("Trainer added successfully");
+    @PostMapping("/add-trainer-to-stable/{stable_Id}")
+    public ResponseEntity<ApiException> addTrainer(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @RequestBody Trainer trainer) {
+        trainerService.addTrainer(user.getId(), stable_Id, trainer);
+        return ResponseEntity.ok(new ApiException("Trainer added successfully"));
+    }
+
+    //assign Trainer To Stable by stable owner - Abeer
+    @PostMapping("/assignTrainer/{trainer_Id}/ToStable/{stable_Id}")
+    public ResponseEntity<ApiException> assignTrainerToStable(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer trainer_Id) {
+        trainerService.assignTrainerToStable(user.getId(), stable_Id,trainer_Id);
+        return ResponseEntity.ok(new ApiException("Trainer assign successfully"));
+    }
+
+    //move Trainer To Stable by stable owner - Abeer
+    @PostMapping("/moveTrainer/{trainer_Id}/ToStable/{stable_Id}")
+    public ResponseEntity<ApiException> moveTrainerToAnotherStable(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer trainer_Id) {
+        trainerService.moveTrainerToAnotherStable(user.getId(), stable_Id,trainer_Id);
+        return ResponseEntity.ok(new ApiException("Trainer assign successfully"));
     }
 
     // Update trainer - Abeer
-    @PutMapping("/update/{stable_Id}/{trainer_Id}")
-    public ResponseEntity<String> updateTrainer(@PathVariable Integer stable_Id, @PathVariable Integer trainer_Id, @RequestBody Trainer trainer) {
-        trainerService.updateTrainer(stable_Id, trainer_Id, trainer);
-        return ResponseEntity.ok("Trainer updated successfully");
+    @PutMapping("/update-trainer/{trainer_Id}/by-stable/{stable_Id}")
+    public ResponseEntity<ApiException> updateTrainer( @AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer trainer_Id, @RequestBody Trainer trainer) {
+        trainerService.updateTrainer(user.getId(), stable_Id, trainer_Id, trainer);
+        return ResponseEntity.ok(new ApiException("Trainer updated successfully"));
     }
 
     // Delete trainer - Abeer
-    @DeleteMapping("/delete/{trainer_Id}")
-    public ResponseEntity<String> deleteTrainer(@PathVariable Integer trainer_Id) {
-        trainerService.deleteTrainer(trainer_Id);
-        return ResponseEntity.ok("Trainer deleted successfully");
+    @DeleteMapping("/delete-trainer/{trainer_Id}")
+    public ResponseEntity<ApiException> deleteTrainer(@AuthenticationPrincipal User user, @PathVariable Integer trainer_Id) {
+        trainerService.deleteTrainer(user.getId(), trainer_Id);
+        return ResponseEntity.ok(new ApiException("Trainer deleted successfully"));
     }
 }

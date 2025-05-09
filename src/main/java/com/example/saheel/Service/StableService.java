@@ -4,12 +4,9 @@ import com.example.saheel.Api.ApiException;
 import com.example.saheel.Model.*;
 import com.example.saheel.Repository.StableOwnerRepository;
 import com.example.saheel.Repository.StableRepository;
+import com.example.saheel.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -19,6 +16,7 @@ public class StableService {
 
     private final StableRepository stableRepository;
 
+    private final UserRepository userRepository;
     private final StableOwnerRepository stableOwnerRepository;
 
     public List<Stable> getOwnerHorses() {
@@ -62,10 +60,18 @@ public class StableService {
 
     //delete stable
     public void deleteStable(Integer stableOwner_Id, Integer stable_Id) {
+        StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
+        if (stableOwner == null) {
+            throw new ApiException("Error: StableOwner not found");
+        }
+
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null) {
             throw new ApiException("Error : Stable is not found");
         }
+        User user = stableOwner.getUser();
+
+        userRepository.delete(user);
         stableRepository.delete(stable);
     }
 
