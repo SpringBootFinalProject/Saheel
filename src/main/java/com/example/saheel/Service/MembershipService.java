@@ -102,9 +102,9 @@ public class MembershipService {
     }
 
 
-    //#12//shen name
+    //#12
     // update Membership
-    public void renewMembership( Integer ownerId,Membership updatedMembership, Integer membershipId) {
+    public void renewMembership(Integer ownerId, Membership updatedMembership, Integer membershipId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
         if (owner == null) {
             throw new ApiException("Horse Owner not found");
@@ -144,14 +144,12 @@ public class MembershipService {
         membershipRepository.save(membership);
 
 
-
     }
-
 
 
     //#13
     // delete Membership
-    public void deleteMembership(Integer ownerId, Integer id, Integer stableId) {
+    public void cancelMembership(Integer ownerId, Integer id, Integer stableId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
         if (owner == null) {
             throw new ApiException("Horse Owner not found");
@@ -179,5 +177,12 @@ public class MembershipService {
 //        membershipRepository.delete(membership);
     }
 
+    // ( #21 of 50 endpoints)
+    // This method gets all memberships that are expired.
+    // A membership is expired if its end date is before today.
+    public List<Membership> getExpiredMemberships() {
+        LocalDate today = LocalDate.now();
+        return membershipRepository.findByEndDateBefore(today);
+    }
 
 }

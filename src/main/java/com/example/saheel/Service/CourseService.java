@@ -30,6 +30,7 @@ public class CourseService {
         return courseRepository.findCoursesByStable(stable);
     }
 
+//    #5
     public void addCourseByOwner(Integer stableOwnerId, Integer stableId, Course course) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
@@ -40,6 +41,9 @@ public class CourseService {
         // Check if the stable belongs to the owner.
         checkIfStableBelongsToOwner(stable, stableOwner);
 
+        if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
+            throw new ApiException("Your account is not approved. Please wait for admin approval.");
+        }
         // Check if the trainer available.
         if (courseRepository.findCoursesByTrainer(course.getTrainer()).isEmpty())
             throw new ApiException("Trainer not available.");
@@ -106,6 +110,7 @@ public class CourseService {
         // Save
         courseRepository.save(course);
     }
+
 
     public void changeEnrollmentsCourseStatus(List<CourseEnrollment> courseEnrollments){
         for (CourseEnrollment courseEnrollment : courseEnrollments) courseEnrollment.setCourseCanceled(true);

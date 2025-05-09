@@ -33,6 +33,9 @@ public class BreederService {
         if (stableOwner == null) {
             throw new ApiException("Error : stable owner is not found");
         }
+        if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
+            throw new ApiException("Your account is not approved. Please wait for admin approval.");
+        }
         Breeder breeder = breederRepository.findBreederByFullName(fullName);
         if (breeder == null){
             throw new ApiException("Error : breeder is not found");

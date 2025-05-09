@@ -35,14 +35,11 @@ public class StableReviewController {
         return ResponseEntity.status(200).body(new ApiResponse("Review added"));
     }
 
-
-
-
     // Update Review
     @PutMapping("/update/{reviewId}")
     public ResponseEntity<?> updateReview(@AuthenticationPrincipal User user,
                                           @RequestBody StableReview review, @PathVariable Integer reviewId) {
-     stableReviewService.updateReview(reviewId, review ,user.getId());
+        stableReviewService.updateReview(reviewId, review, user.getId());
 
         return ResponseEntity.status(200).body(new ApiResponse("Review Updated"));
     }
@@ -50,8 +47,15 @@ public class StableReviewController {
     // Delete Review
     @DeleteMapping("/delete/{reviewId}")
     public ResponseEntity<?> deleteReview(@AuthenticationPrincipal User user, @PathVariable Integer reviewId) {
- stableReviewService.deleteReview(reviewId, user.getId());
+        stableReviewService.deleteReview(reviewId, user.getId());
         return ResponseEntity.status(200).body(new ApiResponse("Review Deleted"));
+    }
+
+    // ( #22 of 50 endpoints)
+    // The reviews are sorted from best rating to worst rating.
+    @GetMapping("/reviews/sorted")
+    public ResponseEntity<List<StableReview>> getSortedReviews() {
+        return ResponseEntity.ok(stableReviewService.getAllReviewsSortedByRating());
     }
 
 }

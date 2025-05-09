@@ -37,5 +37,9 @@ public class StableOwnerDTO {
     @Pattern(regexp = "\\+\\d{12}", message = "Phone number must start with the country code followed by 9 digits.")
     private String phoneNumber;
 
+    private Boolean isApproved = false;
+
+
+
 
 }

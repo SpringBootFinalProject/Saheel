@@ -20,22 +20,27 @@ public class TrainerService {
     private StableRepository stableRepository;
 
     //get Trainer by ID - Abeer
-    public Trainer getTrainerById(Integer trainer_Id){
+    public Trainer getTrainerById(Integer trainer_Id) {
         Trainer trainer = trainerRepository.findTrainerById(trainer_Id);
-        if (trainer == null){
+        if (trainer == null) {
             throw new ApiException("Error : Trainer is not found");
         }
         return trainer;
     }
 
-    public Trainer searchByTrainerName(Integer stableOwner_Id ,String fullName){
+    public Trainer searchByTrainerName(Integer stableOwner_Id, String fullName) {
 
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
         if (stableOwner == null) {
             throw new ApiException("Error : stable owner is not found");
         }
+
+        if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
+            throw new ApiException("Your account is not approved. Please wait for admin approval.");
+        }
+
         Trainer trainer = trainerRepository.findTrainerByFullName(fullName);
-        if (trainer == null){
+        if (trainer == null) {
             throw new ApiException("Error : Trainer is not found");
         }
 
@@ -43,7 +48,7 @@ public class TrainerService {
     }
 
     // add Trainer - Abeer
-    public void addTrainer(Integer stableOwner_Id  ,Integer stable_Id, Trainer trainer) {
+    public void addTrainer(Integer stableOwner_Id, Integer stable_Id, Trainer trainer) {
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null) {
             throw new ApiException("Error : Stable is not found");
@@ -59,7 +64,7 @@ public class TrainerService {
     }
 
     //assign trainer to stable by stable owner - Abeer
-    public void assignTrainerToStable(Integer stableOwner_Id,Integer stable_Id, Integer trainer_Id) {
+    public void assignTrainerToStable(Integer stableOwner_Id, Integer stable_Id, Integer trainer_Id) {
 
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null) {
@@ -83,9 +88,9 @@ public class TrainerService {
 
 
     //update Trainer - Abeer
-    public void updateTrainer(Integer stableOwner_Id ,Integer stable_Id ,Integer trainer_Id, Trainer trainer ) {
+    public void updateTrainer(Integer stableOwner_Id, Integer stable_Id, Integer trainer_Id, Trainer trainer) {
         Stable stable = stableRepository.findStableById(stable_Id);
-        if (stable == null){
+        if (stable == null) {
             throw new ApiException("Error : stable is not fond");
         }
 
@@ -111,7 +116,7 @@ public class TrainerService {
     }
 
     //delete Trainer - Abeer
-    public void deleteTrainer(Integer stableOwner_Id , Integer trainer_Id) {
+    public void deleteTrainer(Integer stableOwner_Id, Integer trainer_Id) {
         Trainer trainer = trainerRepository.findTrainerById(trainer_Id);
         if (trainer == null) {
             throw new ApiException("Error: Trainer not found");

@@ -22,6 +22,7 @@ public class CourseEnrollmentService {
     private StableOwnerRepository stableOwnerRepository;
     private final CustomerRepository customerRepository;
 
+    //    #2
     public List<CourseEnrollment> getAllCourseEnrollmentByStableOwner(Integer stableOwnerId, Integer courseId) {
         // Get the owner object and check if it's in the database.
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwnerId);
@@ -38,6 +39,7 @@ public class CourseEnrollmentService {
         return courseEnrollmentRepository.findCourseEnrollmentByCourse(course);
     }
 
+    //    #3
     public void enrollToCourse(Integer customerId, Integer courseId) {
         // Get the owner object and check if it's in the database.
         Customer customer = getCustomerOrThrow(customerId);

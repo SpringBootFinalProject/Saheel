@@ -35,7 +35,6 @@ public class MembershipController {
         return ResponseEntity.status(200).body(new ApiResponse("Membership added"));
     }
 
-    // update Membership
     @PutMapping("/renew/{id}")
     public ResponseEntity<?> renewMembership(@AuthenticationPrincipal User user, @PathVariable Integer id, @RequestBody Membership membership) {
         membershipService.renewMembership(user.getId(), membership, id);
@@ -44,9 +43,18 @@ public class MembershipController {
 
     // delete Membership
     @DeleteMapping("/delete/{membershipId}/{stableId}")
-    public ResponseEntity<?> deleteMembership(@AuthenticationPrincipal User user, @PathVariable Integer membershipId, @PathVariable Integer stableId) {
-        membershipService.deleteMembership(user.getId(), stableId, membershipId);
+    public ResponseEntity<?> cancelMembership(@AuthenticationPrincipal User user, @PathVariable Integer membershipId, @PathVariable Integer stableId) {
+        membershipService.cancelMembership(user.getId(), stableId, membershipId);
         return ResponseEntity.status(200).body(new ApiResponse("Membership deleted"));
+    }
+
+    // ( #21 of 50 endpoints. )
+    // This method gets all memberships that are expired.
+    // A membership is expired if its end date is before today.
+    @GetMapping("/expired")
+    public ResponseEntity<List<Membership>> getExpiredMemberships() {
+        List<Membership> expired = membershipService.getExpiredMemberships();
+        return ResponseEntity.ok(expired);
     }
 
 }
