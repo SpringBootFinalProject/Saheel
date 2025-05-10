@@ -41,4 +41,7 @@ public class CourseEnrollment {
     @ManyToOne
     @JsonIgnore
     private Course course;
+
+    @OneToOne(mappedBy = "courseEnrollment", cascade = CascadeType.ALL)
+    private Invoice invoice;
 }

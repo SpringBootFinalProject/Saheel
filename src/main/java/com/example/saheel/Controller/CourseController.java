@@ -24,9 +24,9 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getStableCourses(stableId));
     }
 
-    @PostMapping("/add-course-by-stable-owner/{stableId}")
-    public ResponseEntity<ApiResponse> addCourseByOwner(@AuthenticationPrincipal User user, @PathVariable Integer stableId, @RequestBody Course course) {
-        courseService.addCourseByOwner(user.getId(), stableId, course);
+    @PostMapping("/add-course-by-stable-owner/{stableId}/{trainerId}")
+    public ResponseEntity<ApiResponse> addCourseByOwner(@AuthenticationPrincipal User user, @PathVariable Integer stableId, @PathVariable Integer trainerId, @RequestBody Course course) {
+        courseService.addCourseByOwner(user.getId(), stableId, trainerId, course);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course added successfully."));
     }
 

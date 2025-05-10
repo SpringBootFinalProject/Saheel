@@ -58,4 +58,13 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponse("Welcome emails have been sent to new members."));
     }
 
+    // ( #18 of 50 endpoints )
+    // This method finds the horse owner who owns the most horses.
+    // It can return more than one owner if they have the same number of horses.
+    @GetMapping("/most-horses")
+    public ResponseEntity<List<HorseOwner>> getHorseOwnersWithMostHorses() {
+        List<HorseOwner> result = adminService.getOwnersWithMostHorses();
+        return ResponseEntity.ok(result);
+    }
+
 }

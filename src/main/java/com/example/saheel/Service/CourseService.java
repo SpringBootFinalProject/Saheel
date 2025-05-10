@@ -2,13 +2,11 @@
 package com.example.saheel.Service;
 
 import com.example.saheel.Api.ApiException;
-import com.example.saheel.Model.Course;
-import com.example.saheel.Model.CourseEnrollment;
-import com.example.saheel.Model.Stable;
-import com.example.saheel.Model.StableOwner;
+import com.example.saheel.Model.*;
 import com.example.saheel.Repository.CourseRepository;
 import com.example.saheel.Repository.StableOwnerRepository;
 import com.example.saheel.Repository.StableRepository;
+import com.example.saheel.Repository.TrainerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +19,7 @@ public class CourseService {
     private final StableOwnerRepository stableOwnerRepository;
     private final StableRepository stableRepository;
     private final HelperService helperService;
+    private final TrainerRepository trainerRepository;
 
     //7
     public List<Course> getStableCourses(Integer stableId) {
@@ -32,8 +31,11 @@ public class CourseService {
     }
 
 
+
     // ( #5 of 50 endpoints )
-    public void addCourseByOwner(Integer stableOwnerId, Integer stableId, Course course) {
+
+//    #5
+    public void addCourseByOwner(Integer stableOwnerId, Integer stableId, Integer trainerId, Course course) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
 
@@ -42,6 +44,13 @@ public class CourseService {
 
         // Check if the stable belongs to the owner.
         checkIfStableBelongsToOwner(stable, stableOwner);
+
+        // Get the trainer and check if it's in the database.
+        Trainer trainer = trainerRepository.findTrainerById(trainerId);
+        if(trainer == null) throw new ApiException("Trainer not found.");
+
+        // Assign the trainer to the course.
+        course.setTrainer(trainer);
 
         if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
             throw new ApiException("Your account is not approved. Please wait for admin approval.");
