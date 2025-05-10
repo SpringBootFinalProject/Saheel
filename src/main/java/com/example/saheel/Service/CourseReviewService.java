@@ -41,6 +41,13 @@ public class CourseReviewService {
         if (!courseReviewRepository.findCourseReviewsByCourseAndCustomer(course, customer).isEmpty())
             throw new ApiException("Customer can not make more than one review");
 
+        // Rate the course.
+        course.setTotalRating(course.getTotalRating() + courseReview.getRating());
+        course.setTotalNumberOfRatings(course.getTotalNumberOfRatings()+1);
+
+        //Rate the trainer
+        course.getTrainer().setTotalRating(course.getTrainer().getTotalRating()+courseReview.getRating());
+        course.getTrainer().setTotalNumberOfRatings(course.getTrainer().getTotalNumberOfRatings()+1);
 
         // Set the customer
         courseReview.setCustomer(customer);

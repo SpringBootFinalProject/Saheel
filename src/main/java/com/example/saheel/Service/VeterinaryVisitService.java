@@ -26,31 +26,6 @@ public class VeterinaryVisitService {
         return recycleItem;
     }
 
-    // add VeterinaryVisit - Abeer
-    public void addVeterinaryVisit(Integer veterinary_Id, VeterinaryVisit veterinaryVisit){
-        Veterinary veterinary = veterinaryRepository.findVeterinaryById(veterinary_Id);
-        if (veterinary == null){
-            throw new ApiException("Error : Veterinary is not found");
-        }
-       veterinaryVisitRepository.save(veterinaryVisit);
-    }
-
-    //update VeterinaryVisit - Abeer
-    public void updateVeterinaryVisit(Integer veterinary_Id,Integer veterinaryVisit_Id, VeterinaryVisit veterinaryVisit) {
-        Veterinary oldVeterinary = veterinaryRepository.findVeterinaryById(veterinary_Id);
-        if (oldVeterinary == null) {
-            throw new ApiException("Error: Veterinary not found");
-        }
-        VeterinaryVisit oldVeterinaryVisit = veterinaryVisitRepository.findVeterinaryVisitById(veterinaryVisit_Id);
-        if (oldVeterinaryVisit == null ){
-            throw new ApiException("Error : VeterinaryVisit is not found");
-        }
-//        oldVeterinaryVisit.setDate(veterinaryVisit.getDate());
-//        oldVeterinaryVisit.setPrice(veterinaryVisit.getPrice());
-        //oldVeterinaryVisit.setDurationInMinute(veterinaryVisit.getDurationInMinute());
-        veterinaryVisitRepository.save(veterinaryVisit);
-    }
-
     //delete  VeterinaryVisit - Abeer
     public void deleteVeterinaryVisit(Integer veterinaryVisit_Id) {
         VeterinaryVisit veterinaryVisit = veterinaryVisitRepository.findVeterinaryVisitById(veterinaryVisit_Id);
