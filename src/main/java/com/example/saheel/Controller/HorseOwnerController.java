@@ -42,13 +42,6 @@ public class HorseOwnerController {
         return ResponseEntity.status(200).body(new ApiResponse("Horse owner deleted"));
     }
 
-    // ( #18 of 50 endpoints )
-    // This method finds the horse owner who owns the most horses.
-    // It can return more than one owner if they have the same number of horses.
-    @GetMapping("/most-horses")
-    public ResponseEntity<List<HorseOwner>> getHorseOwnersWithMostHorses() {
-        List<HorseOwner> result = horseOwnerService.getOwnersWithMostHorses();
-        return ResponseEntity.ok(result);
-    }
+
 
 }
