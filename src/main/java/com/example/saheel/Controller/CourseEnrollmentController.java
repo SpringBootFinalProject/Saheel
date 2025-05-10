@@ -18,14 +18,21 @@ import java.util.List;
 public class CourseEnrollmentController {
     private final CourseEnrollmentService courseEnrollmentService;
 
-    @GetMapping("/get--course-enrollments/{courseId}")
+    @GetMapping("/get-course-enrollments/{courseId}")
     public ResponseEntity<List<CourseEnrollment>> getAllCourseEnrollmentByStableOwner(@AuthenticationPrincipal User user, @PathVariable Integer courseId) {
         return ResponseEntity.status(HttpStatus.OK).body(courseEnrollmentService.getAllCourseEnrollmentByStableOwner(user.getId(), courseId));
     }
 
-    @PostMapping("/add-courseEnrollment-by-stable-owner/{courseId}")
+    @PostMapping("/enroll-to-course/{courseId}")
     public ResponseEntity<ApiResponse> enrollToCourse(@AuthenticationPrincipal User user, @PathVariable Integer courseId) {
         courseEnrollmentService.enrollToCourse(user.getId(), courseId);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Customer Enrolled successfully."));
+    }
+
+    @PutMapping("/cancel-enrollment/{courseEnrollmentId}")
+    public ResponseEntity<ApiResponse> cancelEnrollment(@AuthenticationPrincipal User user, @PathVariable Integer courseEnrollmentId){
+        courseEnrollmentService.cancelEnrollment(user.getId(), courseEnrollmentId);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Enrollment canceled successfully."));
+
     }
 }
