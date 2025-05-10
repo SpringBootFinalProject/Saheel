@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -18,4 +19,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     @Query("select c from Course c where c.trainer = ?1 and c.courseCanceled = false")
     List<Course> findCoursesByTrainer(Trainer trainer);
+
+    List<Course> getCoursesByDateBetween(LocalDateTime dateAfter, LocalDateTime dateBefore);
 }

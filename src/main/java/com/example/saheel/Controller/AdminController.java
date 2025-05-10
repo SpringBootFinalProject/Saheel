@@ -2,9 +2,12 @@ package com.example.saheel.Controller;
 
 import com.example.saheel.Api.ApiResponse;
 import com.example.saheel.Model.HorseOwner;
+import com.example.saheel.Model.StableOwner;
 import com.example.saheel.Model.User;
 import com.example.saheel.Service.AdminService;
+import com.example.saheel.Service.StableOwnerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
     private final AdminService adminService;
+    private final StableOwnerService stableOwnerService;
 
 
 
@@ -59,6 +63,11 @@ public class AdminController {
     public ResponseEntity<?> sendWelcomeToNewMembers(@AuthenticationPrincipal User user) {
         adminService.sendWelcomeEmailsToNewMembers(user.getId());
         return ResponseEntity.ok(new ApiResponse("Welcome emails have been sent to new members."));
+    }
+
+    @GetMapping("/get-unapproved-stable-owners")
+    public ResponseEntity<List<StableOwner>> getUnapprovedStableOwners(@AuthenticationPrincipal User user){
+        return ResponseEntity.status(HttpStatus.OK).body(stableOwnerService.getUnapprovedStableOwners(user.getId()));
     }
 
 

@@ -2,10 +2,13 @@ package com.example.saheel.Controller;
 
 import com.example.saheel.Api.ApiResponse;
 import com.example.saheel.DTO.StableOwnerDTO;
+import com.example.saheel.Model.Invoice;
 import com.example.saheel.Model.StableOwner;
 import com.example.saheel.Model.User;
+import com.example.saheel.Service.InvoiceService;
 import com.example.saheel.Service.StableOwnerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,7 @@ import java.util.List;
 public class StableOwnerController {
 
     private final StableOwnerService stableOwnerService;
+    private final InvoiceService invoiceService;
 
 
     // Get stableOwner by ID - Abeer
@@ -47,6 +51,11 @@ public class StableOwnerController {
     public ResponseEntity<ApiResponse> deleteStableOwner(@AuthenticationPrincipal User user) {
         stableOwnerService.deleteStableOwner(user.getId());
         return ResponseEntity.ok(new ApiResponse("Stable owner deleted successfully"));
+    }
+
+    @GetMapping("/get-pending-invoices{stableId}")
+    public ResponseEntity<List<Invoice>> getPendingInvoices(@AuthenticationPrincipal User user, @PathVariable Integer stableId){
+        return ResponseEntity.status(HttpStatus.OK).body(invoiceService.getPendingEnrollmentInvoices(user.getId(), stableId));
     }
 
 

@@ -2,6 +2,7 @@ package com.example.saheel.Service;
 
 import com.example.saheel.Api.ApiException;
 import com.example.saheel.DTO.StableOwnerDTO;
+import com.example.saheel.Model.Stable;
 import com.example.saheel.Model.StableOwner;
 import com.example.saheel.Model.User;
 import com.example.saheel.Repository.StableOwnerRepository;
@@ -10,6 +11,8 @@ import com.example.saheel.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -95,6 +98,12 @@ public class StableOwnerService {
 
         userRepository.delete(user);
         stableOwnerRepository.delete(stableOwner);
+    }
+
+    public List<StableOwner> getUnapprovedStableOwners(Integer adminId){
+        User admin = userRepository.findUserById(adminId);
+        if(admin == null) throw new ApiException("Admin not found.");
+        return stableOwnerRepository.findUnapprovedStableOwners();
     }
 
 
