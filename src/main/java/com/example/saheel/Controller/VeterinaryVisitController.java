@@ -20,12 +20,12 @@ public class VeterinaryVisitController {
         return ResponseEntity.ok(visit);
     }
 
-    // Add VeterinaryVisit - Abeer
-    @PostMapping("/add/{veterinary_Id}")
-    public ResponseEntity<ApiResponse> addVeterinaryVisit(@PathVariable Integer veterinary_Id, @RequestBody VeterinaryVisit veterinaryVisit) {
-        veterinaryVisitService.addVeterinaryVisit(veterinary_Id, veterinaryVisit);
-        return ResponseEntity.ok(new ApiResponse("Veterinary visit added successfully"));
-    }
+//    // Add VeterinaryVisit - Abeer
+//    @PostMapping("/add/{veterinary_Id}")
+//    public ResponseEntity<ApiResponse> addVeterinaryVisit(@PathVariable Integer veterinary_Id, @RequestBody VeterinaryVisit veterinaryVisit) {
+//        veterinaryVisitService.addVeterinaryVisit(veterinary_Id, veterinaryVisit);
+//        return ResponseEntity.ok(new ApiResponse("Veterinary visit added successfully"));
+//    }
 
     // Update VeterinaryVisit - Abeer
     @PutMapping("/update/{veterinary_Id}/{veterinaryVisit_Id}")
