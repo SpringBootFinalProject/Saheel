@@ -22,7 +22,7 @@ public class HorseService {
     private final HorseOwnerRepository horseOwnerRepository;
     private final MembershipRepository membershipRepository;
 
-    //
+    //14
     public List<Horse> getOwnerHorses(Integer horseOwnerId) {
         // Get the horse owner and check if it's in the database.
         HorseOwner horseOwner = getHorseOwnerOrThrow(horseOwnerId);

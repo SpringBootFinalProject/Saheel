@@ -26,7 +26,8 @@ public class BreederService {
         }
         return breeder;
     }
-
+    //( #39 of 50 endpoints)
+    //search Breeder By Name
     public Breeder searchBreederByName(Integer stableOwner_Id , String fullName){
 
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);

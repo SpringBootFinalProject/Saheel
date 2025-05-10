@@ -26,7 +26,8 @@ public class VeterinaryService {
 
         return veterinary;
     }
-
+    //( #38 of 50 endpoints)
+    //search Veterinary By Name
     public Veterinary searchVeterinaryByName(Integer stableOwner_Id ,String fullName){
 
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);

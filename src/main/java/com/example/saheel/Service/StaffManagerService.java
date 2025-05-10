@@ -4,7 +4,6 @@ import com.example.saheel.Api.ApiException;
 import com.example.saheel.Model.*;
 import com.example.saheel.Repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +20,7 @@ public class StaffManagerService {
     private final MembershipRepository membershipRepository;
 
 
+    //( #30 of 50 endpoints)
     //move breeder To Another Stable -Abeer
     public void moveBreederToAnotherStable(Integer stableOwner_Id, Integer breeder_Id, Integer stable_Id) {
 
@@ -43,6 +43,8 @@ public class StaffManagerService {
         breederRepository.save(breeder);
     }
 
+    //( #31 of 50 endpoints)
+//to assignBreederToHorse -Abeer
     public void assignBreederToHorse(Integer breeder_Id, Integer horse_Id) {
 
         Membership membership = membershipRepository.findByHorsesIdAndIsActiveTrue(horse_Id);
@@ -70,6 +72,7 @@ public class StaffManagerService {
     }
 
 
+    //( #32 of 50 endpoints)
     //move Trainer To Another Stable -Abeer
     public void moveTrainerToAnotherStable(Integer stableOwner_Id, Integer trainer_Id, Integer stable_Id) {
 
@@ -92,7 +95,7 @@ public class StaffManagerService {
         trainerRepository.save(trainer);
     }
 
-
+    //( #33 of 50 endpoints)
     //move veterinary To Another Stable -Abeer
     public void moveVeterinaryToAnotherStable(Integer stableOwner_Id, Integer veterinary_Id, Integer stable_Id) {
 
@@ -115,6 +118,8 @@ public class StaffManagerService {
         veterinaryRepository.save(veterinary);
     }
 
+    //( #34 of 50 endpoints)
+//assign veterinary it horse-Abeer
     public void assignVeterinaryToHorse(Integer veterinary_Id, Integer horse_Id) {
 
         Membership membership = membershipRepository.findByHorsesIdAndIsActiveTrue(horse_Id);
@@ -140,6 +145,9 @@ public class StaffManagerService {
         horseRepository.save(horse);
     }
 
+    //( #35 of 50 endpoints)
+
+    //get list of trainer is active
     public List<Trainer> getAvailableTrainer() {
         List<Trainer> trainers = trainerRepository.findTrainersByIsActiveTrue();
 
@@ -147,5 +155,16 @@ public class StaffManagerService {
             throw new ApiException("Error: No active trainers found");
         }
         return trainers;
+    }
+
+    //( #36 of 50 endpoints)
+//get list of hours by veterinary
+    public List<Horse> getHorsesByVeterinary(Integer veterinary_Id){
+        List<Horse> horses = horseRepository.findHorsesByVeterinaryId(veterinary_Id);
+        if (horses.isEmpty()) {
+            throw new ApiException("Error: no horses to thes veterinary");
+        }
+
+        return horses;
     }
 }

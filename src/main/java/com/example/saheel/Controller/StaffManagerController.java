@@ -1,8 +1,10 @@
 package com.example.saheel.Controller;
 
 import com.example.saheel.Api.ApiException;
+import com.example.saheel.Model.Horse;
 import com.example.saheel.Model.Trainer;
 import com.example.saheel.Model.User;
+import com.example.saheel.Repository.HorseRepository;
 import com.example.saheel.Service.StaffManagerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StaffManagerController {
     private final StaffManagerService staffManagerService;
+    private final HorseRepository horseRepository;
 
 
     //move Trainer To Stable by stable owner - Abeer
@@ -58,5 +61,14 @@ public class StaffManagerController {
         List<Trainer> trainers = staffManagerService.getAvailableTrainer();
         return ResponseEntity.ok(trainers);
     }
+
+    // Get all horses to veterinary
+    @GetMapping("/allHorseToVeterinary/{veterinary_Id}")
+    public ResponseEntity<List<Horse>> getAllHorsesByVeterinary(@PathVariable Integer veterinary_Id) {
+        List<Horse> horses = staffManagerService.getHorsesByVeterinary(veterinary_Id);
+        return ResponseEntity.ok(horses);
+    }
+
+
 
 }

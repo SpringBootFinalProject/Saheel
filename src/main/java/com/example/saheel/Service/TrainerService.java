@@ -28,6 +28,8 @@ public class TrainerService {
         return trainer;
     }
 
+    //( #37 of 50 endpoints)
+// to search By Trainer Name by stable owner
     public Trainer searchByTrainerName(Integer stableOwner_Id, String fullName) {
 
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
@@ -63,6 +65,7 @@ public class TrainerService {
         trainerRepository.save(trainer);
     }
 
+    //( # of 50 endpoints)####
     //assign trainer to stable by stable owner - Abeer
     public void assignTrainerToStable(Integer stableOwner_Id, Integer stable_Id, Integer trainer_Id) {
 

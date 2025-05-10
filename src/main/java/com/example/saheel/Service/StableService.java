@@ -35,7 +35,8 @@ public class StableService {
         return stable;
     }
 
-    //add stable - Abeer
+     //( #29 of 50 endpoints)
+    //add stable to stable owner- Abeer
     public void addStable(User user,Stable stable){
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerByUser(user);
         if (stableOwner == null ){

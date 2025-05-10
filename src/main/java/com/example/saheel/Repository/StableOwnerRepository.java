@@ -13,4 +13,7 @@ import java.util.List;
 public interface StableOwnerRepository extends JpaRepository<StableOwner , Integer> {
 
     StableOwner findStableOwnerById(Integer StableOwner_Id);
+    StableOwner findStableOwnerByUser(User user);
+
+
 }

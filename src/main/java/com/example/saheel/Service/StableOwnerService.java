@@ -55,7 +55,6 @@ public class StableOwnerService {
                 buildStableWelcomeEmail(stableOwnerDTO.getFullName())
         );
     }
-
     private String buildStableWelcomeEmail(String name) {
         return "أهلاً بك " + name + " في منصة صهيل!\n"
                 + "نحن سعداء بانضمامك إلينا كصاحب اسطبل.\n\n"
