@@ -6,12 +6,15 @@ import com.example.saheel.DTO.HorseOwnerDTO;
 import com.example.saheel.Model.HorseOwner;
 import com.example.saheel.Model.User;
 import com.example.saheel.Service.HorseOwnerService;
-import com.example.saheel.Service.HorseService;
+import com.example.saheel.Service.MembershipInvoiceService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
+
 
 import java.util.List;
 
@@ -20,6 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HorseOwnerController {
     private final HorseOwnerService horseOwnerService;
+    private final MembershipInvoiceService membershipInvoiceService;
 
 
     @PostMapping("/register")
@@ -40,6 +44,15 @@ public class HorseOwnerController {
     public ResponseEntity<?> deleteHorseOwner(@AuthenticationPrincipal User user) {
         horseOwnerService.deleteHorseOwner(user.getId());
         return ResponseEntity.status(200).body(new ApiResponse("Horse owner deleted"));
+    }
+    @GetMapping("/membership-invoice/pdf/{invoiceId}")
+    public ResponseEntity<byte[]> getMembershipInvoiceAsPdf(@AuthenticationPrincipal User user, @PathVariable Integer invoiceId) {
+        byte[] pdfBytes = membershipInvoiceService.getMembershipInvoicePdf(user.getId(), invoiceId);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=membership-invoice-" + invoiceId + ".pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdfBytes);
     }
 
 
