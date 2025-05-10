@@ -167,4 +167,14 @@ public class StaffManagerService {
 
         return horses;
     }
+    //( #40 of 50 endpoints)
+    //get list of hours by breeder
+    public List<Horse> getHorsesByBreeder(Integer breeder_Id){
+        List<Horse> horses = horseRepository.findHorsesByBreederId(breeder_Id);
+        if (horses.isEmpty()) {
+            throw new ApiException("Error: no horses to thes breder");
+        }
+
+        return horses;
+    }
 }

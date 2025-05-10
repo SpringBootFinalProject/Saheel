@@ -69,6 +69,15 @@ public class StaffManagerController {
         return ResponseEntity.ok(horses);
     }
 
+    // Get all horses to breeder
+    @GetMapping("/allHorseToBreeder/{breeder_Id}")
+    public ResponseEntity<List<Horse>> getAllHorsesByBreeder(@PathVariable Integer breeder_Id) {
+        List<Horse> horses = staffManagerService.getHorsesByBreeder(breeder_Id);
+        return ResponseEntity.ok(horses);
+    }
+
+
+
 
 
 }

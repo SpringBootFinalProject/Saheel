@@ -19,5 +19,6 @@ public interface HorseRepository extends JpaRepository<Horse, Integer> {
     List<Horse> findByHorseOwnerIdAndMembershipIsNull(Integer ownerId);
 
     List<Horse>findHorsesByVeterinaryId(Integer veterinary_Id);
+    List<Horse>findHorsesByBreederId(Integer breeder_Id);
 
 }
