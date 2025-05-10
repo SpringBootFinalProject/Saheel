@@ -38,7 +38,7 @@ public class CustomerService {
         userRepository.save(user);
 
         // Create the customer and save it.
-        Customer customer = new Customer(null, customerDtoIn.getLevel(), user, null, null);
+        Customer customer = new Customer(null, customerDtoIn.getLevel(), user, null, null, null);
         customerRepository.save(customer);
 
         // Set the user and save it.

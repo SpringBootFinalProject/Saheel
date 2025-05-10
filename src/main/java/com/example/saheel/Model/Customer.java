@@ -33,4 +33,7 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private Set<CourseReview> courseReviews;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
+    private Set<Invoice> invoices;
+
 }
