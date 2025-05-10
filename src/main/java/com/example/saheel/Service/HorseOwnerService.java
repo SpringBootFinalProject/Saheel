@@ -24,7 +24,7 @@ public class HorseOwnerService {
         return horseOwnerRepository.findAll();
     }
 
-    //#9
+    // ( #9 of 50 endpoints )
     // register HorseOwner
     public void registerHorseOwner(HorseOwnerDTO horseOwnerDTO) {
         // Create and configure the user account.

@@ -19,7 +19,7 @@ public class StableReviewService {
     private final HorseOwnerRepository horseOwnerRepository;
     private final StableRepository stableRepository;
 
-    //#15
+    // ( #15 of 50 endpoints )
     // Get all stable reviews
     public List<StableReview> getReviewsByStable(Integer stableId) {
         Stable stable = stableRepository.findStableById(stableId);
@@ -31,7 +31,7 @@ public class StableReviewService {
     }
 
 
-    //#16
+    // ( #16 of 50 endpoints )
     // add Review
     public void addReview(StableReview review, Integer horseOwnerId, Integer stableId) {
         // Get the horse owner and check

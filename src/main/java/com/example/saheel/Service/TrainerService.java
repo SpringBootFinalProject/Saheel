@@ -14,10 +14,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TrainerService {
 
-    private TrainerRepository trainerRepository;
 
-    private StableOwnerRepository stableOwnerRepository;
-    private StableRepository stableRepository;
+
+    private final TrainerRepository trainerRepository;
+    private final StableOwnerRepository stableOwnerRepository;
+    private final StableRepository stableRepository;
 
     //get Trainer by ID - Abeer
     public Trainer getTrainerById(Integer trainer_Id) {
@@ -28,6 +29,9 @@ public class TrainerService {
         return trainer;
     }
 
+
+    //( #37 of 50 endpoints)
+// to search By Trainer Name by stable owner
     public Trainer searchByTrainerName(Integer stableOwner_Id, String fullName) {
 
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
@@ -47,6 +51,7 @@ public class TrainerService {
         return trainer;
     }
 
+
     // add Trainer - Abeer
     public void addTrainer(Integer stableOwner_Id, Integer stable_Id, Trainer trainer) {
         Stable stable = stableRepository.findStableById(stable_Id);
@@ -63,12 +68,17 @@ public class TrainerService {
         trainerRepository.save(trainer);
     }
 
+
+    // ( #33 of 50 endpoints )
+
+    //( # of 50 endpoints)####
+
     //assign trainer to stable by stable owner - Abeer
     public void assignTrainerToStable(Integer stableOwner_Id, Integer stable_Id, Integer trainer_Id) {
 
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null) {
-            throw new ApiException("Error : Stable is not found");
+            throw new ApiException ("Error : Stable is not found");
         }
 
         // Check that this stable belongs to the registered owner.
@@ -78,13 +88,32 @@ public class TrainerService {
 
         Trainer trainer = trainerRepository.findTrainerById(trainer_Id);
         if (trainer == null) {
-            throw new ApiException("Error : Trainer is not found");
+            throw  new ApiException("Error : Trainer is not found");
         }
 
         trainer.setStable(stable);
+        trainer.setIsActive(true);
         trainerRepository.save(trainer);
     }
 
+
+    // ( #23 of 50 endpoints )
+//    public Trainer searchByTrainerName(Integer stableOwner_Id ,String fullName){
+//
+//        StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
+//        if (stableOwner == null) {
+//            throw new ApiException("Error : stable owner is not found");
+//        }
+//        Trainer trainer = trainerRepository.findTrainerByFullName(fullName);
+//        if (trainer == null){
+//            throw new ApiException("Error : Trainer is not found");
+//        }
+//
+//        return trainer;
+//    }
+
+
+    // ( #24 of 50 endpoints )
     //move Trainer To Another Stable -Abeer
     public void moveTrainerToAnotherStable(Integer stableOwner_Id, Integer trainer_Id, Integer stable_Id) {
 

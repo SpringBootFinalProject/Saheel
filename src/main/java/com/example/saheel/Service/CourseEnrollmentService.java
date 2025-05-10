@@ -1,14 +1,8 @@
 package com.example.saheel.Service;
 
 import com.example.saheel.Api.ApiException;
-import com.example.saheel.Model.Course;
-import com.example.saheel.Model.CourseEnrollment;
-import com.example.saheel.Model.Customer;
-import com.example.saheel.Model.StableOwner;
-import com.example.saheel.Repository.CourseEnrollmentRepository;
-import com.example.saheel.Repository.CourseRepository;
-import com.example.saheel.Repository.CustomerRepository;
-import com.example.saheel.Repository.StableOwnerRepository;
+import com.example.saheel.Model.*;
+import com.example.saheel.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +14,16 @@ import java.util.List;
 public class CourseEnrollmentService {
     private final CourseEnrollmentRepository courseEnrollmentRepository;
     private final HelperService helperService;
-    private StableOwnerRepository stableOwnerRepository;
+    private final StableOwnerRepository stableOwnerRepository;
     private final CustomerRepository customerRepository;
     private final CourseRepository courseRepository;
+    private final InvoiceRepository invoiceRepository;
 
-    //    #2
+
+    // ( #2 of 50 endpoints )
+
+    //#2
+
     public List<CourseEnrollment> getAllCourseEnrollmentByStableOwner(Integer stableOwnerId, Integer courseId) {
         // Get the owner object and check if it's in the database.
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwnerId);
@@ -41,7 +40,10 @@ public class CourseEnrollmentService {
         return courseEnrollmentRepository.findCourseEnrollmentByCourse(course);
     }
 
-    //    #3
+    // ( #3 of 50 endpoints )
+
+    //#3
+
     public void enrollToCourse(Integer customerId, Integer courseId) {
         // Get the owner object and check if it's in the database.
         Customer customer = getCustomerOrThrow(customerId);
@@ -50,7 +52,7 @@ public class CourseEnrollmentService {
         Course course = helperService.getCourseOrThrow(courseId);
 
         // Check if the final enrollment date.
-        if (course.getFinalEnrollmentDate().isAfter(LocalDateTime.now()))
+        if (!course.getFinalEnrollmentDate().isAfter(LocalDateTime.now()))
             throw new ApiException("The course enrollment date has passed.");
 
         // Check the course capacity.
@@ -58,17 +60,24 @@ public class CourseEnrollmentService {
             throw new ApiException("The course has reached it's full capacity.");
 
         // Check if the customer has already enrolled in the course.
-        helperService.checkIfCustomerEnrolled(course, customer);
+        CourseEnrollment oldCourseEnrollment = courseEnrollmentRepository.findCourseEnrollmentByCourseAndCustomer(course, customer);
+
+        // If the courseEnrollment is null than the customer has not attended this course.
+        if (oldCourseEnrollment != null) throw new ApiException("Customer has attended this course.");
 
         // Create the courseEnrollmentObject.
         CourseEnrollment courseEnrollment = new CourseEnrollment(null, course.getDate(), course.getPrice(),
-                course.getDurationInMinute(),course.getDate().minusDays(1), false, false, false, customer, course);
+                course.getDurationInMinute(), course.getDate().minusDays(1), false, false, false, customer, course, null);
+
+        // Create the invoice.
+        createInvoice(customer, courseEnrollment, courseEnrollment.getCourse().getPrice());
 
         // Save the object
         courseEnrollmentRepository.save(courseEnrollment);
     }
 
-    public void cancelEnrollment(Integer customerId, Integer courseEnrollmentId){
+
+    public void cancelEnrollment(Integer customerId, Integer courseEnrollmentId) {
         //Get the customer
         Customer customer = getCustomerOrThrow(customerId);
 
@@ -79,13 +88,15 @@ public class CourseEnrollmentService {
         Course course = getCourseOrThrow(courseEnrollment.getCourse().getId());
 
         // check if the course belongs to the customer.
-        if(!courseEnrollment.getCustomer().equals(customer)) throw new ApiException("The course enrollment does not belongs to the customer.");
+        if (!courseEnrollment.getCustomer().equals(customer))
+            throw new ApiException("The course enrollment does not belongs to the customer.");
 
         // Check if the cancellation date passed.
-        if(courseEnrollment.getLastCancellationDate().isAfter(LocalDateTime.now())) throw new ApiException("The cancellation date has passed.");
+        if (courseEnrollment.getLastCancellationDate().isAfter(LocalDateTime.now()))
+            throw new ApiException("The cancellation date has passed.");
 
         // Check if the customer paid for the course.
-        if(courseEnrollment.getPaid()) {
+        if (courseEnrollment.getPaid()) {
             // Decrease the balance of the stable.
         }
         // Cancel the enrollment.
@@ -108,9 +119,14 @@ public class CourseEnrollmentService {
         return course;
     }
 
-    public CourseEnrollment getCourseEnrollmentOrThrow(Integer courseEnrollmentId){
+    public CourseEnrollment getCourseEnrollmentOrThrow(Integer courseEnrollmentId) {
         CourseEnrollment courseEnrollment = courseEnrollmentRepository.findCourseEnrollmentById(courseEnrollmentId);
         if (courseEnrollment == null) throw new ApiException("Course Enrollment not found.");
         return courseEnrollment;
+    }
+
+    public void createInvoice(Customer customer, CourseEnrollment courseEnrollment, double price) {
+        Invoice invoice = new Invoice(null, "No Payment From The Customer", "pending", price, LocalDateTime.now(), courseEnrollment, customer);
+        invoiceRepository.save(invoice);
     }
 }

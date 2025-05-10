@@ -2,13 +2,11 @@
 package com.example.saheel.Service;
 
 import com.example.saheel.Api.ApiException;
-import com.example.saheel.Model.Course;
-import com.example.saheel.Model.CourseEnrollment;
-import com.example.saheel.Model.Stable;
-import com.example.saheel.Model.StableOwner;
+import com.example.saheel.Model.*;
 import com.example.saheel.Repository.CourseRepository;
 import com.example.saheel.Repository.StableOwnerRepository;
 import com.example.saheel.Repository.StableRepository;
+import com.example.saheel.Repository.TrainerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +19,9 @@ public class CourseService {
     private final StableOwnerRepository stableOwnerRepository;
     private final StableRepository stableRepository;
     private final HelperService helperService;
+    private final TrainerRepository trainerRepository;
 
+    //7
     public List<Course> getStableCourses(Integer stableId) {
         // Get the stable and check if it's in the database.
         Stable stable = getStableOrThrow(stableId);
@@ -30,8 +30,12 @@ public class CourseService {
         return courseRepository.findCoursesByStable(stable);
     }
 
+
+
+    // ( #5 of 50 endpoints )
+
 //    #5
-    public void addCourseByOwner(Integer stableOwnerId, Integer stableId, Course course) {
+    public void addCourseByOwner(Integer stableOwnerId, Integer stableId, Integer trainerId, Course course) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
 
@@ -41,11 +45,18 @@ public class CourseService {
         // Check if the stable belongs to the owner.
         checkIfStableBelongsToOwner(stable, stableOwner);
 
+        // Get the trainer and check if it's in the database.
+        Trainer trainer = trainerRepository.findTrainerById(trainerId);
+        if(trainer == null) throw new ApiException("Trainer not found.");
+
+        // Assign the trainer to the course.
+        course.setTrainer(trainer);
+
         if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
             throw new ApiException("Your account is not approved. Please wait for admin approval.");
         }
         // Check if the trainer available.
-        if (courseRepository.findCoursesByTrainer(course.getTrainer()).isEmpty())
+        if (!courseRepository.findCoursesByTrainer(course.getTrainer()).isEmpty())
             throw new ApiException("Trainer not available.");
 
         // Add the stable to the course and save the object in the database.
@@ -85,6 +96,11 @@ public class CourseService {
         courseRepository.save(oldCourse);
     }
 
+
+    // ( #6 of 50 endpoints )
+
+    //#6
+
     public void cancelCourse(Integer stableOwnerId, Integer stableId, Integer courseId) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
@@ -112,7 +128,7 @@ public class CourseService {
     }
 
 
-    public void changeEnrollmentsCourseStatus(List<CourseEnrollment> courseEnrollments){
+    public void changeEnrollmentsCourseStatus(List<CourseEnrollment> courseEnrollments) {
         for (CourseEnrollment courseEnrollment : courseEnrollments) courseEnrollment.setCourseCanceled(true);
     }
 

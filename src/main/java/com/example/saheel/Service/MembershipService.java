@@ -24,7 +24,7 @@ public class MembershipService {
     private final StableRepository stableRepository;
     private final HorseRepository horseRepository;
 
-    //#10
+    // ( #10 of 50 endpoints )
     // get All Memberships
     public MembershipDTO getOwnerActiveMembership(Integer ownerId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
@@ -49,7 +49,7 @@ public class MembershipService {
         );
     }
 
-    //#11
+    // ( #11 of 50 endpoints )
     // add Membership
     public void requestMembership(Membership membership, Integer ownerId, Integer stableId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
@@ -79,16 +79,15 @@ public class MembershipService {
             case "yearly":
                 endDate = startDate.plusYears(1);
                 price = 1000;
-                maxHorses = 6;
                 break;
             default:
                 throw new ApiException("Membership type must be 'monthly' or 'yearly'");
         }
         // Count how many horses the owner has
-        int currentHorseCount = horseRepository.countByHorseOwner(owner);
-        if (currentHorseCount > maxHorses) {
-            throw new ApiException("Owner already has " + currentHorseCount + " horses, which exceeds the allowed limit for a " + type + " membership.");
-        }
+//        int currentHorseCount = horseRepository.countByHorseOwner(owner);
+//        if (currentHorseCount > maxHorses) {
+//            throw new ApiException("Owner already has " + currentHorseCount + " horses, which exceeds the allowed limit for a " + type + " membership.");
+//        }
         // Set membership data
         membership.setHorseOwner(owner);
         membership.setStable(stable);
@@ -102,7 +101,7 @@ public class MembershipService {
     }
 
 
-    //#12
+    // ( #12 of 50 endpoints )
     // update Membership
     public void renewMembership(Integer ownerId, Membership updatedMembership, Integer membershipId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
@@ -117,8 +116,7 @@ public class MembershipService {
         if (type == null || (!type.equalsIgnoreCase("monthly") && !type.equalsIgnoreCase("yearly"))) {
             throw new ApiException("Invalid membership type");
         }
-
-        LocalDate startDate = LocalDate.now();
+        LocalDate startDate = membership.getStartDate();
         LocalDate endDate;
         double price;
 
@@ -147,7 +145,7 @@ public class MembershipService {
     }
 
 
-    //#13
+    // ( #13 of 50 endpoints )
     // delete Membership
     public void cancelMembership(Integer ownerId, Integer id, Integer stableId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
@@ -174,7 +172,6 @@ public class MembershipService {
         // Deactivate the membership
         membership.setIsActive(false);
         membershipRepository.save(membership);
-//        membershipRepository.delete(membership);
     }
 
     // ( #21 of 50 endpoints)

@@ -1,6 +1,7 @@
 package com.example.saheel.Controller;
 
 import com.example.saheel.Api.ApiException;
+import com.example.saheel.Api.ApiResponse;
 import com.example.saheel.Model.Trainer;
 import com.example.saheel.Model.User;
 import com.example.saheel.Model.Veterinary;
@@ -17,6 +18,7 @@ public class VeterinaryController {
 
     private final VeterinaryService veterinaryService;
 
+    // TODO لازم نحط     @AuthenticationPrincipal لان اللي بيسويها صاحب الاسطبل
     // Get veterinary by ID - Abeer
     @GetMapping("/get/{veterinary_Id}")
     public ResponseEntity<Veterinary> getVeterinaryById(@PathVariable Integer veterinary_Id) {
@@ -34,9 +36,9 @@ public class VeterinaryController {
 
     // Add veterinary - Abeer
     @PostMapping("/add/{stable_Id}")
-    public ResponseEntity<ApiException> addVeterinary(@AuthenticationPrincipal User user, @PathVariable Integer stable_Id, @RequestBody Veterinary veterinary) {
+    public ResponseEntity<ApiResponse> addVeterinary(@AuthenticationPrincipal User user, @PathVariable Integer stable_Id, @RequestBody Veterinary veterinary) {
         veterinaryService.addVeterinary(user.getId(), stable_Id, veterinary);
-        return ResponseEntity.ok(new ApiException("Veterinary added successfully"));
+        return ResponseEntity.ok(new ApiResponse("Veterinary added successfully"));
     }
 
     //move veterinary To Stable by stable owner - Abeer
@@ -46,6 +48,7 @@ public class VeterinaryController {
         return ResponseEntity.ok(new ApiException("Trainer assign successfully"));
     }
 
+    // TODO لازم نحط     @AuthenticationPrincipal لان اللي بيسويها صاحب الاسطبل
     //assignVeterinaryToHorse - abeer
     @PutMapping("/assignVeterinary/{veterinary_Id}/ToHorse/{horse_Id}")
     public ResponseEntity<ApiException> assignVeterinaryToHorse(@PathVariable Integer veterinary_Id,@PathVariable Integer horse_Id) {
@@ -53,17 +56,18 @@ public class VeterinaryController {
         return ResponseEntity.ok(new ApiException("veterinary Assign to horse successfully"));
     }
 
+
     // Update veterinary - Abeer
     @PutMapping("/update/{stable_Id}/{veterinary_Id}")
-    public ResponseEntity<ApiException> updateVeterinary(@AuthenticationPrincipal User user, @PathVariable Integer stable_Id, @PathVariable Integer veterinary_Id, @RequestBody Veterinary veterinary) {
+    public ResponseEntity<ApiResponse> updateVeterinary(@AuthenticationPrincipal User user, @PathVariable Integer stable_Id, @PathVariable Integer veterinary_Id, @RequestBody Veterinary veterinary) {
         veterinaryService.updateVeterinary(user.getId(), stable_Id, veterinary_Id, veterinary);
-        return ResponseEntity.ok(new ApiException("Veterinary updated successfully"));
+        return ResponseEntity.ok(new ApiResponse("Veterinary updated successfully"));
     }
 
     // Delete veterinary - Abeer
     @DeleteMapping("/delete/{veterinary_Id}")
-    public ResponseEntity<ApiException> deleteVeterinary(@AuthenticationPrincipal User user , @PathVariable Integer veterinary_Id) {
+    public ResponseEntity<ApiResponse> deleteVeterinary(@AuthenticationPrincipal User user , @PathVariable Integer veterinary_Id) {
         veterinaryService.deleteVeterinary(user.getId(), veterinary_Id);
-        return ResponseEntity.ok(new ApiException("Veterinary deleted successfully"));
+        return ResponseEntity.ok(new ApiResponse("Veterinary deleted successfully"));
     }
 }

@@ -35,7 +35,7 @@ public class StableController {
     // Add new stable - Abeer
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addStable(@AuthenticationPrincipal User user , @RequestBody Stable stable) {
-        stableService.addStable(user.getId(), stable);
+        stableService.addStable(user, stable);
         return ResponseEntity.ok(new ApiResponse("Stable added successfully"));
     }
 

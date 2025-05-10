@@ -18,6 +18,7 @@ public class AdminController {
     private final AdminService adminService;
 
 
+
     // ( #18 of 50 endpoints )
     // This method finds the horse owner who owns the most horses.
     // It can return more than one owner if they have the same number of horses.
@@ -26,6 +27,7 @@ public class AdminController {
         List<HorseOwner> result = adminService.getOwnersWithMostHorses();
         return ResponseEntity.ok(result);
     }
+
 
     // ( #25 of 50 endpoints )
     // This method sends a welcome email to all customers in the system.
@@ -58,5 +60,6 @@ public class AdminController {
         adminService.sendWelcomeEmailsToNewMembers(user.getId());
         return ResponseEntity.ok(new ApiResponse("Welcome emails have been sent to new members."));
     }
+
 
 }

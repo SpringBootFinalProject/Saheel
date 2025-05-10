@@ -1,5 +1,6 @@
 package com.example.saheel.Controller;
 
+import com.example.saheel.Api.ApiResponse;
 import com.example.saheel.Model.VeterinaryVisit;
 import com.example.saheel.Service.VeterinaryVisitService;
 import lombok.RequiredArgsConstructor;
@@ -21,23 +22,23 @@ public class VeterinaryVisitController {
 
     // Add VeterinaryVisit - Abeer
     @PostMapping("/add/{veterinary_Id}")
-    public ResponseEntity<String> addVeterinaryVisit(@PathVariable Integer veterinary_Id, @RequestBody VeterinaryVisit veterinaryVisit) {
+    public ResponseEntity<ApiResponse> addVeterinaryVisit(@PathVariable Integer veterinary_Id, @RequestBody VeterinaryVisit veterinaryVisit) {
         veterinaryVisitService.addVeterinaryVisit(veterinary_Id, veterinaryVisit);
-        return ResponseEntity.ok("Veterinary visit added successfully");
+        return ResponseEntity.ok(new ApiResponse("Veterinary visit added successfully"));
     }
 
     // Update VeterinaryVisit - Abeer
     @PutMapping("/update/{veterinary_Id}/{veterinaryVisit_Id}")
-    public ResponseEntity<String> updateVeterinaryVisit(@PathVariable Integer veterinary_Id, @PathVariable Integer veterinaryVisit_Id, @RequestBody VeterinaryVisit veterinaryVisit) {
+    public ResponseEntity<ApiResponse> updateVeterinaryVisit(@PathVariable Integer veterinary_Id, @PathVariable Integer veterinaryVisit_Id, @RequestBody VeterinaryVisit veterinaryVisit) {
         veterinaryVisitService.updateVeterinaryVisit(veterinary_Id, veterinaryVisit_Id, veterinaryVisit);
-        return ResponseEntity.ok("Veterinary visit updated successfully");
+        return ResponseEntity.ok(new ApiResponse("Veterinary visit updated successfully"));
     }
 
     // Delete VeterinaryVisit - Abeer
     @DeleteMapping("/delete/{veterinaryVisit_Id}")
-    public ResponseEntity<String> deleteVeterinaryVisit(@PathVariable Integer veterinaryVisit_Id) {
+    public ResponseEntity<ApiResponse> deleteVeterinaryVisit(@PathVariable Integer veterinaryVisit_Id) {
         veterinaryVisitService.deleteVeterinaryVisit(veterinaryVisit_Id);
-        return ResponseEntity.ok("Veterinary visit deleted successfully");
+        return ResponseEntity.ok(new ApiResponse("Veterinary visit deleted successfully"));
     }
 
 }

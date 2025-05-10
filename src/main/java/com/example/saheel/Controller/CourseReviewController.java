@@ -18,13 +18,13 @@ import java.util.List;
 public class CourseReviewController {
     private final CourseReviewService courseReviewService;
 
-    @GetMapping("/get-stable-courseReviews/{courseId}")
+    @GetMapping("/get-stable-course-reviews/{courseId}")
     public ResponseEntity<List<CourseReview>> getCourseReviews(@PathVariable Integer courseId) {
         return ResponseEntity.status(HttpStatus.OK).body(courseReviewService.getAllCourseReviews(courseId));
     }
 
-    @PostMapping("/add-courseReview-by-stable-owner/{courseId}")
-    public ResponseEntity<ApiResponse> addCourseReviewByOwner(@AuthenticationPrincipal User user, @PathVariable Integer courseId,
+    @PostMapping("/review-course-by-customer/{courseId}")
+    public ResponseEntity<ApiResponse> ReviewCourseByCustomer(@AuthenticationPrincipal User user, @PathVariable Integer courseId,
                                                               @RequestBody CourseReview courseReview) {
         courseReviewService.ReviewCourseByCustomer(user.getId(), courseId, courseReview);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Review added successfully."));

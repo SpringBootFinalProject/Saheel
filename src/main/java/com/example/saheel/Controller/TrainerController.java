@@ -1,8 +1,9 @@
 package com.example.saheel.Controller;
 
-import com.example.saheel.Api.ApiException;
+import com.example.saheel.Api.ApiResponse;
 import com.example.saheel.Model.Trainer;
 import com.example.saheel.Model.User;
+import com.example.saheel.Service.StaffManagerService;
 import com.example.saheel.Service.TrainerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,10 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class TrainerController {
     private final TrainerService trainerService;
+    private final StaffManagerService staffManagerService;
 
+
+    // TODO لازم نحط     @AuthenticationPrincipal لان اللي بيسويها صاحب الاسطبل
     // Get trainer by ID - Abeer
     @GetMapping("/get/{trainer_Id}")
     public ResponseEntity<Trainer> getTrainerById(@PathVariable Integer trainer_Id) {
@@ -31,36 +35,31 @@ public class TrainerController {
 
     // Add trainer - Abeer
     @PostMapping("/add-trainer-to-stable/{stable_Id}")
-    public ResponseEntity<ApiException> addTrainer(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @RequestBody Trainer trainer) {
+    public ResponseEntity<ApiResponse> addTrainer(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @RequestBody Trainer trainer) {
         trainerService.addTrainer(user.getId(), stable_Id, trainer);
-        return ResponseEntity.ok(new ApiException("Trainer added successfully"));
+        return ResponseEntity.ok(new ApiResponse("Trainer added successfully"));
     }
+
 
     //assign Trainer To Stable by stable owner - Abeer
     @PostMapping("/assignTrainer/{trainer_Id}/ToStable/{stable_Id}")
-    public ResponseEntity<ApiException> assignTrainerToStable(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer trainer_Id) {
+    public ResponseEntity<ApiResponse> assignTrainerToStable(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer trainer_Id) {
         trainerService.assignTrainerToStable(user.getId(), stable_Id,trainer_Id);
-        return ResponseEntity.ok(new ApiException("Trainer assign successfully"));
+        return ResponseEntity.ok(new ApiResponse("Trainer assign successfully"));
     }
 
-    //move Trainer To Stable by stable owner - Abeer
-    @PostMapping("/moveTrainer/{trainer_Id}/ToStable/{stable_Id}")
-    public ResponseEntity<ApiException> moveTrainerToAnotherStable(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer trainer_Id) {
-        trainerService.moveTrainerToAnotherStable(user.getId(), stable_Id,trainer_Id);
-        return ResponseEntity.ok(new ApiException("Trainer assign successfully"));
-    }
 
     // Update trainer - Abeer
     @PutMapping("/update-trainer/{trainer_Id}/by-stable/{stable_Id}")
-    public ResponseEntity<ApiException> updateTrainer( @AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer trainer_Id, @RequestBody Trainer trainer) {
+    public ResponseEntity<ApiResponse> updateTrainer( @AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer trainer_Id, @RequestBody Trainer trainer) {
         trainerService.updateTrainer(user.getId(), stable_Id, trainer_Id, trainer);
-        return ResponseEntity.ok(new ApiException("Trainer updated successfully"));
+        return ResponseEntity.ok(new ApiResponse("Trainer updated successfully"));
     }
 
     // Delete trainer - Abeer
     @DeleteMapping("/delete-trainer/{trainer_Id}")
-    public ResponseEntity<ApiException> deleteTrainer(@AuthenticationPrincipal User user, @PathVariable Integer trainer_Id) {
+    public ResponseEntity<ApiResponse> deleteTrainer(@AuthenticationPrincipal User user, @PathVariable Integer trainer_Id) {
         trainerService.deleteTrainer(user.getId(), trainer_Id);
-        return ResponseEntity.ok(new ApiException("Trainer deleted successfully"));
+        return ResponseEntity.ok(new ApiResponse("Trainer deleted successfully"));
     }
 }

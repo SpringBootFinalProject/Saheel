@@ -31,7 +31,7 @@ public class StableOwnerService {
         return stableOwner;
     }
 
-    //#1
+    // ( #1 of 50 endpoints )
     //register stableOwner
     public void registerStableOwner(StableOwnerDTO stableOwnerDTO) {
         User user = new User();
@@ -55,7 +55,6 @@ public class StableOwnerService {
                 buildStableWelcomeEmail(stableOwnerDTO.getFullName())
         );
     }
-
     private String buildStableWelcomeEmail(String name) {
         return "أهلاً بك " + name + " في منصة صهيل!\n"
                 + "نحن سعداء بانضمامك إلينا كصاحب اسطبل.\n\n"

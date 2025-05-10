@@ -27,6 +27,11 @@ public class VeterinaryService {
         return veterinary;
     }
 
+
+    // انا ( #31 of 50 endpoints )
+
+    //( #38 of 50 endpoints)
+    //search Veterinary By Name
     public Veterinary searchVeterinaryByName(Integer stableOwner_Id ,String fullName){
 
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
@@ -56,7 +61,7 @@ public class VeterinaryService {
         veterinary.setStable(stable);
         veterinaryRepository.save(veterinary);
     }
-
+    // ( #32 of 50 endpoints )
     //move veterinary To Another Stable -Abeer
     public void moveVeterinaryToAnotherStable(Integer stableOwner_Id, Integer veterinary_Id, Integer stable_Id) {
 
@@ -79,6 +84,7 @@ public class VeterinaryService {
         veterinaryRepository.save(veterinary);
     }
 
+    // ( #32 of 50 endpoints )
     public void assignVeterinaryToHorse(Integer veterinary_Id ,Integer horse_Id) {
 
         Membership membership = membershipRepository.findByHorsesIdAndIsActiveTrue(horse_Id);
@@ -103,6 +109,7 @@ public class VeterinaryService {
         horse.setVeterinary(veterinary);
         horseRepository.save(horse);
     }
+
 
     //update Veterinary - Abeer
     public void updateVeterinary( Integer stableOwner_Id, Integer stable_Id , Integer veterinary_Id, Veterinary veterinary ) {

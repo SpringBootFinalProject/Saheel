@@ -20,24 +20,31 @@ public class VeterinaryVisit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotNull(message = "The date can not be empty.")
-    @Future
-    private LocalDateTime date;
 
-    @NotNull(message = "The price can not be empty.")
-    @Column(columnDefinition = "double not null")
-    private double price;
+    @NotNull(message = "The reason can not be empty.")
+    private String reason;
 
-    @NotNull(message = "The duration can not be empty.")
-    @Column(columnDefinition = "int not null")
-    private int durationInMinute; //Should this be removed? or added after the visit is completed?
 
+    private String MedicalReport;
+
+    @NotNull(message = "The visit date must be set")
+    private LocalDateTime visitDateTime;
+
+    @Column
+    private Boolean isCompleted = false;
+
+
+
+//    @NotNull(message = "The duration can not be empty.")
+//    @Column(columnDefinition = "int not null")
+//    private int durationInMinute; //Should this be removed? or added after the visit is completed?
+//
 
     @ManyToOne
     @JsonIgnore
     private Veterinary veterinary;
 
-//    @OneToOne
-//    @JsonIgnore
-//    private Horse horse; // One to one?
+    @ManyToOne
+    @JsonIgnore
+    private Horse horse;
 }
