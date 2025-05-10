@@ -50,7 +50,7 @@ public class StaffManagerController {
         return ResponseEntity.ok(new ApiResponse("Trainer assign successfully"));
     }
 
-    //assignVeterinaryToHorse - abeer
+    //assign Veterinary To Horse - abeer
     @PutMapping("/assignVeterinary/{veterinary_Id}/ToHorse/{horse_Id}")
     public ResponseEntity<ApiResponse> assignVeterinaryToHorse(@PathVariable Integer veterinary_Id,@PathVariable Integer horse_Id) {
         staffManagerService.assignVeterinaryToHorse(veterinary_Id, horse_Id);
@@ -78,7 +78,7 @@ public class StaffManagerController {
         return ResponseEntity.ok(horses);
     }
 
-
+    //visit To horse by veterinary
     @PostMapping("/veterinary/visit/{horse_Id}")
     public ResponseEntity<ApiResponse> createVetVisit(@AuthenticationPrincipal User user,
                                                       @PathVariable Integer horse_Id) {
