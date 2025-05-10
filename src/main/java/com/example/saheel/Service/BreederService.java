@@ -65,9 +65,12 @@ public class BreederService {
     }
 
 
+    // TODO تعديل
     // ( #29 of 50 endpoints )
     //move breeder To Another Stable -Abeer
-    public void moveBreederToAnotherStable(Integer stableOwner_Id, Integer breeder_Id, Integer stable_Id) {}
+    public void moveBreederToAnotherStable(Integer stableOwner_Id, Integer breeder_Id, Integer stable_Id) {
+
+    }
 
 
 

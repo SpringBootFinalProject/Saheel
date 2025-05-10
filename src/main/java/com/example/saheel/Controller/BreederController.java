@@ -27,6 +27,7 @@ public class BreederController {
         return ResponseEntity.ok(breeder);
     }
 
+    // TODO تغير الاسم
     //searchVeterinaryByName
     @GetMapping("/search-byName/{fullName}")
     public ResponseEntity<Breeder> searchVeterinaryByName(@AuthenticationPrincipal User user, @PathVariable String fullName) {
@@ -44,19 +45,9 @@ public class BreederController {
     //move breeder To Stable by stable owner - Abeer
     @PostMapping("/moveBreeder/{breeder_Id}/ToStable/{stable_Id}")
     public ResponseEntity<ApiException> moveBreederToAnotherStable(@AuthenticationPrincipal User user , @PathVariable Integer breeder_Id, @PathVariable Integer stable_Id) {
-        breederService.moveBreederToAnotherStable(user.getId(),breeder_Id, stable_Id);
+        staffManagerService.moveBreederToAnotherStable(user.getId(),breeder_Id, stable_Id);
         return ResponseEntity.ok(new ApiException("Breeder assign successfully"));
     }
-
-    // TODO لازم نحط     @AuthenticationPrincipal لان اللي بيسويها صاحب الاسطبل
-    //assignBreederToHorse - abeer
-//    @PutMapping("/assignBreeder/{breeder_Id}/ToHorse/{horse_Id}")
-//    public ResponseEntity<ApiResponse> assignBreederToHorse(@PathVariable Integer breeder_Id,@PathVariable Integer horse_Id) {
-//        breederService.assignBreederToHorse(breeder_Id, horse_Id);
-//
-//        return ResponseEntity.ok(new ApiResponse("Breeder added successfully"));
-//
-//    }
 
 
     // Update breeder - Abeer

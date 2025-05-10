@@ -47,7 +47,7 @@ public class CourseService {
             throw new ApiException("Your account is not approved. Please wait for admin approval.");
         }
         // Check if the trainer available.
-        if (courseRepository.findCoursesByTrainer(course.getTrainer()).isEmpty())
+        if (!courseRepository.findCoursesByTrainer(course.getTrainer()).isEmpty())
             throw new ApiException("Trainer not available.");
 
         // Add the stable to the course and save the object in the database.

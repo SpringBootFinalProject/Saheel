@@ -36,6 +36,7 @@ public class StaffManagerController {
         return ResponseEntity.ok(new ApiResponse("Breeder assign successfully"));
     }
 
+    // TODO صاحب الاسطبل الل يدخل @AuthenticationPrincipal User user
     //assignBreederToHorse - abeer
     @PutMapping("/assignBreeder/{breeder_Id}/ToHorse/{horse_Id}")
     public ResponseEntity<ApiResponse> assignBreederToHorse(@PathVariable Integer breeder_Id,@PathVariable Integer horse_Id) {

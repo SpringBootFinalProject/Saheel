@@ -27,7 +27,6 @@ public class StaffManagerService {
     private final JavaMailSender mailSender;
 
 
-
     //( #30 of 50 endpoints)
     //move breeder To Another Stable -Abeer
     public void moveBreederToAnotherStable(Integer stableOwner_Id, Integer breeder_Id, Integer stable_Id) {
@@ -154,7 +153,6 @@ public class StaffManagerService {
     }
 
     //( #35 of 50 endpoints)
-
     //get list of trainer is active
     public List<Trainer> getAvailableTrainer() {
         List<Trainer> trainers = trainerRepository.findTrainersByIsActiveTrue();
@@ -166,8 +164,8 @@ public class StaffManagerService {
     }
 
     //( #36 of 50 endpoints)
-//get list of hours by veterinary
-    public List<Horse> getHorsesByVeterinary(Integer veterinary_Id){
+    //get list of hours by veterinary
+    public List<Horse> getHorsesByVeterinary(Integer veterinary_Id) {
         List<Horse> horses = horseRepository.findHorsesByVeterinaryId(veterinary_Id);
         if (horses.isEmpty()) {
             throw new ApiException("Error: no horses to thes veterinary");
@@ -175,9 +173,10 @@ public class StaffManagerService {
 
         return horses;
     }
+
     //( #40 of 50 endpoints)
     //get list of hours by breeder
-    public List<Horse> getHorsesByBreeder(Integer breeder_Id){
+    public List<Horse> getHorsesByBreeder(Integer breeder_Id) {
         List<Horse> horses = horseRepository.findHorsesByBreederId(breeder_Id);
         if (horses.isEmpty()) {
             throw new ApiException("Error: no horses to thes breder");
@@ -228,7 +227,7 @@ public class StaffManagerService {
     public void markVisitAsCompleted(Integer visitId, boolean isFit, String medicalReport) {
         VeterinaryVisit visit = veterinaryVisitRepository.findVeterinaryVisitById(visitId);
         if (visit == null) {
-          throw new ApiException("The visit does not exist");
+            throw new ApiException("The visit does not exist");
         }
 
 
