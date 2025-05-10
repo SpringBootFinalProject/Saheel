@@ -27,12 +27,19 @@ public class VeterinaryService {
         return veterinary;
     }
 
-    // ( #31 of 50 endpoints )
+
+    // انا ( #31 of 50 endpoints )
+
+    //( #38 of 50 endpoints)
+    //search Veterinary By Name
     public Veterinary searchVeterinaryByName(Integer stableOwner_Id ,String fullName){
 
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
         if (stableOwner == null) {
             throw new ApiException("Error : stable owner is not found");
+        }
+        if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
+            throw new ApiException("Your account is not approved. Please wait for admin approval.");
         }
         Veterinary veterinary = veterinaryRepository.findVeterinaryByFullName(fullName);
         if (veterinary == null){
@@ -102,6 +109,7 @@ public class VeterinaryService {
         horse.setVeterinary(veterinary);
         horseRepository.save(horse);
     }
+
 
     //update Veterinary - Abeer
     public void updateVeterinary( Integer stableOwner_Id, Integer stable_Id , Integer veterinary_Id, Veterinary veterinary ) {

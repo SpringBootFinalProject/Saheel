@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -59,7 +58,7 @@ public class Trainer {
     @Column(columnDefinition = "double")
     private double rating;
 
-
+    private Boolean isActive = false;
 
     @ManyToOne
     @JsonIgnore

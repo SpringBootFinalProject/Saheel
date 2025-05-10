@@ -22,7 +22,7 @@ public class HorseService {
     private final HorseOwnerRepository horseOwnerRepository;
     private final MembershipRepository membershipRepository;
 
-    //
+    //14
     public List<Horse> getOwnerHorses(Integer horseOwnerId) {
         // Get the horse owner and check if it's in the database.
         HorseOwner horseOwner = getHorseOwnerOrThrow(horseOwnerId);
@@ -51,6 +51,12 @@ public class HorseService {
             throw new ApiException("Horse not found");
         }
 
+
+        // Check if the horse is medically fit.
+        if (!Boolean.TRUE.equals(horse.getIsMedicallyFit().equals(false))) {
+            throw new ApiException("Horse is Medically unfit");
+        }
+
         Membership membership = membershipRepository.findByHorseOwnerAndIsActive(owner, true);
         if (membership == null) {
             throw new ApiException("Owner has no active membership");
@@ -63,6 +69,7 @@ public class HorseService {
         if (currentCount >= maxHorses) {
             throw new ApiException("Maximum number of horses reached for this membership");
         }
+
 
         horse.setHorseOwner(owner);
         horse.setMembership(membership);

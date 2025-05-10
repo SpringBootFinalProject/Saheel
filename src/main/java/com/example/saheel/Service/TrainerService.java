@@ -20,18 +20,41 @@ public class TrainerService {
     private final StableRepository stableRepository;
 
 
+
     //get Trainer by ID - Abeer
-    public Trainer getTrainerById(Integer trainer_Id){
+    public Trainer getTrainerById(Integer trainer_Id) {
         Trainer trainer = trainerRepository.findTrainerById(trainer_Id);
-        if (trainer == null){
+        if (trainer == null) {
             throw new ApiException("Error : Trainer is not found");
         }
         return trainer;
     }
 
 
+    //( #37 of 50 endpoints)
+// to search By Trainer Name by stable owner
+    public Trainer searchByTrainerName(Integer stableOwner_Id, String fullName) {
+
+        StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
+        if (stableOwner == null) {
+            throw new ApiException("Error : stable owner is not found");
+        }
+
+        if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
+            throw new ApiException("Your account is not approved. Please wait for admin approval.");
+        }
+
+        Trainer trainer = trainerRepository.findTrainerByFullName(fullName);
+        if (trainer == null) {
+            throw new ApiException("Error : Trainer is not found");
+        }
+
+        return trainer;
+    }
+
+
     // add Trainer - Abeer
-    public void addTrainer(Integer stableOwner_Id  ,Integer stable_Id, Trainer trainer) {
+    public void addTrainer(Integer stableOwner_Id, Integer stable_Id, Trainer trainer) {
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null) {
             throw new ApiException("Error : Stable is not found");
@@ -46,13 +69,17 @@ public class TrainerService {
         trainerRepository.save(trainer);
     }
 
+
     // ( #33 of 50 endpoints )
+
+    //( # of 50 endpoints)####
+
     //assign trainer to stable by stable owner - Abeer
-    public void assignTrainerToStable(Integer stableOwner_Id,Integer stable_Id, Integer trainer_Id) {
+    public void assignTrainerToStable(Integer stableOwner_Id, Integer stable_Id, Integer trainer_Id) {
 
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null) {
-           throw new ApiException ("Error : Stable is not found");
+            throw new ApiException ("Error : Stable is not found");
         }
 
         // Check that this stable belongs to the registered owner.
@@ -62,27 +89,29 @@ public class TrainerService {
 
         Trainer trainer = trainerRepository.findTrainerById(trainer_Id);
         if (trainer == null) {
-           throw  new ApiException("Error : Trainer is not found");
+            throw  new ApiException("Error : Trainer is not found");
         }
 
         trainer.setStable(stable);
+        trainer.setIsActive(true);
         trainerRepository.save(trainer);
     }
 
+
     // ( #23 of 50 endpoints )
-    public Trainer searchByTrainerName(Integer stableOwner_Id ,String fullName){
-
-        StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
-        if (stableOwner == null) {
-            throw new ApiException("Error : stable owner is not found");
-        }
-        Trainer trainer = trainerRepository.findTrainerByFullName(fullName);
-        if (trainer == null){
-            throw new ApiException("Error : Trainer is not found");
-        }
-
-        return trainer;
-    }
+//    public Trainer searchByTrainerName(Integer stableOwner_Id ,String fullName){
+//
+//        StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
+//        if (stableOwner == null) {
+//            throw new ApiException("Error : stable owner is not found");
+//        }
+//        Trainer trainer = trainerRepository.findTrainerByFullName(fullName);
+//        if (trainer == null){
+//            throw new ApiException("Error : Trainer is not found");
+//        }
+//
+//        return trainer;
+//    }
 
 
     // ( #24 of 50 endpoints )
@@ -109,9 +138,9 @@ public class TrainerService {
     }
 
     //update Trainer - Abeer
-    public void updateTrainer(Integer stableOwner_Id ,Integer stable_Id ,Integer trainer_Id, Trainer trainer ) {
+    public void updateTrainer(Integer stableOwner_Id, Integer stable_Id, Integer trainer_Id, Trainer trainer) {
         Stable stable = stableRepository.findStableById(stable_Id);
-        if (stable == null){
+        if (stable == null) {
             throw new ApiException("Error : stable is not fond");
         }
 
@@ -137,7 +166,7 @@ public class TrainerService {
     }
 
     //delete Trainer - Abeer
-    public void deleteTrainer(Integer stableOwner_Id , Integer trainer_Id) {
+    public void deleteTrainer(Integer stableOwner_Id, Integer trainer_Id) {
         Trainer trainer = trainerRepository.findTrainerById(trainer_Id);
         if (trainer == null) {
             throw new ApiException("Error: Trainer not found");

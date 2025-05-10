@@ -22,6 +22,7 @@ public class CourseService {
     private final StableRepository stableRepository;
     private final HelperService helperService;
 
+    //7
     public List<Course> getStableCourses(Integer stableId) {
         // Get the stable and check if it's in the database.
         Stable stable = getStableOrThrow(stableId);
@@ -42,6 +43,9 @@ public class CourseService {
         // Check if the stable belongs to the owner.
         checkIfStableBelongsToOwner(stable, stableOwner);
 
+        if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
+            throw new ApiException("Your account is not approved. Please wait for admin approval.");
+        }
         // Check if the trainer available.
         if (courseRepository.findCoursesByTrainer(course.getTrainer()).isEmpty())
             throw new ApiException("Trainer not available.");
@@ -83,7 +87,11 @@ public class CourseService {
         courseRepository.save(oldCourse);
     }
 
+
     // ( #6 of 50 endpoints )
+
+    //#6
+
     public void cancelCourse(Integer stableOwnerId, Integer stableId, Integer courseId) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);

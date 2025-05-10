@@ -27,12 +27,20 @@ public class BreederService {
         return breeder;
     }
 
+
     // ( #29 of 50 endpoints )
+
+    //( #39 of 50 endpoints)
+    //search Breeder By Name
+
     public Breeder searchBreederByName(Integer stableOwner_Id , String fullName){
 
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
         if (stableOwner == null) {
             throw new ApiException("Error : stable owner is not found");
+        }
+        if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
+            throw new ApiException("Your account is not approved. Please wait for admin approval.");
         }
         Breeder breeder = breederRepository.findBreederByFullName(fullName);
         if (breeder == null){
@@ -56,53 +64,12 @@ public class BreederService {
         breederRepository.save(breeder);
     }
 
+
     // ( #29 of 50 endpoints )
     //move breeder To Another Stable -Abeer
-    public void moveBreederToAnotherStable(Integer stableOwner_Id, Integer breeder_Id, Integer stable_Id) {
+    public void moveBreederToAnotherStable(Integer stableOwner_Id, Integer breeder_Id, Integer stable_Id) {}
 
-        Breeder breeder = breederRepository.findBreederById(breeder_Id);
-        if (breeder == null) {
-            throw new ApiException("Error Breeder is not found");
-        }
 
-        Stable newStable = stableRepository.findStableById(stable_Id);
-        if (newStable == null) {
-            throw new ApiException("Target stable not found");
-        }
-
-        // Check that this stable belongs to the registered owner.
-        if (!newStable.getStableOwner().getId().equals(stableOwner_Id)) {
-            throw new ApiException("Error : You are not the owner of this stable");
-        }
-
-        breeder.setStable(newStable);
-        breederRepository.save(breeder);
-    }
-
-    public void assignBreederToHorse( Integer breeder_Id ,Integer horse_Id) {
-
-        Membership membership = membershipRepository.findByHorsesIdAndIsActiveTrue(horse_Id);
-        if (membership == null) {
-            throw new ApiException("Error: This horse does not have an active membership");
-        }
-
-        Horse horse = horseRepository.findHorseById(horse_Id);
-        if (horse == null) {
-            throw new ApiException("Error: Horse is not found");
-        }
-
-        Breeder breeder = breederRepository.findBreederById(breeder_Id);
-        if (breeder == null) {
-            throw new ApiException("Error: Breeder not found");
-        }
-
-        if (!membership.getStable().getId().equals(breeder.getStable().getId())) {
-            throw new ApiException("Error: Breeder and horse must belong to the same stable");
-        }
-
-        horse.setBreeder(breeder);
-        horseRepository.save(horse);
-    }
 
     //update Breeder - Abeer
     public void updateBreeder( Integer stableOwner_Id ,Integer stable_Id ,Integer breeder_Id, Breeder breeder ) {
@@ -141,6 +108,7 @@ public class BreederService {
         if (stable == null || !stable.getStableOwner().getId().equals(stableOwner_Id)) {
             throw new ApiException("Error: You do not have permission to delete this veterinary");
         }
+        breeder.setIsActive(false);
         breederRepository.delete(breeder);
     }
 
