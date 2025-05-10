@@ -10,6 +10,8 @@ import com.example.saheel.Repository.TrainerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TrainerService {
@@ -176,5 +178,48 @@ public class TrainerService {
         }
 
         trainerRepository.delete(trainer);
+    }
+
+    public String getTopRatedTrainer() {
+        // Get all the trainers on the system.
+        List<Trainer> trainers = trainerRepository.findAll();
+
+        // Check if there is trainers on the system.
+        if (trainers.isEmpty()) return "There are no trainers";
+
+        // Get the top-rated trainer.
+        Trainer topRatedTrainer = findTopRatedTrainer(trainers);
+
+        // Check if the all the trainers don't have ratings.
+        if (topRatedTrainer.getRating() == 0) return "All the trainers do not have a rating.";
+
+        // Return the top-rated trainer.
+        return "The top rated trainer is: " + topRatedTrainer.getFullName() + " with a rating of: " + topRatedTrainer.getRating() + ".";
+    }
+
+    public String getTopRatedTrainerOfStable(Integer stableId){
+        // Get the stable and check if it's in the database.
+        Stable stable = stableRepository.findStableById(stableId);
+        if(stable == null) throw new ApiException("Stable not found.");
+
+        // Get all the trainers of the stable and check.
+        List<Trainer> trainers = trainerRepository.findTrainerByStable(stable);
+        if (trainers.isEmpty()) return "There are no trainers";
+
+        // Get the top-rated trainer.
+        Trainer topRatedTrainer = findTopRatedTrainer(trainers);
+
+        // Check if the all the trainers don't have ratings.
+        if (topRatedTrainer.getRating() == 0) return "All the trainers do not have a rating.";
+
+        // Return the top-rated trainer.
+        return "The top rated trainer is: " + topRatedTrainer.getFullName() + " with a rating of: " + topRatedTrainer.getRating() + ".";
+    }
+
+    public Trainer findTopRatedTrainer(List<Trainer> trainers) {
+        Trainer topRatedTrainer = trainers.get(0);
+        for (Trainer trainer : trainers)
+            if (trainer.getRating() > topRatedTrainer.getRating()) topRatedTrainer = trainer;
+        return topRatedTrainer;
     }
 }

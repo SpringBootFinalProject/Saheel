@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +19,7 @@ public class CourseEnrollmentService {
     private final CustomerRepository customerRepository;
     private final CourseRepository courseRepository;
     private final InvoiceRepository invoiceRepository;
+    private final StableRepository stableRepository;
 
 
     // ( #2 of 50 endpoints )
@@ -95,15 +97,33 @@ public class CourseEnrollmentService {
         if (courseEnrollment.getLastCancellationDate().isAfter(LocalDateTime.now()))
             throw new ApiException("The cancellation date has passed.");
 
-        // Check if the customer paid for the course.
-        if (courseEnrollment.getPaid()) {
-            // Decrease the balance of the stable.
-        }
         // Cancel the enrollment.
         courseEnrollment.setEnrollmentCanceled(true);
 
         // Save
         courseEnrollmentRepository.save(courseEnrollment);
+    }
+
+    public List<CourseEnrollment> getCanceledEnrollments(Integer stableOwnerId, Integer stableId) {
+        // Get stable owner and check if it's in the database.
+        StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwnerId);
+        if (stableOwner == null) throw new ApiException("Stable owner not found.");
+
+        // Get stable and check if it's in the database.
+        Stable stable = stableRepository.findStableById(stableId);
+        if (stable == null) throw new ApiException("Stable not found.");
+
+        // Check if the stable belongs to the owner.
+        if (!stableOwner.getStables().contains(stable))
+            throw new ApiException("The stable does not belongs to the owner.");
+
+        List<CourseEnrollment> courseEnrollments = courseEnrollmentRepository.findAll();
+        List<CourseEnrollment> canceledEnrollments = new ArrayList<>();
+
+        for (CourseEnrollment courseEnrollment : courseEnrollments)
+            if (courseEnrollment.getCourse().getStable().equals(stable) && courseEnrollment.getEnrollmentCanceled())
+                canceledEnrollments.add(courseEnrollment);
+        return canceledEnrollments;
     }
 
     public Customer getCustomerOrThrow(Integer customerId) {

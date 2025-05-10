@@ -8,8 +8,10 @@ import com.example.saheel.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -103,6 +105,22 @@ public class StableService {
         message.setText(body);
         message.setFrom(from);
         mailSender.send(message);
+    }
+
+    public List<Stable> getAvailableStables(){
+        // Get all the stables
+        List<Stable> stables = stableRepository.findAll();
+
+        // List to store the available stables.
+        List<Stable> availableStables = new ArrayList<>();
+
+        // Get the available stables.
+        for (Stable stable : stables) {
+            int countOfHorses = 0;
+            for (Membership membership : stable.getMemberships()) countOfHorses += membership.getHorses().size();
+            if(countOfHorses < stable.getCapacity()) availableStables.add(stable);
+        }
+        return availableStables;
     }
 
 }

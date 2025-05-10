@@ -42,4 +42,9 @@ public class CourseController {
         courseService.cancelCourse(user.getId(), stableId, courseId);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course deleted successfully."));
     }
+
+    @GetMapping("/get-available-courses")
+    public ResponseEntity<List<Course>> getAvailableCourses(){
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.getAvailableCourses());
+    }
 }

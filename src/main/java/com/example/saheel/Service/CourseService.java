@@ -10,6 +10,8 @@ import com.example.saheel.Repository.TrainerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,10 +33,9 @@ public class CourseService {
     }
 
 
-
     // ( #5 of 50 endpoints )
 
-//    #5
+    //    #5
     public void addCourseByOwner(Integer stableOwnerId, Integer stableId, Integer trainerId, Course course) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
@@ -47,7 +48,7 @@ public class CourseService {
 
         // Get the trainer and check if it's in the database.
         Trainer trainer = trainerRepository.findTrainerById(trainerId);
-        if(trainer == null) throw new ApiException("Trainer not found.");
+        if (trainer == null) throw new ApiException("Trainer not found.");
 
         // Assign the trainer to the course.
         course.setTrainer(trainer);
@@ -125,6 +126,16 @@ public class CourseService {
 
         // Save
         courseRepository.save(course);
+    }
+
+    public List<Course> getAvailableCourses() {
+        List<Course> courses = courseRepository.findAll();
+        List<Course> availableCourses = new ArrayList<>();
+        for (Course course : courses)
+            if (course.getCourseEnrollments().size() < course.getCapacity() &&
+                    course.getFinalEnrollmentDate().isAfter(LocalDateTime.now()))
+                availableCourses.add(course);
+        return availableCourses;
     }
 
 

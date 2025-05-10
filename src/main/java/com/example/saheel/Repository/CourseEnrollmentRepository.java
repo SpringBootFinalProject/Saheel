@@ -15,4 +15,6 @@ public interface CourseEnrollmentRepository extends JpaRepository<CourseEnrollme
     CourseEnrollment findCourseEnrollmentByCourseAndCustomer(Course course, Customer customer);
 
     List<CourseEnrollment> findCourseEnrollmentByCourse(Course course);
+
+
 }
