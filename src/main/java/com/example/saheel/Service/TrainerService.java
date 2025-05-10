@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TrainerService {
 
-    private TrainerRepository trainerRepository;
+    private final TrainerRepository trainerRepository;
 
-    private StableOwnerRepository stableOwnerRepository;
-    private StableRepository stableRepository;
+    private final StableOwnerRepository stableOwnerRepository;
+    private final StableRepository stableRepository;
 
     //get Trainer by ID - Abeer
     public Trainer getTrainerById(Integer trainer_Id) {
