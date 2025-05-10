@@ -20,6 +20,7 @@ public class StableOwnerController {
 
     private final StableOwnerService stableOwnerService;
 
+
     // Get stableOwner by ID - Abeer
     @GetMapping("/get-my-stable")
     public ResponseEntity<StableOwner> getStableOwnerById(@AuthenticationPrincipal User user ) {

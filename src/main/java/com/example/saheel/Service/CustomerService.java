@@ -26,7 +26,7 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    //#8
+    // ( #8 of 50 endpoints )
     public void registerCustomer(CustomerDtoIn customerDtoIn) {
 
         //Create the user and set the role.

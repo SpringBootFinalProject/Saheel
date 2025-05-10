@@ -45,6 +45,7 @@ public class BreederController {
         return ResponseEntity.ok(new ApiException("Breeder assign successfully"));
     }
 
+    // TODO لازم نحط     @AuthenticationPrincipal لان اللي بيسويها صاحب الاسطبل
     //assignBreederToHorse - abeer
     @PutMapping("/assignBreeder/{breeder_Id}/ToHorse/{horse_Id}")
     public ResponseEntity<ApiException> assignBreederToHorse(@PathVariable Integer breeder_Id,@PathVariable Integer horse_Id) {

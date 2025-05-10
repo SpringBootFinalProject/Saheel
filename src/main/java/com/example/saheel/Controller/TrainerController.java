@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class TrainerController {
     private final TrainerService trainerService;
 
+
+    // TODO لازم نحط     @AuthenticationPrincipal لان اللي بيسويها صاحب الاسطبل
     // Get trainer by ID - Abeer
     @GetMapping("/get/{trainer_Id}")
     public ResponseEntity<Trainer> getTrainerById(@PathVariable Integer trainer_Id) {

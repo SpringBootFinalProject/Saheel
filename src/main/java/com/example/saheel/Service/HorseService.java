@@ -38,7 +38,8 @@ public class HorseService {
         horseRepository.save(horse);
     }
 
-    // #17
+
+    // ( #17 of 50 endpoints )
     public void assignHorseToMembership(Integer horseId, Integer ownerId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
         if (owner == null) {

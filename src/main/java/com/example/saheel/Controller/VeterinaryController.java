@@ -17,6 +17,7 @@ public class VeterinaryController {
 
     private final VeterinaryService veterinaryService;
 
+    // TODO لازم نحط     @AuthenticationPrincipal لان اللي بيسويها صاحب الاسطبل
     // Get veterinary by ID - Abeer
     @GetMapping("/get/{veterinary_Id}")
     public ResponseEntity<Veterinary> getVeterinaryById(@PathVariable Integer veterinary_Id) {
@@ -46,6 +47,7 @@ public class VeterinaryController {
         return ResponseEntity.ok(new ApiException("Trainer assign successfully"));
     }
 
+    // TODO لازم نحط     @AuthenticationPrincipal لان اللي بيسويها صاحب الاسطبل
     //assignVeterinaryToHorse - abeer
     @PutMapping("/assignVeterinary/{veterinary_Id}/ToHorse/{horse_Id}")
     public ResponseEntity<ApiException> assignVeterinaryToHorse(@PathVariable Integer veterinary_Id,@PathVariable Integer horse_Id) {

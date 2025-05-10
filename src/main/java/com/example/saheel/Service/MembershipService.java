@@ -24,7 +24,7 @@ public class MembershipService {
     private final StableRepository stableRepository;
     private final HorseRepository horseRepository;
 
-    //#10
+    // ( #10 of 50 endpoints )
     // get All Memberships
     public MembershipDTO getOwnerActiveMembership(Integer ownerId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
@@ -49,7 +49,7 @@ public class MembershipService {
         );
     }
 
-    //#11
+    // ( #11 of 50 endpoints )
     // add Membership
     public void requestMembership(Membership membership, Integer ownerId, Integer stableId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
@@ -102,7 +102,7 @@ public class MembershipService {
     }
 
 
-    //#12
+    // ( #12 of 50 endpoints )
     // update Membership
     public void renewMembership(Integer ownerId, Membership updatedMembership, Integer membershipId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
@@ -147,7 +147,7 @@ public class MembershipService {
     }
 
 
-    //#13
+    // ( #13 of 50 endpoints )
     // delete Membership
     public void cancelMembership(Integer ownerId, Integer id, Integer stableId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);

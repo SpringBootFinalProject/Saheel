@@ -30,7 +30,8 @@ public class CourseService {
         return courseRepository.findCoursesByStable(stable);
     }
 
-//    #5
+
+    // ( #5 of 50 endpoints )
     public void addCourseByOwner(Integer stableOwnerId, Integer stableId, Course course) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
@@ -82,6 +83,7 @@ public class CourseService {
         courseRepository.save(oldCourse);
     }
 
+    // ( #6 of 50 endpoints )
     public void cancelCourse(Integer stableOwnerId, Integer stableId, Integer courseId) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
@@ -109,7 +111,7 @@ public class CourseService {
     }
 
 
-    public void changeEnrollmentsCourseStatus(List<CourseEnrollment> courseEnrollments){
+    public void changeEnrollmentsCourseStatus(List<CourseEnrollment> courseEnrollments) {
         for (CourseEnrollment courseEnrollment : courseEnrollments) courseEnrollment.setCourseCanceled(true);
     }
 

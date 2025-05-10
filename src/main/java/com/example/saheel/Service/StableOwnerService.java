@@ -31,7 +31,7 @@ public class StableOwnerService {
         return stableOwner;
     }
 
-    //#1
+    // ( #1 of 50 endpoints )
     //register stableOwner
     public void registerStableOwner(StableOwnerDTO stableOwnerDTO) {
         User user = new User();
