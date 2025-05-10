@@ -56,7 +56,8 @@ public class Trainer {
     private int yearsOfExperience;
 
     @Column(columnDefinition = "double")
-    private double rating;
+    private Double totalRating;
+    private Double totalNumberOfRatings;
 
     private Boolean isActive = false;
 

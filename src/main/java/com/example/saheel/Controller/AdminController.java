@@ -55,7 +55,7 @@ public class AdminController {
 
     // ( #28 of 50 endpoints )
     // This method sends a welcome email to all new members who joined today.
-    @PostMapping("/admin/send-membership-welcome")
+    @PostMapping("/send-membership-welcome")
     public ResponseEntity<?> sendWelcomeToNewMembers(@AuthenticationPrincipal User user) {
         adminService.sendWelcomeEmailsToNewMembers(user.getId());
         return ResponseEntity.ok(new ApiResponse("Welcome emails have been sent to new members."));

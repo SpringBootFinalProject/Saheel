@@ -160,7 +160,6 @@ public class TrainerService {
         oldTrainer.setMembershipNumber(trainer.getMembershipNumber());
 //        oldTrainer.setSpecialty(trainer.getSpecialty());
         oldTrainer.setYearsOfExperience(trainer.getYearsOfExperience());
-        oldTrainer.setRating(trainer.getRating());
 
         trainerRepository.save(oldTrainer);
     }
@@ -180,6 +179,16 @@ public class TrainerService {
         trainerRepository.delete(trainer);
     }
 
+    public void rateTrainer(Integer userId, Integer trainerId){
+        // Get the trainer and check if it's in the system.
+        Trainer trainer = trainerRepository.findTrainerById(trainerId);
+        if(trainer == null) throw new ApiException("Trainer not found.");
+
+        /// TODO : Get the Customer/HorseOwner and do the (تشييك).
+
+
+    }
+
     public String getTopRatedTrainer() {
         // Get all the trainers on the system.
         List<Trainer> trainers = trainerRepository.findAll();
@@ -191,10 +200,11 @@ public class TrainerService {
         Trainer topRatedTrainer = findTopRatedTrainer(trainers);
 
         // Check if the all the trainers don't have ratings.
-        if (topRatedTrainer.getRating() == 0) return "All the trainers do not have a rating.";
+        if (topRatedTrainer.getTotalNumberOfRatings() == 0) return "All the trainers do not have a rating.";
 
         // Return the top-rated trainer.
-        return "The top rated trainer is: " + topRatedTrainer.getFullName() + " with a rating of: " + topRatedTrainer.getRating() + ".";
+        return "The top rated trainer is: " + topRatedTrainer.getFullName() + " with a rating of: "
+                + (topRatedTrainer.getTotalRating() / topRatedTrainer.getTotalNumberOfRatings()) + ".";
     }
 
     public String getTopRatedTrainerOfStable(Integer stableId){
@@ -210,16 +220,26 @@ public class TrainerService {
         Trainer topRatedTrainer = findTopRatedTrainer(trainers);
 
         // Check if the all the trainers don't have ratings.
-        if (topRatedTrainer.getRating() == 0) return "All the trainers do not have a rating.";
+        if (topRatedTrainer.getTotalNumberOfRatings() == 0) return "All the trainers do not have a rating.";
 
         // Return the top-rated trainer.
-        return "The top rated trainer is: " + topRatedTrainer.getFullName() + " with a rating of: " + topRatedTrainer.getRating() + ".";
+        return "The top rated trainer at " + stable.getName() + " is: " + topRatedTrainer.getFullName()
+                + " with a rating of: " + (topRatedTrainer.getTotalRating() / topRatedTrainer.getTotalNumberOfRatings()) + ".";
     }
 
     public Trainer findTopRatedTrainer(List<Trainer> trainers) {
         Trainer topRatedTrainer = trainers.get(0);
-        for (Trainer trainer : trainers)
-            if (trainer.getRating() > topRatedTrainer.getRating()) topRatedTrainer = trainer;
+        boolean flag = false;
+        for (Trainer trainer : trainers) {
+            // Handle division by 0.
+            if(trainer.getTotalNumberOfRatings() == 0) continue;
+            if(!flag) {
+                topRatedTrainer = trainer;
+                flag = true;
+            }
+            if ((trainer.getTotalRating() / trainer.getTotalNumberOfRatings()) > (topRatedTrainer.getTotalRating() / topRatedTrainer.getTotalNumberOfRatings()))
+                topRatedTrainer = trainer;
+        }
         return topRatedTrainer;
     }
 }

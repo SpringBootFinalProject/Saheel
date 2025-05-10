@@ -33,7 +33,7 @@ public class StableReviewService {
 
     // ( #16 of 50 endpoints )
     // add Review
-    public void addReview(StableReview review, Integer horseOwnerId, Integer stableId) {
+    public void reviewStable(StableReview review, Integer horseOwnerId, Integer stableId) {
         // Get the horse owner and check
         HorseOwner horseOwner = horseOwnerRepository.findHorseOwnerById(horseOwnerId);
         if (horseOwner == null) {
@@ -48,6 +48,10 @@ public class StableReviewService {
         // Check if
         if (!stableReviewRepository.findCourseReviewsByStableAndHorseOwner(stable, horseOwner).isEmpty())
             throw new ApiException("Customer can not make more than one review");
+
+        // Rate the stable.
+        stable.setTotalRating(stable.getTotalRating() + review.getRating());
+        stable.setTotalNumberOfRatings(stable.getTotalNumberOfRatings() + 1);
 
         // Set relationships and save the review.
         review.setHorseOwner(horseOwner);

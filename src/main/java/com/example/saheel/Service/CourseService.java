@@ -138,6 +138,54 @@ public class CourseService {
         return availableCourses;
     }
 
+    public String getTopRatedCourse(){
+        List<Course> courses = courseRepository.findAll();
+        // Check if there is courses on the system.
+        if (courses.isEmpty()) return "There are no courses";
+
+        // Get the top-rated trainer.
+        Course topRatedCourse = findTopRatedCourse(courses);
+
+        // Check if the all the trainers don't have ratings.
+        if (topRatedCourse.getTotalNumberOfRatings() == 0) return "All the courses do not have a rating.";
+
+        // Return the top-rated trainer.
+        return "The top rated course is: " + topRatedCourse.getName() + " with a rating of: "
+                + (topRatedCourse.getTotalRating() / topRatedCourse.getTotalNumberOfRatings()) + ".";
+    }
+
+    public Course findTopRatedCourse(List<Course> courses){
+        Course topRatedCourse = courses.get(0);
+        boolean flag = false;
+        for (Course course : courses) {
+            // Handle division by 0.
+            if(course.getTotalNumberOfRatings() == 0) continue;
+            if(!flag) {
+                topRatedCourse = course;
+                flag = true;
+            }
+            if ((course.getTotalRating() / course.getTotalNumberOfRatings()) > (topRatedCourse.getTotalRating() / topRatedCourse.getTotalNumberOfRatings()))
+                topRatedCourse = course;
+        }
+        return topRatedCourse;
+
+    }
+
+//    public Trainer findTopRatedTrainer(List<Trainer> trainers) {
+//        Trainer topRatedTrainer = trainers.get(0);
+//        boolean flag = false;
+//        for (Trainer trainer : trainers) {
+//            // Handle division by 0.
+//            if(trainer.getTotalNumberOfRatings() == 0) continue;
+//            if(!flag) {
+//                topRatedTrainer = trainer;
+//                flag = true;
+//            }
+//            if ((trainer.getTotalRating() / trainer.getTotalNumberOfRatings()) > (topRatedTrainer.getTotalRating() / topRatedTrainer.getTotalNumberOfRatings()))
+//                topRatedTrainer = trainer;
+//        }
+//        return topRatedTrainer;
+//    }
 
     public void changeEnrollmentsCourseStatus(List<CourseEnrollment> courseEnrollments) {
         for (CourseEnrollment courseEnrollment : courseEnrollments) courseEnrollment.setCourseCanceled(true);
