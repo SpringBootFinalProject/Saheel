@@ -24,7 +24,6 @@ public class StableController {
         return ResponseEntity.ok().body(stableService.getOwnerHorses());
     }
 
-
     // Get stable by ID - Abeer
     @GetMapping("/get-my-stable/{stable_Id}")
     public ResponseEntity<Stable> getStableById(@PathVariable Integer stable_Id) {

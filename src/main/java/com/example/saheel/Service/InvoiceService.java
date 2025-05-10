@@ -14,7 +14,6 @@ import com.lowagie.text.Element;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -94,5 +93,5 @@ public class InvoiceService {
         } catch (Exception e) {
             throw new RuntimeException("Failed to generate PDF", e);
         }
+        }
     }
-}
