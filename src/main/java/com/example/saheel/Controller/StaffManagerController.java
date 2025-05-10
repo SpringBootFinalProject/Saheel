@@ -1,6 +1,7 @@
 package com.example.saheel.Controller;
 
 import com.example.saheel.Api.ApiException;
+import com.example.saheel.Api.ApiResponse;
 import com.example.saheel.Model.Horse;
 import com.example.saheel.Model.Trainer;
 import com.example.saheel.Model.User;
@@ -74,6 +75,30 @@ public class StaffManagerController {
     public ResponseEntity<List<Horse>> getAllHorsesByBreeder(@PathVariable Integer breeder_Id) {
         List<Horse> horses = staffManagerService.getHorsesByBreeder(breeder_Id);
         return ResponseEntity.ok(horses);
+    }
+
+
+    @PostMapping("/veterinary/visit/{horse_Id}")
+    public ResponseEntity<ApiResponse> createVetVisit(@AuthenticationPrincipal User user,
+                                                      @PathVariable Integer horse_Id) {
+        String message = staffManagerService.visitToVeterinary(user.getId(), horse_Id);
+        return ResponseEntity.ok(new ApiResponse(message));
+    }
+    //( #42 of 50 endpoints)
+    //mark Visit AsCompleted
+    @PutMapping("/veterinary/visit/fit/{visit_Id}")
+    public ResponseEntity<ApiResponse> markHorseAsFit(@PathVariable Integer visit_Id, @RequestBody String medicalReport) {
+        staffManagerService.markVisitAsCompleted(visit_Id, true, medicalReport);
+        return ResponseEntity.ok(new ApiResponse("The horse's status has been updated to medically fit," +
+                " and the report has been sent to the owner."));
+    }
+    //( #43 of 50 endpoints)
+    //mark Visit AsCompleted
+    @PutMapping("/veterinary/visit/unfit/{visit_Id}")
+    public ResponseEntity<ApiResponse> markHorseAsUnfit(@PathVariable Integer visit_Id, @RequestBody String medicalReport) {
+        staffManagerService.markVisitAsCompleted(visit_Id, false, medicalReport);
+        return ResponseEntity.ok(new ApiResponse("The horse's status has been updated to medically unfit," +
+                " and the report has been sent to the owner."));
     }
 
 

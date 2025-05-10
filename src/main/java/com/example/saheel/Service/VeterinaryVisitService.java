@@ -45,9 +45,9 @@ public class VeterinaryVisitService {
         if (oldVeterinaryVisit == null ){
             throw new ApiException("Error : VeterinaryVisit is not found");
         }
-        oldVeterinaryVisit.setDate(veterinaryVisit.getDate());
-        oldVeterinaryVisit.setPrice(veterinaryVisit.getPrice());
-        oldVeterinaryVisit.setDurationInMinute(veterinaryVisit.getDurationInMinute());
+//        oldVeterinaryVisit.setDate(veterinaryVisit.getDate());
+//        oldVeterinaryVisit.setPrice(veterinaryVisit.getPrice());
+        //oldVeterinaryVisit.setDurationInMinute(veterinaryVisit.getDurationInMinute());
         veterinaryVisitRepository.save(veterinaryVisit);
     }
 

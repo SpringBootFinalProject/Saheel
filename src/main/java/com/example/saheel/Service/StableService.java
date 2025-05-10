@@ -57,7 +57,7 @@ public class StableService {
                 "9- يحق للإدارة تعليق عضوية أي خيال أو صاحب حصان يخالف شروط الاستخدام.\n" +
                 "10- نقل الحصان من إسطبل إلى آخر يتطلب موافقة الطرفين وتحديث بيانات الاشتراك.\n" +
                 "11-في الحالات الطارئة، يتم الرجوع إلى الطبيب البيطري المعتمد لدى الإسطبل.!";
-        String from = "Aboor.1048@gmail.com";
+        String from = "saheelproject@gmail.com";
 
         sendEmailToUser(user.getId(),subject,body,from);
     }
