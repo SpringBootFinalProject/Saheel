@@ -28,7 +28,6 @@ public class VeterinaryService {
     }
 
 
-    // انا ( #31 of 50 endpoints )
 
     //( #38 of 50 endpoints)
     //search Veterinary By Name

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class TrainerService {
 
 
-
     private final TrainerRepository trainerRepository;
     private final StableOwnerRepository stableOwnerRepository;
     private final StableRepository stableRepository;
@@ -78,7 +77,7 @@ public class TrainerService {
 
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null) {
-            throw new ApiException ("Error : Stable is not found");
+            throw new ApiException("Error : Stable is not found");
         }
 
         // Check that this stable belongs to the registered owner.
@@ -88,7 +87,7 @@ public class TrainerService {
 
         Trainer trainer = trainerRepository.findTrainerById(trainer_Id);
         if (trainer == null) {
-            throw  new ApiException("Error : Trainer is not found");
+            throw new ApiException("Error : Trainer is not found");
         }
 
         trainer.setStable(stable);
@@ -157,7 +156,7 @@ public class TrainerService {
         oldTrainer.setAge(trainer.getAge());
         oldTrainer.setEmail(trainer.getEmail());
         oldTrainer.setMembershipNumber(trainer.getMembershipNumber());
-        oldTrainer.setSpecialty(trainer.getSpecialty());
+//        oldTrainer.setSpecialty(trainer.getSpecialty());
         oldTrainer.setYearsOfExperience(trainer.getYearsOfExperience());
         oldTrainer.setRating(trainer.getRating());
 

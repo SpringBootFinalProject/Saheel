@@ -76,15 +76,13 @@ public class InvoiceService {
             document.add(Chunk.NEWLINE); // Blank line
             // Format the renters
             StringBuilder renters = new StringBuilder("");
-//            for (Renter renter : invoice.getRenters()) {
-//                renters.append("Name: " + renter.getName() + "\nEmail: " + renter.getEmail() + "\n---------\n");
-//            }
+
             // Format the pdf
             document.add(new Paragraph("---------------------------------------------------------------------"));
             document.add(new Paragraph("Invoice ID: " + invoice.getId()));
             document.add(new Paragraph("payment status: " + invoice.getStatus()));
             document.add(new Paragraph("Customer Name: " + invoice.getCustomer().getUser().getFullName()));
-            // document.add(new Paragraph("Renters:\n" + renters));
+//             document.add(new Paragraph("Renters:\n" + renters));
             document.add(new Paragraph("---------------------------------------------------------------------"));
 
 
