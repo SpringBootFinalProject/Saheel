@@ -1,6 +1,6 @@
 package com.example.saheel.Service;
 
-import com.example.saheel.DtoIn.CustomerDtoIn;
+import com.example.saheel.DTO.CustomerDTO;
 import com.example.saheel.Model.Customer;
 import com.example.saheel.Model.User;
 import com.example.saheel.Repository.CustomerRepository;
@@ -27,7 +27,7 @@ public class CustomerService {
     }
 
     // ( #8 of 50 endpoints )
-    public void registerCustomer(CustomerDtoIn customerDtoIn) {
+    public void registerCustomer(CustomerDTO customerDtoIn) {
 
         //Create the user and set the role.
         User user = new User(null, customerDtoIn.getUsername(), new BCryptPasswordEncoder().encode(customerDtoIn.getPassword()),
@@ -46,7 +46,7 @@ public class CustomerService {
         userRepository.save(user);
     }
 
-    public void updateCustomer(Integer userId, CustomerDtoIn customerDtoIn) {
+    public void updateCustomer(Integer userId, CustomerDTO customerDtoIn) {
         // Get the user and check if it's in the database.
         User user = helperService.getCustomerOrThrow(userId);
 

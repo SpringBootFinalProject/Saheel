@@ -1,4 +1,4 @@
-package com.example.saheel.DtoIn;
+package com.example.saheel.DTO;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Email;
@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CustomerDtoIn {
+public class CustomerDTO {
     @NotEmpty(message = "The username can not be empty.")
     @Column(columnDefinition = "varchar(20) unique not null")
     private String username;
