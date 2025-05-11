@@ -70,15 +70,18 @@ public class MembershipPaymentService {
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(MOYASAR_API_URL , HttpMethod.POST, entity, String.class);
 
         String body = response.getBody();
         JsonNode json = new ObjectMapper().readTree(body);
         String paymentId = json.get("id").asText();
 
+
+
         invoice.setPaymentId(paymentId);
         invoice.setStatus("initiated");
         invoiceRepository.save(invoice);
+
 
         return ResponseEntity.status(response.getStatusCode()).body(new ApiResponse(body));
     }
