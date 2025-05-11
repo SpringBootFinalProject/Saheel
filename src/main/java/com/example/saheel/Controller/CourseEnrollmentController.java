@@ -35,4 +35,9 @@ public class CourseEnrollmentController {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Enrollment canceled successfully."));
 
     }
+
+    @GetMapping("/get-canceled-enrollments/{stableId}")
+    public ResponseEntity<List<CourseEnrollment>> getCanceledCourseEnrollment(@AuthenticationPrincipal User user, @PathVariable Integer stableId){
+        return ResponseEntity.status(HttpStatus.OK).body(courseEnrollmentService.getCanceledEnrollments(user.getId(), stableId));
+    }
 }

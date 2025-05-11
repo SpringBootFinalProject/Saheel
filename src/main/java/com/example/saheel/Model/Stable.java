@@ -39,7 +39,8 @@ public class Stable {
     private String location; //What is the format of the location?
 
     @Column(columnDefinition = "double")
-    private double rating;
+    private Double totalRating;
+    private Double totalNumberOfRatings;
 
 
 

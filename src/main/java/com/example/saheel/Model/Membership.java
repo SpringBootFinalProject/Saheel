@@ -52,5 +52,8 @@ public class Membership {
     @JsonIgnore
     private HorseOwner horseOwner;
 
+    @OneToOne(mappedBy = "membership", cascade = CascadeType.ALL)
+    private MembershipInvoice invoice;
+
 
 }

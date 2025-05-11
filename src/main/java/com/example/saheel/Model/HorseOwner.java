@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -32,4 +33,8 @@ public class HorseOwner {
 
     @OneToMany(mappedBy = "horseOwner", cascade = CascadeType.ALL)
     private List<StableReview> reviews;
+
+    @OneToMany(mappedBy = "horseOwner")
+    private List<MembershipInvoice> invoices;
+
 }
