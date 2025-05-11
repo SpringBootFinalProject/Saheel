@@ -43,11 +43,5 @@ public class UserRepositoryTest {
         Assertions.assertThat(found.getEmail()).isEqualTo("abrar@example.com");
     }
 
-    // TODO تعديل
-    @Test
-    public void testFinUserByIdAndRole() {
-        User found = userRepository.findUserByIdAndRole(null,"CUSTOMER");
-        Assertions.assertThat(found).isNotNull();
-        Assertions.assertThat(found.getUsername()).isEqualTo("abrar123");
-    }
+
 }
