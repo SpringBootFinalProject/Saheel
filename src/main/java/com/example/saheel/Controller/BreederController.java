@@ -27,18 +27,12 @@ public class BreederController {
         return ResponseEntity.ok(breeder);
     }
 
-<<<<<<< HEAD
-    // TODO تغير الاسم
-    //searchVeterinaryByName
-    @GetMapping("/search-by-name/{fullName}")
-    public ResponseEntity<Breeder> searchVeterinaryByName(@AuthenticationPrincipal User user, @PathVariable String fullName) {
-=======
 
     // ( #6 of 50 endpoints )
    // search name of Breeder By stable owner
     @GetMapping("/search-byName/{fullName}")
     public ResponseEntity<Breeder> searchBreederByName(@AuthenticationPrincipal User user, @PathVariable String fullName) {
->>>>>>> 18a0d4d79e48947697190586f5dd6a68fdc7369b
+
         Breeder breeder = breederService.searchBreederByName(user.getId(),fullName);
         return ResponseEntity.ok(breeder);
     }

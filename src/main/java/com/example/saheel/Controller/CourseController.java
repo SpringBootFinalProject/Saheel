@@ -40,14 +40,9 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course updated successfully."));
     }
 
-<<<<<<< HEAD
-    @DeleteMapping("/cancel-course/{stableId}/{courseId}")
-    public ResponseEntity<ApiResponse> cancelCourse(@AuthenticationPrincipal User user, @PathVariable Integer stableId, @PathVariable Integer courseId) {
-=======
     // ( #9 of 50 endpoints )
     @DeleteMapping("/delete-course/{stableId}/{courseId}")
     public ResponseEntity<ApiResponse> removeCourse(@AuthenticationPrincipal User user, @PathVariable Integer stableId, @PathVariable Integer courseId) {
->>>>>>> 18a0d4d79e48947697190586f5dd6a68fdc7369b
         courseService.cancelCourse(user.getId(), stableId, courseId);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course deleted successfully."));
     }
@@ -64,7 +59,7 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(courseService.getTopRatedCourse()));
     }
 
-<<<<<<< HEAD
+
     @GetMapping("/get-courses-by-trainer{trainerId}")
     public ResponseEntity<List<Course>> getCoursesByTrainer(@PathVariable Integer trainerId){
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getCoursesByTrainer(trainerId));
@@ -74,6 +69,5 @@ public class CourseController {
     public ResponseEntity<List<Course>> getCoursesByDate(@RequestBody LocalDateTime dateTime){
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getCoursesByDate(dateTime));
     }
-=======
->>>>>>> 18a0d4d79e48947697190586f5dd6a68fdc7369b
+
 }

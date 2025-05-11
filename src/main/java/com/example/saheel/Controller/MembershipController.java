@@ -34,13 +34,11 @@ public class MembershipController {
         membershipService.requestMembership(membership, user.getId(), stableId);
         return ResponseEntity.status(200).body(new ApiResponse("Membership added"));
     }
-<<<<<<< HEAD
 
-    @PutMapping("/renew-membership/{id}")
-=======
+
+
     // ( #28 of 50 endpoints)
-    @PutMapping("/renew/{id}")
->>>>>>> 18a0d4d79e48947697190586f5dd6a68fdc7369b
+    @PutMapping("/renew-membership/{id}")
     public ResponseEntity<?> renewMembership(@AuthenticationPrincipal User user, @PathVariable Integer id, @RequestBody Membership membership) {
         membershipService.renewMembership(user.getId(), membership, id);
         return ResponseEntity.ok(new ApiResponse("Membership renewed successfully"));
