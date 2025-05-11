@@ -19,7 +19,12 @@ public class BreederService {
     private final MembershipRepository membershipRepository;
 
     //get Breeder by ID - Abeer
-    public Breeder getBreederById(Integer breeder_Id){
+    public Breeder getBreederById(Integer stableOwner_Id, Integer breeder_Id){
+        StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
+        if (stableOwner == null) {
+            throw new ApiException("Error : stable owner is not found");
+        }
+
         Breeder breeder = breederRepository.findBreederById(breeder_Id);
         if (breeder == null){
             throw new ApiException("Error : breeder is not found");
@@ -29,10 +34,7 @@ public class BreederService {
 
 
     // ( #29 of 50 endpoints )
-
-    //( #39 of 50 endpoints)
     //search Breeder By Name
-
     public Breeder searchBreederByName(Integer stableOwner_Id , String fullName){
 
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
@@ -63,16 +65,6 @@ public class BreederService {
         breeder.setStable(stable);
         breederRepository.save(breeder);
     }
-
-
-    // TODO تعديل
-    // ( #29 of 50 endpoints )
-    //move breeder To Another Stable -Abeer
-    public void moveBreederToAnotherStable(Integer stableOwner_Id, Integer breeder_Id, Integer stable_Id) {
-
-    }
-
-
 
     //update Breeder - Abeer
     public void updateBreeder( Integer stableOwner_Id ,Integer stable_Id ,Integer breeder_Id, Breeder breeder ) {

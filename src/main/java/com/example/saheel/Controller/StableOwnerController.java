@@ -20,7 +20,7 @@ public class StableOwnerController {
 
     private final StableOwnerService stableOwnerService;
 
-
+    // ( #37 of 50 endpoints.)
     // Get stableOwner by ID - Abeer
     @GetMapping("/get-my-stable")
     public ResponseEntity<StableOwner> getStableOwnerById(@AuthenticationPrincipal User user ) {
@@ -28,6 +28,7 @@ public class StableOwnerController {
         return ResponseEntity.ok(stableOwner);
     }
 
+    // ( #38 of 50 endpoints )
     // Add new stable owner
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> registerStableOwner(@RequestBody StableOwnerDTO stableOwnerDTO) {

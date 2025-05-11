@@ -19,13 +19,14 @@ public class StableReviewController {
     private final StableReviewService stableReviewService;
     private final UserRepository userRepository;
 
-
+    // ( #39 of 50 endpoints )
     @GetMapping("/stables/{stableId}/reviews")
     public ResponseEntity<List<StableReview>> getReviewsByStable(@PathVariable Integer stableId) {
         List<StableReview> reviews = stableReviewService.getReviewsByStable(stableId);
         return ResponseEntity.ok(reviews);
     }
 
+    // ( #40 of 50 endpoints )
     //  add Review of  Stable
     @PostMapping("/add/{stableId}")
     public ResponseEntity<?> addReview(@AuthenticationPrincipal User user,
@@ -51,7 +52,7 @@ public class StableReviewController {
         return ResponseEntity.status(200).body(new ApiResponse("Review Deleted"));
     }
 
-    // ( #22 of 50 endpoints)
+    // ( #41 of 50 endpoints)
     // The reviews are sorted from best rating to worst rating.
     @GetMapping("/reviews/sorted")
     public ResponseEntity<List<StableReview>> getSortedReviews() {

@@ -16,4 +16,6 @@ public interface VeterinaryRepository extends JpaRepository<Veterinary , Integer
 
     Veterinary findFirstByStableAndIsActive(Stable stable , Boolean isActive);
 
+
+
 }

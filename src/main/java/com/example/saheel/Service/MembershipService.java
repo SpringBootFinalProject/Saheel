@@ -19,6 +19,7 @@ public class MembershipService {
     private final StableRepository stableRepository;
     private final HorseRepository horseRepository;
     private final MembershipInvoiceRepository membershipInvoiceRepository;
+    private final VeterinaryRepository veterinaryRepository;
 
     // ( #10 of 50 endpoints )
     // get All Memberships
@@ -165,6 +166,8 @@ public class MembershipService {
         List<Horse> horses = horseRepository.findAllByMembership(membership);
         for (Horse horse : horses) {
             horse.setMembership(null);
+            horse.setVeterinary(null);
+            horse.setBreeder(null);
             horseRepository.save(horse);
         }
 
@@ -172,6 +175,7 @@ public class MembershipService {
         membership.setIsActive(false);
         membershipRepository.save(membership);
     }
+
 
     // ( #21 of 50 endpoints)
     // This method gets all memberships that are expired.

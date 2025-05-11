@@ -25,6 +25,7 @@ public class StaffManagerService {
     private final VeterinaryVisitRepository veterinaryVisitRepository;
     private final UserRepository userRepository;
     private final JavaMailSender mailSender;
+    private final StableOwnerRepository stableOwnerRepository;
 
 
     //( #30 of 50 endpoints)
@@ -49,41 +50,6 @@ public class StaffManagerService {
         breeder.setStable(newStable);
         breederRepository.save(breeder);
     }
-
-    //( #31 of 50 endpoints)
-//to assignBreederToHorse -Abeer
-    public void assignBreederToHorse(Integer stableOwner_Id, Integer breeder_Id, Integer horse_Id) {
-
-        Horse horse = horseRepository.findHorseById(horse_Id);
-        if (horse == null) {
-            throw new ApiException("Error: Horse is not found");
-        }
-
-        Membership membership = membershipRepository.findByHorsesIdAndIsActiveTrue(horse_Id);
-        if (membership == null) {
-            throw new ApiException("Error: This horse does not have an active membership");
-        }
-
-        if (!membership.getStable().getStableOwner().getId().equals(stableOwner_Id)) {
-            throw new ApiException("Error: You are not the owner of the stable this horse belongs to");
-        }
-
-        Breeder breeder = breederRepository.findBreederById(breeder_Id);
-        if (breeder == null) {
-            throw new ApiException("Error: Breeder not found");
-        }
-
-        if (!breeder.getStable().getId().equals(membership.getStable().getId())) {
-            throw new ApiException("Error: Breeder and horse must belong to the same stable");
-        }
-
-
-
-        horse.setBreeder(breeder);
-        breeder.setIsActive(true);
-        horseRepository.save(horse);
-    }
-
 
     //( #32 of 50 endpoints)
     //move Trainer To Another Stable -Abeer
@@ -131,10 +97,47 @@ public class StaffManagerService {
         veterinaryRepository.save(veterinary);
     }
 
+    //( #31 of 50 endpoints)
+//to assignBreederToHorse -Abeer
+    public void assignBreederToHorse(Integer stableOwner_Id, Integer breeder_Id, Integer horse_Id) {
+
+        Horse horse = horseRepository.findHorseById(horse_Id);
+        if (horse == null) {
+            throw new ApiException("Error: Horse is not found");
+        }
+
+        Membership membership = membershipRepository.findByHorsesIdAndIsActiveTrue(horse_Id);
+        if (membership == null) {
+            throw new ApiException("Error: This horse does not have an active membership");
+        }
+
+        if (!membership.getStable().getStableOwner().getId().equals(stableOwner_Id)) {
+            throw new ApiException("Error: You are not the owner of the stable this horse belongs to");
+        }
+
+        Breeder breeder = breederRepository.findBreederById(breeder_Id);
+        if (breeder == null) {
+            throw new ApiException("Error: Breeder not found");
+        }
+
+        if (!breeder.getStable().getId().equals(membership.getStable().getId())) {
+            throw new ApiException("Error: Breeder and horse must belong to the same stable");
+        }
+
+
+        int size = breeder.getHorses().size();
+        if (size >= 2) {
+            throw new ApiException("Error: each breeder only cares for 2 horses");
+        }
+
+        horse.setBreeder(breeder);
+        breeder.setIsActive(true);
+        horseRepository.save(horse);
+    }
+
     //( #34 of 50 endpoints)
 //assign veterinary it horse-Abeer
     public void assignVeterinaryToHorse(Integer stableOwner_Id, Integer veterinary_Id, Integer horse_Id) {
-
         Membership membership = membershipRepository.findByHorsesIdAndIsActiveTrue(horse_Id);
         if (membership == null) {
             throw new ApiException("Error: This horse does not have an active membership");
@@ -152,6 +155,12 @@ public class StaffManagerService {
 
         if (!membership.getStable().getStableOwner().getId().equals(stableOwner_Id)) {
             throw new ApiException("Error: You are not the owner of the stable this horse belongs to");
+        }
+
+
+        int size = veterinary.getHorses().size();
+        if (size >= 2) {
+            throw new ApiException("Error: each veterinarian only cares for 2 horses");
         }
 
         horse.setVeterinary(veterinary);
@@ -183,7 +192,7 @@ public class StaffManagerService {
 
     //( #40 of 50 endpoints)
     //get list of hours by breeder
-    public List<Horse> getHorsesByBreeder( Integer breeder_Id) {
+    public List<Horse> getHorsesByBreeder(Integer breeder_Id) {
         List<Horse> horses = horseRepository.findHorsesByBreederId(breeder_Id);
         if (horses.isEmpty()) {
             throw new ApiException("Error: no horses to thes breder");
@@ -193,8 +202,8 @@ public class StaffManagerService {
     }
 
     //( #41 of 50 endpoints)
-    //visit To Veterinary
-    public String visitToVeterinary(Integer horseOwner_Id, Integer horse_Id) {
+    //Request a visit to the vet
+    public String requestVisitToVet(Integer horseOwner_Id, Integer horse_Id) {
         Horse horse = horseRepository.findHorseById(horse_Id);
         if (horse == null) {
             throw new ApiException("Error: Horse is not found");
@@ -225,23 +234,25 @@ public class StaffManagerService {
         VeterinaryVisit visit = new VeterinaryVisit();
         visit.setHorse(horse);
         visit.setVeterinary(vet);
-        visit.setReason("Request a medical examination for membership");
+        visit.setReason("Request a medical examination to enter the stable");
         visit.setVisitDateTime(LocalDateTime.now());
         visit.setIsCompleted(false);
 
         veterinaryVisitRepository.save(visit);
-
         return "A veterinary visit was successfully performed for the horse:" + horse.getName();
     }
 
     //( #42 of 50 endpoints)
     //mark Visit AsCompleted
-    public void markVisitAsCompleted( Integer visitId, boolean isFit, String medicalReport) {
+    public void markHorseAsFit(Integer stableOwner_Id ,Integer visitId, String medicalReport) {
         VeterinaryVisit visit = veterinaryVisitRepository.findVeterinaryVisitById(visitId);
         if (visit == null) {
             throw new ApiException("The visit does not exist");
         }
-
+        StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
+        if (stableOwner == null) {
+            throw new ApiException("The visit does not exist");
+        }
 
         if (visit.getIsCompleted()) {
             throw new ApiException("The visit is already completed.");
@@ -251,11 +262,10 @@ public class StaffManagerService {
         if (horse == null) {
             throw new ApiException("Error: The horse does not exist");
         }
-
         visit.setIsCompleted(true);
         visit.setMedicalReport(medicalReport);
         visit.setVisitDateTime(LocalDateTime.now());
-        horse.setIsMedicallyFit(isFit);
+        horse.setIsMedicallyFit(true);
 
         veterinaryVisitRepository.save(visit);
         horseRepository.save(horse);
@@ -263,19 +273,58 @@ public class StaffManagerService {
         HorseOwner owner = horse.getHorseOwner();
         if (owner != null && owner.getUser() != null) {
             String subject = "تقرير الفحص البيطري - Veterinary Report: " + horse.getName();
-            String result = isFit ? "الحصان لائق طبيًا - The horse is medically fit" : "الحصان غير لائق طبيًا - The horse is not medically fit";
+            String result ="الحصان لائق طبيًا - The horse is medically fit";
             String formattedDate = visit.getVisitDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-
             String body = "السلام عليكم " + owner.getUser().getFullName() + ",\n\n"
                     + "تم فحص حصانك " + horse.getName() + ".\n"
                     + "Your horse " + horse.getName() + " has been examined.\n\n"
-                    + "📄 النتيجة / Result: " + result + "\n"
-                    + "🕒 وقت الزيارة / Visit Date: " + formattedDate + "\n"
-                    + "📝 تقرير الطبيب / Vet Report:\n" + medicalReport + "\n\n"
+                    + " النتيجة / Result: " + result + "\n"
+                    + " وقت الزيارة / Visit Date: " + formattedDate + "\n"
+                    + " تقرير الطبيب / Vet Report:\n" + medicalReport + "\n\n"
                     + "شكراً لاستخدامك منصة صهيل.\n"
-                    + "Thank you for using Saheel platform.";
+                    + "Thank you for using Saheel platform";
             sendEmailToUser(owner.getUser().getId(), subject, body, "saheelproject@gmail.com");
         }
+//        public void markVisitAsCompleted( Integer visitId, boolean isFit, String medicalReport) {
+//            VeterinaryVisit visit = veterinaryVisitRepository.findVeterinaryVisitById(visitId);
+//            if (visit == null) {
+//                throw new ApiException("The visit does not exist");
+//            }
+//
+//            if (visit.getIsCompleted()) {
+//                throw new ApiException("The visit is already completed.");
+//            }
+//
+//            Horse horse = visit.getHorse();
+//            if (horse == null) {
+//                throw new ApiException("Error: The horse does not exist");
+//            }
+//
+//            visit.setIsCompleted(true);
+//            visit.setMedicalReport(medicalReport);
+//            visit.setVisitDateTime(LocalDateTime.now());
+//            horse.setIsMedicallyFit(isFit);
+//
+//            veterinaryVisitRepository.save(visit);
+//            horseRepository.save(horse);
+//
+//            HorseOwner owner = horse.getHorseOwner();
+//            if (owner != null && owner.getUser() != null) {
+//                String subject = "تقرير الفحص البيطري - Veterinary Report: " + horse.getName();
+//                String result ="الحصان غير لائق طبيًا - The horse is not medically fit";
+//                String formattedDate = visit.getVisitDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+//
+//                String body = "السلام عليكم " + owner.getUser().getFullName() + ",\n\n"
+//                        + "تم فحص حصانك " + horse.getName() + ".\n"
+//                        + "Your horse " + horse.getName() + " has been examined.\n\n"
+//                        + "📄 النتيجة / Result: " + result + "\n"
+//                        + "🕒 وقت الزيارة / Visit Date: " + formattedDate + "\n"
+//                        + "📝 تقرير الطبيب / Vet Report:\n" + medicalReport + "\n\n"
+//                        + "شكراً لاستخدامك منصة صهيل.\n"
+//                        + "Thank you for using Saheel platform.";
+//                sendEmailToUser(owner.getUser().getId(), subject, body, "saheelproject@gmail.com");
+//            }
+
     }
 
     public void sendEmailToUser(Integer userId, String subject, String body, String from) {

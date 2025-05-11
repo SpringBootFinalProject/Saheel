@@ -23,9 +23,6 @@ public class CourseEnrollmentService {
 
 
     // ( #2 of 50 endpoints )
-
-    //#2
-
     public List<CourseEnrollment> getAllCourseEnrollmentByStableOwner(Integer stableOwnerId, Integer courseId) {
         // Get the owner object and check if it's in the database.
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwnerId);
@@ -43,9 +40,6 @@ public class CourseEnrollmentService {
     }
 
     // ( #3 of 50 endpoints )
-
-    //#3
-
     public void enrollToCourse(Integer customerId, Integer courseId) {
         // Get the owner object and check if it's in the database.
         Customer customer = getCustomerOrThrow(customerId);
@@ -78,7 +72,7 @@ public class CourseEnrollmentService {
         courseEnrollmentRepository.save(courseEnrollment);
     }
 
-
+//
     public void cancelEnrollment(Integer customerId, Integer courseEnrollmentId) {
         //Get the customer
         Customer customer = getCustomerOrThrow(customerId);
