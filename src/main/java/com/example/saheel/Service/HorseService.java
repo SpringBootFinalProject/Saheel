@@ -26,7 +26,9 @@ public class HorseService {
     public List<Horse> getOwnerHorses(Integer horseOwnerId) {
         // Get the horse owner and check if it's in the database.
         HorseOwner horseOwner = getHorseOwnerOrThrow(horseOwnerId);
-        return horseRepository.findAll();
+        if(horseOwner == null) throw new ApiException("Horses Owner not found.");
+
+        return horseRepository.findHorsesByHorseOwner(horseOwner);
     }
 
     public void addHorseByOwner(Integer horseOwnerId, Horse horse) {
@@ -53,7 +55,7 @@ public class HorseService {
 
 
         // Check if the horse is medically fit.
-        if (!Boolean.TRUE.equals(horse.getIsMedicallyFit().equals(false))) {
+        if (!horse.getIsMedicallyFit().equals(false)) {
             throw new ApiException("Horse is Medically unfit");
         }
 
@@ -141,11 +143,17 @@ public class HorseService {
     // ( #20 of 50 endpoints)
     // This method sends (gifts) a horse to a new owner.
     // The horse must have an active membership to be gifted.
-    public void giftHorseToOwner(Integer horseId, Integer newOwnerId) {
+    public void giftHorseToOwner(Integer oldOwnerId, Integer horseId, Integer newOwnerId) {
+        // Get the old owner
+        HorseOwner horseOwner = horseOwnerRepository.findHorseOwnerById(oldOwnerId);
+        if(horseOwner == null) throw new ApiException("Old horse owner nto found.");
+
         Horse horse = horseRepository.findHorseById(horseId);
         if (horse == null) {
             throw new ApiException("Horse not found");
         }
+
+        if(!horseOwner.getHorses().contains(horse)) throw new ApiException("The horse does not belongs to the owner.");
 
         if (horse.getMembership() == null || !horse.getMembership().getIsActive()) {
             throw new RuntimeException("Only horses with active memberships can be gifted.");

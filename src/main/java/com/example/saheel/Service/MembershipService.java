@@ -145,7 +145,7 @@ public class MembershipService {
 
 
     // ( #13 of 50 endpoints )
-    // delete Membership
+    // Cancel Membership
     public void cancelMembership(Integer ownerId, Integer id, Integer stableId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
         if (owner == null) {
@@ -172,6 +172,10 @@ public class MembershipService {
         membership.setIsActive(false);
         membershipRepository.save(membership);
     }
+
+
+
+
 
     // ( #21 of 50 endpoints)
     // This method gets all memberships that are expired.

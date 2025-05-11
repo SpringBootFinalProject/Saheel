@@ -64,8 +64,6 @@ public class TrainerService {
         if (!stable.getStableOwner().getId().equals(stableOwner_Id)) {
             throw new ApiException("Unauthorized error: This stable does not belong to the logged-in stable owner");
         }
-
-
         trainerRepository.save(trainer);
     }
 

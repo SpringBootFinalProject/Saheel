@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class ConfigurationSecurity {
-//g
+    //g
     private final MyUserDetailsService myUserDetailsService;
 
     @Bean

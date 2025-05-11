@@ -30,7 +30,7 @@ public class CourseReviewController {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Review added successfully."));
     }
 
-    @PutMapping("/update-courseReview/{stableId}/{courseReviewId}")
+    @PutMapping("/update-course-review/{courseReviewId}")
     public ResponseEntity<ApiResponse> updateCourseReview(@AuthenticationPrincipal User user, @RequestBody CourseReview courseReview,
                                                           @PathVariable Integer courseReviewId) {
         courseReviewService.updateReview(user.getId(), courseReviewId, courseReview);

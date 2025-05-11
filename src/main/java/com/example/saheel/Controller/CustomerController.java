@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/saheel/Customer")
+@RequestMapping("/api/v1/saheel/customer")
 public class CustomerController {
     private final CustomerService customerService;
     private final InvoiceService invoiceService;
