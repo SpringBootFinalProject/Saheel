@@ -40,8 +40,6 @@ public class Membership {
     @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
     private List<Horse> horses;
 
-//    @Column(length = 20)
-//    private String paymentStatus = "PENDING"; // "PAID", "PENDING", "FAILED"
 
 
     @ManyToOne
