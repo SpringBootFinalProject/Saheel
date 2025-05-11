@@ -2,6 +2,7 @@ package com.example.saheel.Repository;
 
 import com.example.saheel.Model.HorseOwner;
 import com.example.saheel.Model.Membership;
+import com.example.saheel.Model.Stable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +16,7 @@ public interface MembershipRepository extends JpaRepository<Membership,Integer> 
     List<Membership> findByEndDateBefore(LocalDate date);
     List<Membership> findByStartDate(LocalDate startDate);
 
+    boolean existsByHorseOwnerAndStable(HorseOwner horseOwner, Stable stable);
 
     Membership findByHorsesIdAndIsActiveTrue(Integer horse_Id);
 

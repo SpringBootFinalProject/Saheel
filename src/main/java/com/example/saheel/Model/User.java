@@ -21,13 +21,14 @@ import java.util.Collections;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+//@Table(name = "app_user")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotEmpty(message = "The username can not be empty.")
-    @Column(columnDefinition = "varchar(20) unique not null")
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @NotEmpty(message = "The password can not be empty.")
