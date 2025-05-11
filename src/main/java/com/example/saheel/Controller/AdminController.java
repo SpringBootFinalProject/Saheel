@@ -27,8 +27,8 @@ public class AdminController {
     // This method finds the horse owner who owns the most horses.
     // It can return more than one owner if they have the same number of horses.
     @GetMapping("/most-horses")
-    public ResponseEntity<List<HorseOwner>> getHorseOwnersWithMostHorses() {
-        List<HorseOwner> result = adminService.getOwnersWithMostHorses();
+    public ResponseEntity<List<HorseOwner>> getHorseOwnersWithMostHorses(@AuthenticationPrincipal User user) {
+        List<HorseOwner> result = adminService.getOwnersWithMostHorses(user.getId());
         return ResponseEntity.ok(result);
     }
 
@@ -51,7 +51,7 @@ public class AdminController {
 
     // ( #27 of 50 endpoints )
     // This method allows an admin to approve a stable owner account.
-    @PutMapping("approve-stable-owner/{stableId}")
+    @PutMapping("/approve-stable-owner/{stableId}")
     public ResponseEntity<?> approveStableOwner(@AuthenticationPrincipal User user, @PathVariable Integer stableId) {
         adminService.approveStableOwner(user.getId(), stableId);
         return ResponseEntity.ok(new ApiResponse("Stable owner account has been approved."));

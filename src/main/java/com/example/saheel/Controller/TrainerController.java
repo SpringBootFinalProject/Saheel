@@ -13,7 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/trainer")
+@RequestMapping("/api/v1/saheel/trainer")
 @RequiredArgsConstructor
 public class TrainerController {
     private final TrainerService trainerService;

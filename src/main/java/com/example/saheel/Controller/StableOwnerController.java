@@ -17,7 +17,7 @@ import java.util.List;
 
 //test
 @RestController
-@RequestMapping("/api/v1/stable-owner")
+@RequestMapping("/api/v1/saheel/stable-owner")
 @RequiredArgsConstructor
 public class StableOwnerController {
 

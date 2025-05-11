@@ -31,7 +31,7 @@ public class HorseController {
     }
 
     @PostMapping("/assign/{horseId}")
-    public ResponseEntity<?> assignHorse(@AuthenticationPrincipal User user, @PathVariable Integer horseId) {
+    public ResponseEntity<?> assignHorseToMembership(@AuthenticationPrincipal User user, @PathVariable Integer horseId) {
         horseService.assignHorseToMembership(horseId, user.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Horse assigned successfully"));
     }
@@ -65,7 +65,7 @@ public class HorseController {
     public ResponseEntity<?> giftHorse(@AuthenticationPrincipal User user,
                                        @PathVariable Integer horseId,
                                        @PathVariable Integer newOwnerId) {
-        horseService.giftHorseToOwner(horseId, newOwnerId);
+        horseService.giftHorseToOwner(user.getId(), horseId, newOwnerId);
         return ResponseEntity.ok(new ApiResponse("Horse gifted successfully."));
     }
 

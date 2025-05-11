@@ -12,7 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/veterinary")
+@RequestMapping("/api/v1/saheel/veterinary")
 @RequiredArgsConstructor
 public class VeterinaryController {
 
@@ -27,7 +27,7 @@ public class VeterinaryController {
     }
 
     //searchVeterinaryByName
-    @GetMapping("/search-byName/{fullName}")
+    @GetMapping("/search-by-name/{fullName}")
     public ResponseEntity<Veterinary> searchVeterinaryByName(@AuthenticationPrincipal User user, @PathVariable String fullName) {
         Veterinary veterinary = veterinaryService.searchVeterinaryByName(user.getId(),fullName);
         return ResponseEntity.ok(veterinary);
@@ -42,7 +42,7 @@ public class VeterinaryController {
     }
 
     //move veterinary To Stable by stable owner - Abeer
-    @PostMapping("/moveVeterinary/{veterinary_Id}/ToStable/{stable_Id}")
+    @PostMapping("/move-veterinary/{veterinary_Id}/ToStable/{stable_Id}")
     public ResponseEntity<ApiException> moveVeterinaryToAnotherStable(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer veterinary_Id) {
         veterinaryService.moveVeterinaryToAnotherStable(user.getId(), stable_Id,veterinary_Id);
         return ResponseEntity.ok(new ApiException("Trainer assign successfully"));
@@ -50,7 +50,7 @@ public class VeterinaryController {
 
     // TODO لازم نحط     @AuthenticationPrincipal لان اللي بيسويها صاحب الاسطبل
     //assignVeterinaryToHorse - abeer
-    @PutMapping("/assignVeterinary/{veterinary_Id}/ToHorse/{horse_Id}")
+    @PutMapping("/assign-veterinary/{veterinary_Id}/ToHorse/{horse_Id}")
     public ResponseEntity<ApiException> assignVeterinaryToHorse(@PathVariable Integer veterinary_Id,@PathVariable Integer horse_Id) {
         veterinaryService.assignVeterinaryToHorse(veterinary_Id, horse_Id);
         return ResponseEntity.ok(new ApiException("veterinary Assign to horse successfully"));
