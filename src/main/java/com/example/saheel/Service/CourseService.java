@@ -171,21 +171,18 @@ public class CourseService {
 
     }
 
-//    public Trainer findTopRatedTrainer(List<Trainer> trainers) {
-//        Trainer topRatedTrainer = trainers.get(0);
-//        boolean flag = false;
-//        for (Trainer trainer : trainers) {
-//            // Handle division by 0.
-//            if(trainer.getTotalNumberOfRatings() == 0) continue;
-//            if(!flag) {
-//                topRatedTrainer = trainer;
-//                flag = true;
-//            }
-//            if ((trainer.getTotalRating() / trainer.getTotalNumberOfRatings()) > (topRatedTrainer.getTotalRating() / topRatedTrainer.getTotalNumberOfRatings()))
-//                topRatedTrainer = trainer;
-//        }
-//        return topRatedTrainer;
-//    }
+    public List<Course> getCoursesByTrainer(Integer trainerId){
+        // Get the trainer and check if it's in the database.
+        Trainer trainer = trainerRepository.findTrainerById(trainerId);
+        if(trainer == null) throw new ApiException("Trainer not found.");
+
+        // Return the courses.
+        return courseRepository.findCoursesByTrainer(trainer);
+    }
+
+    public List<Course> getCoursesByDate(LocalDateTime dateTime){
+        return courseRepository.getCoursesByDateBetween(dateTime, dateTime.plusDays(1));
+    }
 
     public void changeEnrollmentsCourseStatus(List<CourseEnrollment> courseEnrollments) {
         for (CourseEnrollment courseEnrollment : courseEnrollments) courseEnrollment.setCourseCanceled(true);

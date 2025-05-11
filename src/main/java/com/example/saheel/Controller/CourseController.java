@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -51,5 +52,14 @@ public class CourseController {
     @GetMapping("/get-top-rated-course")
     public ResponseEntity<ApiResponse> getTopRatedCourse(){
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(courseService.getTopRatedCourse()));
+    }
+
+    @GetMapping("/get-courses-by-trainer{trainerId}")
+    public ResponseEntity<List<Course>> getCoursesByTrainer(@PathVariable Integer trainerId){
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.getCoursesByTrainer(trainerId));
+    }
+
+    public ResponseEntity<List<Course>> getCoursesByDate(@RequestBody LocalDateTime dateTime){
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.getCoursesByDate(dateTime));
     }
 }
