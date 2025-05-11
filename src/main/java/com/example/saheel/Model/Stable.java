@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -66,7 +67,7 @@ public class Stable {
     private List<Course> courses;
 
     @OneToMany(mappedBy = "stable", cascade = CascadeType.ALL)
-    private List<Membership> memberships;
+    private List<Membership> memberships = new ArrayList<>();
 
     @OneToMany(mappedBy = "stable", cascade = CascadeType.ALL)
     private List<StableReview> stableReviews;

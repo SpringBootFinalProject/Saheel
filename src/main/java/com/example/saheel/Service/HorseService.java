@@ -26,7 +26,9 @@ public class HorseService {
     public List<Horse> getOwnerHorses(Integer horseOwnerId) {
         // Get the horse owner and check if it's in the database.
         HorseOwner horseOwner = getHorseOwnerOrThrow(horseOwnerId);
-        return horseRepository.findAll();
+        if(horseOwner == null) throw new ApiException("Horses Owner not found.");
+
+        return horseRepository.findHorsesByHorseOwner(horseOwner);
     }
 
     public void addHorseByOwner(Integer horseOwnerId, Horse horse) {
