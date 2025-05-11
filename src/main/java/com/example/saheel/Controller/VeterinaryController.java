@@ -18,16 +18,21 @@ public class VeterinaryController {
 
     private final VeterinaryService veterinaryService;
 
-    // TODO لازم نحط     @AuthenticationPrincipal لان اللي بيسويها صاحب الاسطبل
     // Get veterinary by ID - Abeer
     @GetMapping("/get/{veterinary_Id}")
-    public ResponseEntity<Veterinary> getVeterinaryById(@PathVariable Integer veterinary_Id) {
-        Veterinary veterinary = veterinaryService.getVeterinaryById(veterinary_Id);
+    public ResponseEntity<Veterinary> getVeterinaryById(@AuthenticationPrincipal User user, @PathVariable Integer veterinary_Id) {
+        Veterinary veterinary = veterinaryService.getVeterinaryById(user.getId(), veterinary_Id);
         return ResponseEntity.ok(veterinary);
     }
 
+<<<<<<< HEAD
     //searchVeterinaryByName
     @GetMapping("/search-by-name/{fullName}")
+=======
+    //( #56 of 50 endpoints)
+    //search Veterinary By Name
+    @GetMapping("/search-byName/{fullName}")
+>>>>>>> 18a0d4d79e48947697190586f5dd6a68fdc7369b
     public ResponseEntity<Veterinary> searchVeterinaryByName(@AuthenticationPrincipal User user, @PathVariable String fullName) {
         Veterinary veterinary = veterinaryService.searchVeterinaryByName(user.getId(),fullName);
         return ResponseEntity.ok(veterinary);
@@ -41,6 +46,7 @@ public class VeterinaryController {
         return ResponseEntity.ok(new ApiResponse("Veterinary added successfully"));
     }
 
+<<<<<<< HEAD
     //move veterinary To Stable by stable owner - Abeer
     @PostMapping("/move-veterinary/{veterinary_Id}/ToStable/{stable_Id}")
     public ResponseEntity<ApiException> moveVeterinaryToAnotherStable(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer veterinary_Id) {
@@ -55,6 +61,15 @@ public class VeterinaryController {
         veterinaryService.assignVeterinaryToHorse(veterinary_Id, horse_Id);
         return ResponseEntity.ok(new ApiException("veterinary Assign to horse successfully"));
     }
+=======
+//    // TODO لازم نحط     @AuthenticationPrincipal لان اللي بيسويها صاحب الاسطبل
+//    //assignVeterinaryToHorse - abeer
+//    @PutMapping("/assignVeterinary/{veterinary_Id}/ToHorse/{horse_Id}")
+//    public ResponseEntity<ApiException> assignVeterinaryToHorse(@PathVariable Integer veterinary_Id,@PathVariable Integer horse_Id) {
+//        veterinaryService.assignVeterinaryToHorse(veterinary_Id, horse_Id);
+//        return ResponseEntity.ok(new ApiException("veterinary Assign to horse successfully"));
+//    }
+>>>>>>> 18a0d4d79e48947697190586f5dd6a68fdc7369b
 
 
     // Update veterinary - Abeer
@@ -70,4 +85,5 @@ public class VeterinaryController {
         veterinaryService.deleteVeterinary(user.getId(), veterinary_Id);
         return ResponseEntity.ok(new ApiResponse("Veterinary deleted successfully"));
     }
+
 }

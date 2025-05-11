@@ -20,20 +20,20 @@ public class TrainerController {
     private final StaffManagerService staffManagerService;
 
 
-    // TODO لازم نحط     @AuthenticationPrincipal لان اللي بيسويها صاحب الاسطبل
+
     // Get trainer by ID - Abeer
     @GetMapping("/get/{trainer_Id}")
-    public ResponseEntity<Trainer> getTrainerById(@PathVariable Integer trainer_Id) {
-        Trainer trainer = trainerService.getTrainerById(trainer_Id);
+    public ResponseEntity<Trainer> getTrainerById(@AuthenticationPrincipal User user, @PathVariable Integer trainer_Id) {
+        Trainer trainer = trainerService.getTrainerById(user.getId(), trainer_Id);
         return ResponseEntity.ok(trainer);
     }
 
+    //( #53 of 50 endpoints)
     @GetMapping("/search-byName/{fullName}")
     public ResponseEntity<Trainer> searchTrainerByName(@AuthenticationPrincipal User user, @PathVariable String fullName) {
         Trainer trainer = trainerService.searchByTrainerName(user.getId(),fullName);
         return ResponseEntity.ok(trainer);
     }
-
 
     // Add trainer - Abeer
     @PostMapping("/add-trainer-to-stable/{stable_Id}")
@@ -42,13 +42,6 @@ public class TrainerController {
         return ResponseEntity.ok(new ApiResponse("Trainer added successfully"));
     }
 
-
-    //assign Trainer To Stable by stable owner - Abeer
-    @PostMapping("/assignTrainer/{trainer_Id}/ToStable/{stable_Id}")
-    public ResponseEntity<ApiResponse> assignTrainerToStable(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer trainer_Id) {
-        trainerService.assignTrainerToStable(user.getId(), stable_Id,trainer_Id);
-        return ResponseEntity.ok(new ApiResponse("Trainer assign successfully"));
-    }
 
 
     // Update trainer - Abeer
@@ -65,11 +58,13 @@ public class TrainerController {
         return ResponseEntity.ok(new ApiResponse("Trainer deleted successfully"));
     }
 
+    //( #54 of 50 endpoints)
     @GetMapping("/get-top-rated-trainer")
     public ResponseEntity<String> getTopRatedTrainer(){
         return ResponseEntity.status(HttpStatus.OK).body(trainerService.getTopRatedTrainer());
     }
 
+    //( #55 of 50 endpoints)
     @GetMapping("/get-top-rated-trainer-of-stable/{stableId}")
     public ResponseEntity<String> getTopRatedTrainerOfStable(@PathVariable Integer stableId){
         return ResponseEntity.status(HttpStatus.OK).body(trainerService.getTopRatedTrainerOfStable(stableId));

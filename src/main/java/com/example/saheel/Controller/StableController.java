@@ -24,7 +24,7 @@ public class StableController {
     public ResponseEntity<List<Stable>> getAllStable() {
         return ResponseEntity.ok().body(stableService.getOwnerHorses());
     }
-
+    // ( #34 of 50 endpoints.)
     // Get stable by ID - Abeer
     @GetMapping("/get-my-stable/{stable_Id}")
     public ResponseEntity<Stable> getStableById(@PathVariable Integer stable_Id) {
@@ -32,6 +32,7 @@ public class StableController {
         return ResponseEntity.ok(stable);
     }
 
+    // ( #35 of 50 endpoints.)
     // Add new stable - Abeer
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addStable(@AuthenticationPrincipal User user , @RequestBody Stable stable) {
@@ -48,11 +49,12 @@ public class StableController {
 
     // Delete stable - Abeer
     @DeleteMapping("/delete/{stable_Id}")
-    public ResponseEntity<ApiResponse> deleteStable( @AuthenticationPrincipal User user , @PathVariable Integer stable_Id) {
+    public ResponseEntity<ApiResponse> deleteStable(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id) {
         stableService.deleteStable(user.getId(), stable_Id);
         return ResponseEntity.ok(new ApiResponse("Stable deleted successfully"));
     }
 
+    // ( #36 of 50 endpoints.)
     @GetMapping("/get-available-stables")
     public ResponseEntity<List<Stable>> getAvailableStables(){
         return ResponseEntity.status(HttpStatus.OK).body(stableService.getAvailableStables());

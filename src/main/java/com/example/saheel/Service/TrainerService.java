@@ -22,7 +22,12 @@ public class TrainerService {
     private final StableRepository stableRepository;
 
     //get Trainer by ID - Abeer
-    public Trainer getTrainerById(Integer trainer_Id) {
+    public Trainer getTrainerById(Integer stableOwner_Id, Integer trainer_Id) {
+        StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
+        if (stableOwner == null) {
+            throw new ApiException("Error : stable owner is not found");
+        }
+
         Trainer trainer = trainerRepository.findTrainerById(trainer_Id);
         if (trainer == null) {
             throw new ApiException("Error : Trainer is not found");
@@ -69,9 +74,6 @@ public class TrainerService {
 
 
     // ( #33 of 50 endpoints )
-
-    //( # of 50 endpoints)####
-
     //assign trainer to stable by stable owner - Abeer
     public void assignTrainerToStable(Integer stableOwner_Id, Integer stable_Id, Integer trainer_Id) {
 

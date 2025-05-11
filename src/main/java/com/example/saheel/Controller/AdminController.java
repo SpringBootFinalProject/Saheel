@@ -23,7 +23,7 @@ public class AdminController {
 
 
 
-    // ( #18 of 50 endpoints )
+    // ( #1 of 50 endpoints )
     // This method finds the horse owner who owns the most horses.
     // It can return more than one owner if they have the same number of horses.
     @GetMapping("/most-horses")
@@ -33,7 +33,7 @@ public class AdminController {
     }
 
 
-    // ( #25 of 50 endpoints )
+    // ( #2 of 50 endpoints )
     // This method sends a welcome email to all customers in the system.
     @PostMapping("/send-welcome-to-all-customer")
     public ResponseEntity<?> sendWelcomeToAllCustomer(@AuthenticationPrincipal User user) {
@@ -41,7 +41,7 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponse("Welcome messages sent to customers."));
     }
 
-    // ( #26 of 50 endpoints )
+    // ( #3 of 50 endpoints )
     // This method sends a welcome email to all horse owners in the system.
     @PostMapping("/send-welcome-to-all-horseOwner")
     public ResponseEntity<?> sendWelcomeEmailsToAllHorseOwner(@AuthenticationPrincipal User user) {
@@ -49,7 +49,7 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponse("Welcome messages sent to HorseOwner."));
     }
 
-    // ( #27 of 50 endpoints )
+    // ( #4 of 50 endpoints )
     // This method allows an admin to approve a stable owner account.
     @PutMapping("/approve-stable-owner/{stableId}")
     public ResponseEntity<?> approveStableOwner(@AuthenticationPrincipal User user, @PathVariable Integer stableId) {
@@ -57,7 +57,7 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponse("Stable owner account has been approved."));
     }
 
-    // ( #28 of 50 endpoints )
+    // ( #5 of 50 endpoints )
     // This method sends a welcome email to all new members who joined today.
     @PostMapping("/send-membership-welcome")
     public ResponseEntity<?> sendWelcomeToNewMembers(@AuthenticationPrincipal User user) {

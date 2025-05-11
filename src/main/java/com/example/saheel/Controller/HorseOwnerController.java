@@ -26,6 +26,7 @@ public class HorseOwnerController {
     private final MembershipInvoiceService membershipInvoiceService;
 
 
+    // ( #24 of 50 endpoints)
     @PostMapping("/register")
     public ResponseEntity<?> registerHorseOwner(@Valid @RequestBody HorseOwnerDTO horseOwnerDTO) {
         horseOwnerService.registerHorseOwner(horseOwnerDTO);
@@ -45,6 +46,8 @@ public class HorseOwnerController {
         horseOwnerService.deleteHorseOwner(user.getId());
         return ResponseEntity.status(200).body(new ApiResponse("Horse owner deleted"));
     }
+
+    // ( #25 of 50 endpoints)
     @GetMapping("/membership-invoice/pdf/{invoiceId}")
     public ResponseEntity<byte[]> getMembershipInvoiceAsPdf(@AuthenticationPrincipal User user, @PathVariable Integer invoiceId) {
         byte[] pdfBytes = membershipInvoiceService.getMembershipInvoicePdf(user.getId(), invoiceId);

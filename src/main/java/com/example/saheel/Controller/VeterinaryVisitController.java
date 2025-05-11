@@ -1,10 +1,12 @@
 package com.example.saheel.Controller;
 
 import com.example.saheel.Api.ApiResponse;
+import com.example.saheel.Model.User;
 import com.example.saheel.Model.VeterinaryVisit;
 import com.example.saheel.Service.VeterinaryVisitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,11 +17,12 @@ public class VeterinaryVisitController {
 
     // Get VeterinaryVisit by ID - Abeer
     @GetMapping("/get/{veterinaryVisit_Id}")
-    public ResponseEntity<VeterinaryVisit> getVeterinaryVisitById(@PathVariable Integer veterinaryVisit_Id) {
-        VeterinaryVisit visit = veterinaryVisitService.getVeterinaryVisitById(veterinaryVisit_Id);
+    public ResponseEntity<VeterinaryVisit> getVeterinaryVisitById(@AuthenticationPrincipal User user, @PathVariable Integer veterinaryVisit_Id) {
+        VeterinaryVisit visit = veterinaryVisitService.getVeterinaryVisitById(user.getId(), veterinaryVisit_Id);
         return ResponseEntity.ok(visit);
     }
 
+<<<<<<< HEAD
 
 //    // Add VeterinaryVisit - Abeer
 //    @PostMapping("/add/{veterinary_Id}")
@@ -37,10 +40,12 @@ public class VeterinaryVisitController {
 //    }
 
 
+=======
+>>>>>>> 18a0d4d79e48947697190586f5dd6a68fdc7369b
     // Delete VeterinaryVisit - Abeer
     @DeleteMapping("/delete/{veterinaryVisit_Id}")
-    public ResponseEntity<ApiResponse> deleteVeterinaryVisit(@PathVariable Integer veterinaryVisit_Id) {
-        veterinaryVisitService.deleteVeterinaryVisit(veterinaryVisit_Id);
+    public ResponseEntity<ApiResponse> deleteVeterinaryVisit(@AuthenticationPrincipal User user, @PathVariable Integer veterinaryVisit_Id) {
+        veterinaryVisitService.deleteVeterinaryVisit(user.getId(), veterinaryVisit_Id);
         return ResponseEntity.ok(new ApiResponse("Veterinary visit deleted successfully"));
     }
 

@@ -21,7 +21,10 @@ public class StaffManagerController {
     private final StaffManagerService staffManagerService;
     private final HorseRepository horseRepository;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 18a0d4d79e48947697190586f5dd6a68fdc7369b
     // ( #42 of 50 endpoints)
     //move Trainer To Stable by stable owner - Abeer
     @PostMapping("/moveTrainer/{trainer_Id}/ToStable/{stable_Id}")
@@ -38,6 +41,7 @@ public class StaffManagerController {
         return ResponseEntity.ok(new ApiResponse("Breeder assign successfully"));
     }
 
+<<<<<<< HEAD
 
 //    //assignBreederToHorse - abeer
 //    @PutMapping("/assign-breeder/{breeder_Id}/ToHorse/{horse_Id}")
@@ -45,6 +49,9 @@ public class StaffManagerController {
 //        staffManagerService.assignBreederToHorse(breeder_Id, horse_Id);
 //        return ResponseEntity.ok(new ApiResponse("Breeder Assign to horse successfully"));
 //    }
+=======
+    // ( #44 of 50 endpoints)
+>>>>>>> 18a0d4d79e48947697190586f5dd6a68fdc7369b
     //move veterinary To Stable by stable owner - Abeer
     @PostMapping("/move-veterinary/{veterinary_Id}/ToStable/{stable_Id}")
     public ResponseEntity<ApiResponse> moveVeterinaryToAnotherStable(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer veterinary_Id) {
@@ -59,6 +66,10 @@ public class StaffManagerController {
         staffManagerService.assignBreederToHorse(user.getId(), breeder_Id, horse_Id);
         return ResponseEntity.ok(new ApiResponse("Breeder Assign to horse successfully"));
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 18a0d4d79e48947697190586f5dd6a68fdc7369b
     // ( #46 of 50 endpoints)
     //assign Veterinary To Horse - abeer
     @PutMapping("/assignVeterinary/{veterinary_Id}/ToHorse/{horse_Id}")
@@ -91,6 +102,7 @@ public class StaffManagerController {
         return ResponseEntity.ok(horses);
     }
 
+<<<<<<< HEAD
 //    // ( #50 of 50 endpoints)
 //    //visit To horse by veterinary
 //    @PostMapping("/veterinary/visit/{horse_Id}")
@@ -105,6 +117,31 @@ public class StaffManagerController {
 //    public ResponseEntity<ApiResponse> markHorseAsFit(@AuthenticationPrincipal User user, @PathVariable Integer visit_Id, @RequestBody String medicalReport) {
 //        staffManagerService.markHorseAsFit(user.getId(), visit_Id, medicalReport);
 //        return ResponseEntity.ok(new ApiResponse("The horse's status has been updated to medically fit," +
+=======
+    // ( #50 of 50 endpoints)
+    //visit To horse by veterinary
+    @PostMapping("/veterinary/visit/{horse_Id}")
+    public ResponseEntity<ApiResponse>createVetVisit(@AuthenticationPrincipal User user,
+                                                      @PathVariable Integer horse_Id) {
+        String message = staffManagerService.requestVisitToVet(user.getId(), horse_Id);
+        return ResponseEntity.ok(new ApiResponse(message));
+    }
+    //( #51 of 50 endpoints)
+    //mark Visit AsCompleted
+    @PutMapping("/veterinary/visit/fit/{visit_Id}")
+    public ResponseEntity<ApiResponse> markHorseAsFit(@AuthenticationPrincipal User user, @PathVariable Integer visit_Id, @RequestBody String medicalReport) {
+        staffManagerService.markHorseAsFit(user.getId(), visit_Id, medicalReport);
+        return ResponseEntity.ok(new ApiResponse("The horse's status has been updated to medically fit," +
+                " and the report has been sent to the owner."));
+    }
+
+    //( #52 of 50 endpoints)
+    //mark Visit AsCompleted
+//    @PutMapping("/veterinary/visit/unfit/{visit_Id}")
+//    public ResponseEntity<ApiResponse> markHorseAsUnfit(@PathVariable Integer visit_Id, @RequestBody String medicalReport) {
+//        staffManagerService.markHorseAsFit(visit_Id, false, medicalReport);
+//        return ResponseEntity.ok(new ApiResponse("The horse's status has been updated to medically unfit," +
+>>>>>>> 18a0d4d79e48947697190586f5dd6a68fdc7369b
 //                " and the report has been sent to the owner."));
 //    }
 
