@@ -21,7 +21,6 @@ import java.util.Collections;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-//@Table(name = "app_user")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

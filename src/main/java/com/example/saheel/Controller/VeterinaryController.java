@@ -18,7 +18,6 @@ public class VeterinaryController {
 
     private final VeterinaryService veterinaryService;
 
-    // TODO لازم نحط     @AuthenticationPrincipal لان اللي بيسويها صاحب الاسطبل
     // Get veterinary by ID - Abeer
     @GetMapping("/get/{veterinary_Id}")
     public ResponseEntity<Veterinary> getVeterinaryById(@PathVariable Integer veterinary_Id) {

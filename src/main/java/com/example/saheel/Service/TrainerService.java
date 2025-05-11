@@ -151,7 +151,6 @@ public class TrainerService {
             throw new ApiException("Unauthorized: This stable does not belong to the logged-in stable owner");
         }
 
-        oldTrainer.setUsername(trainer.getUsername());
         oldTrainer.setFullName(trainer.getFullName());
         oldTrainer.setAge(trainer.getAge());
         oldTrainer.setEmail(trainer.getEmail());

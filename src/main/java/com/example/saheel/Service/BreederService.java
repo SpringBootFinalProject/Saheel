@@ -91,7 +91,6 @@ public class BreederService {
             throw new ApiException("Unauthorized error: This stable does not belong to the logged-in stable owner");
         }
 
-        oldBreeder.setUsername(breeder.getUsername());
         oldBreeder.setFullName(breeder.getFullName());
         oldBreeder.setAge(breeder.getAge());
         oldBreeder.setEmail(breeder.getEmail());

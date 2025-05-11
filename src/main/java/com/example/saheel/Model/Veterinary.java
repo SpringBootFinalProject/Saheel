@@ -23,11 +23,6 @@ public class Veterinary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(columnDefinition = "varchar(20) not null ")
-    private String username;
-
-    @Column(columnDefinition = "varchar(50) not null")
-    private String password;
 
     @Column(columnDefinition = "varchar(20) not null")
     private String fullName;
