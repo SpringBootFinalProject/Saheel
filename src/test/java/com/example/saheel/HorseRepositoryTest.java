@@ -47,7 +47,7 @@ public class HorseRepositoryTest {
 
         horse = new Horse();
         horse.setName("Thunder");
-        horse.setGender("MALE");
+        horse.setGender("male");
         horse.setWightInKG(450);
         horse.setHeightInCM(160);
         horse.setAge(6);
