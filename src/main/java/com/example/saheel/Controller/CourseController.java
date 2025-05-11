@@ -60,7 +60,7 @@ public class CourseController {
     }
 
 
-    @GetMapping("/get-courses-by-trainer{trainerId}")
+    @GetMapping("/get-courses-by-trainer/{trainerId}")
     public ResponseEntity<List<Course>> getCoursesByTrainer(@PathVariable Integer trainerId){
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getCoursesByTrainer(trainerId));
     }

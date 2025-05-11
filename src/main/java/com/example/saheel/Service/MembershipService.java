@@ -58,7 +58,7 @@ public class MembershipService {
             throw new ApiException("Stable not found");
         }
         // Check if the stable is full
-        if (stable.getMemberships().size() >= stable.getCapacity()) {
+        if (stable.getMemberships() != null && stable.getMemberships().size() >= stable.getCapacity()) {
             throw new ApiException("Stable capacity exceeded");
         }
         // Set values by membership type

@@ -27,7 +27,7 @@ public class CourseReviewController {
     @PostMapping("/review-course-by-customer/{courseId}")
     public ResponseEntity<ApiResponse> ReviewCourseByCustomer(@AuthenticationPrincipal User user, @PathVariable Integer courseId,
                                                               @RequestBody CourseReview courseReview) {
-        courseReviewService.ReviewCourseByCustomer(user.getId(), courseId, courseReview);
+        courseReviewService.reviewCourseByCustomer(user.getId(), courseId, courseReview);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Review added successfully."));
     }
 
