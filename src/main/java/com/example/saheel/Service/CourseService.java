@@ -10,6 +10,8 @@ import com.example.saheel.Repository.TrainerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,10 +33,9 @@ public class CourseService {
     }
 
 
-
     // ( #5 of 50 endpoints )
 
-//    #5
+    //    #5
     public void addCourseByOwner(Integer stableOwnerId, Integer stableId, Integer trainerId, Course course) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
@@ -47,7 +48,7 @@ public class CourseService {
 
         // Get the trainer and check if it's in the database.
         Trainer trainer = trainerRepository.findTrainerById(trainerId);
-        if(trainer == null) throw new ApiException("Trainer not found.");
+        if (trainer == null) throw new ApiException("Trainer not found.");
 
         // Assign the trainer to the course.
         course.setTrainer(trainer);
@@ -127,6 +128,61 @@ public class CourseService {
         courseRepository.save(course);
     }
 
+    public List<Course> getAvailableCourses() {
+        List<Course> courses = courseRepository.findAll();
+        List<Course> availableCourses = new ArrayList<>();
+        for (Course course : courses)
+            if (course.getCourseEnrollments().size() < course.getCapacity() &&
+                    course.getFinalEnrollmentDate().isAfter(LocalDateTime.now()))
+                availableCourses.add(course);
+        return availableCourses;
+    }
+
+    public String getTopRatedCourse(){
+        List<Course> courses = courseRepository.findAll();
+        // Check if there is courses on the system.
+        if (courses.isEmpty()) return "There are no courses";
+
+        // Get the top-rated trainer.
+        Course topRatedCourse = findTopRatedCourse(courses);
+
+        // Check if the all the trainers don't have ratings.
+        if (topRatedCourse.getTotalNumberOfRatings() == 0) return "All the courses do not have a rating.";
+
+        // Return the top-rated trainer.
+        return "The top rated course is: " + topRatedCourse.getName() + " with a rating of: "
+                + (topRatedCourse.getTotalRating() / topRatedCourse.getTotalNumberOfRatings()) + ".";
+    }
+
+    public Course findTopRatedCourse(List<Course> courses){
+        Course topRatedCourse = courses.get(0);
+        boolean flag = false;
+        for (Course course : courses) {
+            // Handle division by 0.
+            if(course.getTotalNumberOfRatings() == 0) continue;
+            if(!flag) {
+                topRatedCourse = course;
+                flag = true;
+            }
+            if ((course.getTotalRating() / course.getTotalNumberOfRatings()) > (topRatedCourse.getTotalRating() / topRatedCourse.getTotalNumberOfRatings()))
+                topRatedCourse = course;
+        }
+        return topRatedCourse;
+
+    }
+
+    public List<Course> getCoursesByTrainer(Integer trainerId){
+        // Get the trainer and check if it's in the database.
+        Trainer trainer = trainerRepository.findTrainerById(trainerId);
+        if(trainer == null) throw new ApiException("Trainer not found.");
+
+        // Return the courses.
+        return courseRepository.findCoursesByTrainer(trainer);
+    }
+
+    public List<Course> getCoursesByDate(LocalDateTime dateTime){
+        return courseRepository.getCoursesByDateBetween(dateTime, dateTime.plusDays(1));
+    }
 
     public void changeEnrollmentsCourseStatus(List<CourseEnrollment> courseEnrollments) {
         for (CourseEnrollment courseEnrollment : courseEnrollments) courseEnrollment.setCourseCanceled(true);

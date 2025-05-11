@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -37,9 +38,29 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course updated successfully."));
     }
 
-    @DeleteMapping("/delete-course/{stableId}/{courseId}")
-    public ResponseEntity<ApiResponse> removeCourse(@AuthenticationPrincipal User user, @PathVariable Integer stableId, @PathVariable Integer courseId) {
+    @DeleteMapping("/cancel-course/{stableId}/{courseId}")
+    public ResponseEntity<ApiResponse> cancelCourse(@AuthenticationPrincipal User user, @PathVariable Integer stableId, @PathVariable Integer courseId) {
         courseService.cancelCourse(user.getId(), stableId, courseId);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course deleted successfully."));
+    }
+
+    @GetMapping("/get-available-courses")
+    public ResponseEntity<List<Course>> getAvailableCourses(){
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.getAvailableCourses());
+    }
+
+    @GetMapping("/get-top-rated-course")
+    public ResponseEntity<ApiResponse> getTopRatedCourse(){
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(courseService.getTopRatedCourse()));
+    }
+
+    @GetMapping("/get-courses-by-trainer{trainerId}")
+    public ResponseEntity<List<Course>> getCoursesByTrainer(@PathVariable Integer trainerId){
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.getCoursesByTrainer(trainerId));
+    }
+
+    @GetMapping("/get-courses-by-date")
+    public ResponseEntity<List<Course>> getCoursesByDate(@RequestBody LocalDateTime dateTime){
+        return ResponseEntity.status(HttpStatus.OK).body(courseService.getCoursesByDate(dateTime));
     }
 }

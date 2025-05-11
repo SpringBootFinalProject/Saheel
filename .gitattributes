@@ -1,2 +1,18 @@
-/mvnw text eol=lf
+# Force LF for all text files (ideal for cross-platform projects)
+* text=auto eol=lf
+
+# Force CRLF only for Windows-specific scripts (if needed)
+*.bat text eol=crlf
 *.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Keep shell scripts with LF
+*.sh text eol=lf
+
+# Set binary files to not be modified
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary

@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+//@Table(name = "stable_entity")
 public class Stable {
 
     @Id
@@ -39,7 +40,8 @@ public class Stable {
     private String location; //What is the format of the location?
 
     @Column(columnDefinition = "double")
-    private double rating;
+    private Double totalRating;
+    private Double totalNumberOfRatings;
 
 
 

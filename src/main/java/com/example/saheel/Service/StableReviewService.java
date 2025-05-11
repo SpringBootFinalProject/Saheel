@@ -4,9 +4,7 @@ import com.example.saheel.Api.ApiException;
 import com.example.saheel.Model.HorseOwner;
 import com.example.saheel.Model.Stable;
 import com.example.saheel.Model.StableReview;
-import com.example.saheel.Repository.HorseOwnerRepository;
-import com.example.saheel.Repository.StableRepository;
-import com.example.saheel.Repository.StableReviewRepository;
+import com.example.saheel.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +16,7 @@ public class StableReviewService {
     private final StableReviewRepository stableReviewRepository;
     private final HorseOwnerRepository horseOwnerRepository;
     private final StableRepository stableRepository;
+    private final MembershipRepository membershipRepository;
 
     // ( #15 of 50 endpoints )
     // Get all stable reviews
@@ -33,21 +32,32 @@ public class StableReviewService {
 
     // ( #16 of 50 endpoints )
     // add Review
-    public void addReview(StableReview review, Integer horseOwnerId, Integer stableId) {
+    public void reviewStable(StableReview review, Integer horseOwnerId, Integer stableId) {
         // Get the horse owner and check
         HorseOwner horseOwner = horseOwnerRepository.findHorseOwnerById(horseOwnerId);
         if (horseOwner == null) {
-            throw new RuntimeException("Horse owner not found");
+            throw new ApiException("Horse owner not found");
         }
         // Get the stable and check
         Stable stable = stableRepository.findStableById(stableId);
         if (stable == null) {
-            throw new RuntimeException("Stable not found");
+                throw new ApiException("Stable not found");
+        }
+
+
+        // Check if the owner is subscribed to this stable
+        boolean isSubscribed = membershipRepository.existsByHorseOwnerAndStable(horseOwner, stable);
+        if (!isSubscribed) {
+            throw new ApiException("Horse owner is not subscribed to this stable");
         }
 
         // Check if
         if (!stableReviewRepository.findCourseReviewsByStableAndHorseOwner(stable, horseOwner).isEmpty())
             throw new ApiException("Customer can not make more than one review");
+
+        // Rate the stable.
+        stable.setTotalRating(stable.getTotalRating() + review.getRating());
+        stable.setTotalNumberOfRatings(stable.getTotalNumberOfRatings() + 1);
 
         // Set relationships and save the review.
         review.setHorseOwner(horseOwner);
@@ -61,12 +71,12 @@ public class StableReviewService {
         // Get the horse owner and check
         HorseOwner horseOwner = horseOwnerRepository.findHorseOwnerById(horseOwnerId);
         if (horseOwner == null) {
-            throw new RuntimeException("Horse owner not found");
+            throw new ApiException("Horse owner not found");
         }
         // Get the review and check
         StableReview existingReview = stableReviewRepository.findStableReviewById(reviewId);
         if (existingReview == null) {
-            throw new RuntimeException("Review not found");
+            throw new ApiException("Review not found");
         }
         // Update review fields and save it.
         existingReview.setRating(updatedReview.getRating());
@@ -81,12 +91,12 @@ public class StableReviewService {
         // Get the horse owner and check
         HorseOwner horseOwner = horseOwnerRepository.findHorseOwnerById(horseOwnerId);
         if (horseOwner == null) {
-            throw new RuntimeException("Horse owner not found");
+            throw new ApiException("Horse owner not found");
         }
         // Get the review and check
         StableReview review = stableReviewRepository.findStableReviewById(reviewId);
         if (review == null) {
-            throw new RuntimeException("Review not found");
+            throw new ApiException("Review not found");
         }
 
         stableReviewRepository.delete(review);

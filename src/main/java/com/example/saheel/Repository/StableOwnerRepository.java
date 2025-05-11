@@ -4,6 +4,7 @@ import com.example.saheel.Model.Stable;
 import com.example.saheel.Model.StableOwner;
 import com.example.saheel.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public interface StableOwnerRepository extends JpaRepository<StableOwner , Integ
 
     StableOwner findStableOwnerById(Integer StableOwner_Id);
     StableOwner findStableOwnerByUser(User user);
-
+    @Query("select s from StableOwner s where s.isApproved = false")
+    List<StableOwner> findUnapprovedStableOwners();
 
 }

@@ -29,13 +29,13 @@ public class MembershipController {
     }
 
     //  add Membership
-    @PostMapping("/add{stableId}")
-    public ResponseEntity<?> addMembership(@AuthenticationPrincipal User user, @Valid @RequestBody Membership membership, @PathVariable Integer stableId) {
+    @PostMapping("/request-membership/{stableId}")
+    public ResponseEntity<?> requestMembership(@AuthenticationPrincipal User user, @Valid @RequestBody Membership membership, @PathVariable Integer stableId) {
         membershipService.requestMembership(membership, user.getId(), stableId);
         return ResponseEntity.status(200).body(new ApiResponse("Membership added"));
     }
 
-    @PutMapping("/renew/{id}")
+    @PutMapping("/renew-membership/{id}")
     public ResponseEntity<?> renewMembership(@AuthenticationPrincipal User user, @PathVariable Integer id, @RequestBody Membership membership) {
         membershipService.renewMembership(user.getId(), membership, id);
         return ResponseEntity.ok(new ApiResponse("Membership renewed successfully"));
@@ -51,7 +51,7 @@ public class MembershipController {
     // ( #21 of 50 endpoints. )
     // This method gets all memberships that are expired.
     // A membership is expired if its end date is before today.
-    @GetMapping("/expired")
+    @GetMapping("/get-expired-memberships")
     public ResponseEntity<List<Membership>> getExpiredMemberships() {
         List<Membership> expired = membershipService.getExpiredMemberships();
         return ResponseEntity.ok(expired);

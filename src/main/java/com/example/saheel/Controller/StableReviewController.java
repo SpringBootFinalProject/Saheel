@@ -28,10 +28,10 @@ public class StableReviewController {
 
     //  add Review of  Stable
     @PostMapping("/add/{stableId}")
-    public ResponseEntity<?> addReview(@AuthenticationPrincipal User user,
+    public ResponseEntity<?> reviewStable(@AuthenticationPrincipal User user,
                                        @PathVariable Integer stableId,
                                        @RequestBody StableReview review) {
-        stableReviewService.addReview(review, user.getId(), stableId);
+        stableReviewService.reviewStable(review, user.getId(), stableId);
         return ResponseEntity.status(200).body(new ApiResponse("Review added"));
     }
 

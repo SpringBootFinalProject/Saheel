@@ -24,7 +24,11 @@ public class AdminService {
     // ( #18 of 50 endpoints)
     // This method finds the horse owner who owns the most horses.
     // It can return more than one owner if they have the same number of horses.
-    public List<HorseOwner> getOwnersWithMostHorses() {
+    public List<HorseOwner> getOwnersWithMostHorses(Integer adminId) {
+        User admin = userRepository.findUserByIdAndRole(adminId, "ADMIN");
+        if (admin == null) {
+            throw new ApiException("Only admins can perform this action.");
+        }
         return horseOwnerRepository.findHorseOwnersWithMostHorses();
     }
 

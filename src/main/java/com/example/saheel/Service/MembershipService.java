@@ -2,18 +2,13 @@ package com.example.saheel.Service;
 
 import com.example.saheel.Api.ApiException;
 import com.example.saheel.DTO.MembershipDTO;
-import com.example.saheel.Model.Horse;
-import com.example.saheel.Model.HorseOwner;
-import com.example.saheel.Model.Membership;
-import com.example.saheel.Model.Stable;
-import com.example.saheel.Repository.HorseOwnerRepository;
-import com.example.saheel.Repository.HorseRepository;
-import com.example.saheel.Repository.MembershipRepository;
-import com.example.saheel.Repository.StableRepository;
+import com.example.saheel.Model.*;
+import com.example.saheel.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,6 +18,7 @@ public class MembershipService {
     private final HorseOwnerRepository horseOwnerRepository;
     private final StableRepository stableRepository;
     private final HorseRepository horseRepository;
+    private final MembershipInvoiceRepository membershipInvoiceRepository;
 
     // ( #10 of 50 endpoints )
     // get All Memberships
@@ -73,7 +69,7 @@ public class MembershipService {
         switch (type) {
             case "monthly":
                 endDate = startDate.plusMonths(6);
-                price = 500;
+                price = 1;
                 maxHorses = 3;
                 break;
             case "yearly":
@@ -97,6 +93,9 @@ public class MembershipService {
         membership.setIsActive(true);
 
         membershipRepository.save(membership);
+
+        membershipRepository.save(membership);
+        createMembershipInvoice(owner, membership);
 
     }
 
@@ -123,7 +122,7 @@ public class MembershipService {
         switch (type.toLowerCase()) {
             case "monthly":
                 endDate = startDate.plusMonths(6);
-                price = 500;
+                price = 1;
                 break;
             case "yearly":
                 endDate = startDate.plusYears(1);
@@ -174,6 +173,10 @@ public class MembershipService {
         membershipRepository.save(membership);
     }
 
+
+
+
+
     // ( #21 of 50 endpoints)
     // This method gets all memberships that are expired.
     // A membership is expired if its end date is before today.
@@ -181,5 +184,22 @@ public class MembershipService {
         LocalDate today = LocalDate.now();
         return membershipRepository.findByEndDateBefore(today);
     }
+
+    public void createMembershipInvoice(HorseOwner owner, Membership membership) {
+        double price = membership.getPrice();
+        MembershipInvoice invoice = new MembershipInvoice();
+        invoice.setHorseOwner(owner);
+        invoice.setMembership(membership);
+        invoice.setTotalPrice(price);
+        invoice.setPaymentId("No Payment From The Owner");
+        invoice.setStatus("pending");
+        invoice.setDateTime(LocalDateTime.now());
+
+        membershipInvoiceRepository.save(invoice);
+
+        membership.setInvoice(invoice);
+        membershipRepository.save(membership);
+    }
+
 
 }

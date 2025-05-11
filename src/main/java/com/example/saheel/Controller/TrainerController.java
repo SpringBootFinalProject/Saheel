@@ -6,12 +6,14 @@ import com.example.saheel.Model.User;
 import com.example.saheel.Service.StaffManagerService;
 import com.example.saheel.Service.TrainerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/trainer")
+@RequestMapping("/api/v1/saheel/trainer")
 @RequiredArgsConstructor
 public class TrainerController {
     private final TrainerService trainerService;
@@ -61,5 +63,15 @@ public class TrainerController {
     public ResponseEntity<ApiResponse> deleteTrainer(@AuthenticationPrincipal User user, @PathVariable Integer trainer_Id) {
         trainerService.deleteTrainer(user.getId(), trainer_Id);
         return ResponseEntity.ok(new ApiResponse("Trainer deleted successfully"));
+    }
+
+    @GetMapping("/get-top-rated-trainer")
+    public ResponseEntity<String> getTopRatedTrainer(){
+        return ResponseEntity.status(HttpStatus.OK).body(trainerService.getTopRatedTrainer());
+    }
+
+    @GetMapping("/get-top-rated-trainer-of-stable/{stableId}")
+    public ResponseEntity<String> getTopRatedTrainerOfStable(@PathVariable Integer stableId){
+        return ResponseEntity.status(HttpStatus.OK).body(trainerService.getTopRatedTrainerOfStable(stableId));
     }
 }

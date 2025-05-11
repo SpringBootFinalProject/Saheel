@@ -13,7 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/breeder")
+@RequestMapping("/api/v1/saheel/breeder")
 @RequiredArgsConstructor
 public class BreederController {
 
@@ -29,7 +29,7 @@ public class BreederController {
 
     // TODO تغير الاسم
     //searchVeterinaryByName
-    @GetMapping("/search-byName/{fullName}")
+    @GetMapping("/search-by-name/{fullName}")
     public ResponseEntity<Breeder> searchVeterinaryByName(@AuthenticationPrincipal User user, @PathVariable String fullName) {
         Breeder breeder = breederService.searchBreederByName(user.getId(),fullName);
         return ResponseEntity.ok(breeder);

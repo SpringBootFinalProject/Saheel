@@ -10,28 +10,31 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-//@Table(name = "app_invoice")
-public class Invoice {
+public class MembershipInvoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String paymentId;
+
     @Pattern(regexp = "pending|intiated|failed|paid")
     private String status;
+
     private Double totalPrice;
+
     private LocalDateTime dateTime;
 
     @OneToOne
     @MapsId
     @JsonIgnore
-    private CourseEnrollment courseEnrollment;
+    private Membership membership;
 
     @ManyToOne
     @JsonIgnore
-    private Customer customer;
+    private HorseOwner horseOwner;
 }

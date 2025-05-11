@@ -5,6 +5,7 @@ import com.example.saheel.Model.Stable;
 import com.example.saheel.Model.User;
 import com.example.saheel.Service.StableService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/stable")
+@RequestMapping("/api/v1/saheel/stable")
 @RequiredArgsConstructor
 public class StableController {
 
@@ -50,6 +51,11 @@ public class StableController {
     public ResponseEntity<ApiResponse> deleteStable( @AuthenticationPrincipal User user , @PathVariable Integer stable_Id) {
         stableService.deleteStable(user.getId(), stable_Id);
         return ResponseEntity.ok(new ApiResponse("Stable deleted successfully"));
+    }
+
+    @GetMapping("/get-available-stables")
+    public ResponseEntity<List<Stable>> getAvailableStables(){
+        return ResponseEntity.status(HttpStatus.OK).body(stableService.getAvailableStables());
     }
 
 }

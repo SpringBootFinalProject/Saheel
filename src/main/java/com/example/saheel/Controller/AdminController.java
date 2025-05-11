@@ -2,9 +2,12 @@ package com.example.saheel.Controller;
 
 import com.example.saheel.Api.ApiResponse;
 import com.example.saheel.Model.HorseOwner;
+import com.example.saheel.Model.StableOwner;
 import com.example.saheel.Model.User;
 import com.example.saheel.Service.AdminService;
+import com.example.saheel.Service.StableOwnerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +19,18 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminController {
     private final AdminService adminService;
+    private final StableOwnerService stableOwnerService;
 
+
+
+    // ( #18 of 50 endpoints )
+    // This method finds the horse owner who owns the most horses.
+    // It can return more than one owner if they have the same number of horses.
+    @GetMapping("/most-horses")
+    public ResponseEntity<List<HorseOwner>> getHorseOwnersWithMostHorses(@AuthenticationPrincipal User user) {
+        List<HorseOwner> result = adminService.getOwnersWithMostHorses(user.getId());
+        return ResponseEntity.ok(result);
+    }
 
 
     // ( #25 of 50 endpoints )
@@ -37,7 +51,7 @@ public class AdminController {
 
     // ( #27 of 50 endpoints )
     // This method allows an admin to approve a stable owner account.
-    @PutMapping("approve-stable-owner/{stableId}")
+    @PutMapping("/approve-stable-owner/{stableId}")
     public ResponseEntity<?> approveStableOwner(@AuthenticationPrincipal User user, @PathVariable Integer stableId) {
         adminService.approveStableOwner(user.getId(), stableId);
         return ResponseEntity.ok(new ApiResponse("Stable owner account has been approved."));
@@ -45,19 +59,16 @@ public class AdminController {
 
     // ( #28 of 50 endpoints )
     // This method sends a welcome email to all new members who joined today.
-    @PostMapping("/admin/send-membership-welcome")
+    @PostMapping("/send-membership-welcome")
     public ResponseEntity<?> sendWelcomeToNewMembers(@AuthenticationPrincipal User user) {
         adminService.sendWelcomeEmailsToNewMembers(user.getId());
         return ResponseEntity.ok(new ApiResponse("Welcome emails have been sent to new members."));
     }
 
-    // ( #18 of 50 endpoints )
-    // This method finds the horse owner who owns the most horses.
-    // It can return more than one owner if they have the same number of horses.
-    @GetMapping("/most-horses")
-    public ResponseEntity<List<HorseOwner>> getHorseOwnersWithMostHorses() {
-        List<HorseOwner> result = adminService.getOwnersWithMostHorses();
-        return ResponseEntity.ok(result);
+    @GetMapping("/get-unapproved-stable-owners")
+    public ResponseEntity<List<StableOwner>> getUnapprovedStableOwners(@AuthenticationPrincipal User user){
+        return ResponseEntity.status(HttpStatus.OK).body(stableOwnerService.getUnapprovedStableOwners(user.getId()));
     }
+
 
 }

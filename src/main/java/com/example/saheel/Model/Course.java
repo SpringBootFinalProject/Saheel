@@ -54,7 +54,8 @@ public class Course {
     @NotNull(message = "The final enrollment date can not be empty.")
     @Future
     private LocalDateTime finalEnrollmentDate;
-
+    private Double totalRating;
+    private Double totalNumberOfRatings;
     private Boolean courseCanceled = false;
 
     @ManyToOne
