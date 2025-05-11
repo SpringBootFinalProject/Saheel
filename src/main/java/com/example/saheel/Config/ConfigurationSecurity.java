@@ -37,7 +37,7 @@ public class ConfigurationSecurity {
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .authenticationProvider(daoAuthenticationProvider())
-                .authorizeHttpRequests().requestMatchers("/api/v1/admin").hasAuthority("Admin")
+                .authorizeHttpRequests().anyRequest().permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout()
