@@ -22,34 +22,27 @@ public class Veterinary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotEmpty(message = "The username can not be empty.")
-    @Column(columnDefinition = "varchar(20) unique not null")
+
+    @Column(columnDefinition = "varchar(20) not null unique")
     private String username;
 
-    @NotEmpty(message = "The password can not be empty.")
     @Column(columnDefinition = "varchar(50) not null")
     private String password;
 
-    @NotEmpty(message = "The name can not be empty.")
-    @Column(columnDefinition = "varchar(20) not null unique")
+    @Column(columnDefinition = "varchar(20) not null")
     private String fullName;
 
-    @NotNull(message = "The password can not be empty.")
-    @Column(columnDefinition = "int not null")
+    @Column(nullable = false)
     private int age;
 
-    @Email
-    @NotEmpty(message = "The email can not be empty.")
-    @Column(columnDefinition = "varchar(50) unique not null")
+    @Column(columnDefinition = "varchar(50) not null unique")
     private String email;
 
-    @NotNull(message = "The years of experience can not be empty.")
-    @Column(columnDefinition = "int not null")
+    @Column(nullable = false)
     private int yearsOfExperience;
 
-    @Column(columnDefinition = "double")
+    @Column
     private double rating;
-
     private Boolean isActive = false;
 
     @ManyToOne
