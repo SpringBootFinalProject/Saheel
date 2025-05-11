@@ -226,6 +226,7 @@ public class StaffManagerService {
         visit.setHorse(horse);
         visit.setVeterinary(vet);
         visit.setReason("Request a medical examination for membership");
+        visit.setVisitDateTime(LocalDateTime.now());
         visit.setIsCompleted(false);
 
         veterinaryVisitRepository.save(visit);
@@ -235,7 +236,7 @@ public class StaffManagerService {
 
     //( #42 of 50 endpoints)
     //mark Visit AsCompleted
-    public void markVisitAsCompleted(Integer visitId, boolean isFit, String medicalReport) {
+    public void markVisitAsCompleted( Integer visitId, boolean isFit, String medicalReport) {
         VeterinaryVisit visit = veterinaryVisitRepository.findVeterinaryVisitById(visitId);
         if (visit == null) {
             throw new ApiException("The visit does not exist");
@@ -262,7 +263,7 @@ public class StaffManagerService {
         HorseOwner owner = horse.getHorseOwner();
         if (owner != null && owner.getUser() != null) {
             String subject = "تقرير الفحص البيطري - Veterinary Report: " + horse.getName();
-            String result = isFit ? "✅ الحصان لائق طبيًا - The horse is medically fit" : "❌ الحصان غير لائق طبيًا - The horse is not medically fit";
+            String result = isFit ? "الحصان لائق طبيًا - The horse is medically fit" : "الحصان غير لائق طبيًا - The horse is not medically fit";
             String formattedDate = visit.getVisitDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
             String body = "السلام عليكم " + owner.getUser().getFullName() + ",\n\n"
