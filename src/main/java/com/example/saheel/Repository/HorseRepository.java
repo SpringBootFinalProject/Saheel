@@ -12,6 +12,7 @@ import java.util.List;
 public interface HorseRepository extends JpaRepository<Horse, Integer> {
     Horse findHorseById(Integer horseId);
 
+
     List<Horse> findHorsesByHorseOwner(HorseOwner horseOwner);
     int countByHorseOwner(HorseOwner horseOwner);
 
