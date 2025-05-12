@@ -30,7 +30,7 @@ public class BreederController {
 
     // ( #6 of 50 endpoints )
    // search name of Breeder By stable owner
-    @GetMapping("/search-byName/{fullName}")
+    @GetMapping("/search-by-name/{fullName}")
     public ResponseEntity<Breeder> searchBreederByName(@AuthenticationPrincipal User user, @PathVariable String fullName) {
 
         Breeder breeder = breederService.searchBreederByName(user.getId(),fullName);

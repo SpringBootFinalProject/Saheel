@@ -28,7 +28,7 @@ public class VeterinaryController {
 
     //( #56 of 50 endpoints)
     //search Veterinary By Name
-    @GetMapping("/search-byName/{fullName}")
+    @GetMapping("/search-by-name/{fullName}")
     public ResponseEntity<Veterinary> searchVeterinaryByName(@AuthenticationPrincipal User user, @PathVariable String fullName) {
         Veterinary veterinary = veterinaryService.searchVeterinaryByName(user.getId(),fullName);
         return ResponseEntity.ok(veterinary);

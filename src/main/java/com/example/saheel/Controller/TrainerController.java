@@ -29,7 +29,7 @@ public class TrainerController {
     }
 
     //( #53 of 50 endpoints)
-    @GetMapping("/search-byName/{fullName}")
+    @GetMapping("/search-by-name/{fullName}")
     public ResponseEntity<Trainer> searchTrainerByName(@AuthenticationPrincipal User user, @PathVariable String fullName) {
         Trainer trainer = trainerService.searchByTrainerName(user.getId(),fullName);
         return ResponseEntity.ok(trainer);
