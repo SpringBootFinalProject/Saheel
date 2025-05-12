@@ -42,6 +42,7 @@ public class Stable {
     @Column(columnDefinition = "double")
     private Double totalRating;
     private Double totalNumberOfRatings;
+    private Integer totalNumberOfHorses;
 
 
     @ManyToOne

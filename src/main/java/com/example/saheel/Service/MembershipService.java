@@ -56,10 +56,7 @@ public class MembershipService {
         if (stable == null) {
             throw new ApiException("Stable not found");
         }
-        // Check if the stable is full
-        if (stable.getMemberships().size() >= stable.getCapacity()) {
-            throw new ApiException("Stable capacity exceeded");
-        }
+
         // Set values by membership type
         String type = membership.getMembershipType();
         LocalDate startDate = LocalDate.now();
@@ -68,13 +65,23 @@ public class MembershipService {
         int maxHorses;
         switch (type) {
             case "monthly":
+                // Check if the stable is full
+                if (stable.getTotalNumberOfHorses() + 3 > stable.getCapacity()) {
+                    throw new ApiException("Stable capacity exceeded");
+                }
                 endDate = startDate.plusMonths(6);
-                price = 1;
-                maxHorses = 3;
+                price = 500;
+                stable.setTotalNumberOfHorses(stable.getTotalNumberOfHorses() + 3);
                 break;
             case "yearly":
+                // Check if the stable is full
+                if (stable.getTotalNumberOfHorses() + 6 > stable.getCapacity()) {
+                    throw new ApiException("Stable capacity exceeded");
+                }
                 endDate = startDate.plusYears(1);
                 price = 1000;
+                stable.setTotalNumberOfHorses(stable.getTotalNumberOfHorses() + 6);
+
                 break;
             default:
                 throw new ApiException("Membership type must be 'monthly' or 'yearly'");
@@ -107,24 +114,32 @@ public class MembershipService {
         if (owner == null) {
             throw new ApiException("Horse Owner not found");
         }
+
+
         Membership membership = membershipRepository.findMembershipById(membershipId);
         if (membership == null) {
             throw new ApiException("Membership not found");
         }
+        Stable stable = membership.getStable();
         String type = updatedMembership.getMembershipType();
         if (type == null || (!type.equalsIgnoreCase("monthly") && !type.equalsIgnoreCase("yearly"))) {
             throw new ApiException("Invalid membership type");
         }
-        LocalDate startDate = membership.getStartDate();
+        LocalDate startDate = membership.getEndDate();
         LocalDate endDate;
         double price;
 
         switch (type.toLowerCase()) {
             case "monthly":
+                if (membership.getMembershipType().equalsIgnoreCase("yearly"))
+                    stable.setCapacity(stable.getCapacity() - 3);
                 endDate = startDate.plusMonths(6);
                 price = 1;
                 break;
             case "yearly":
+                if (membership.getMembershipType().equalsIgnoreCase("monthly"))
+                    stable.setCapacity(stable.getCapacity() + 3);
+
                 endDate = startDate.plusYears(1);
                 price = 1000;
                 break;
@@ -168,13 +183,15 @@ public class MembershipService {
             horseRepository.save(horse);
         }
 
+        if (membership.getMembershipType().equalsIgnoreCase("yearly"))
+            stable.setCapacity(stable.getCapacity() - 6);
+        else stable.setCapacity(stable.getCapacity() - 3);
+
+
         // Deactivate the membership
         membership.setIsActive(false);
         membershipRepository.save(membership);
     }
-
-
-
 
 
     // ( #21 of 50 endpoints)
