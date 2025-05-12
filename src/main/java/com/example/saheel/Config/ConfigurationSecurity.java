@@ -128,7 +128,7 @@ public class ConfigurationSecurity {
                         "/api/v1/saheel/stableReview/stables/*/reviews",
                         "/api/v1/saheel/stableReview/reviews/sorted",
                         "/api/v1/saheel/stable-owner/register",
-                        "/api/v1/saheel/Customer/register-customer",
+                        "/api/v1/saheel/customer/register-customer",
                         "/api/v1/saheel/horse-owner/register"
                 ).permitAll()
 
