@@ -57,14 +57,12 @@ public class MembershipService {
         if (stable == null) {
             throw new ApiException("Stable not found");
         }
-<<<<<<< HEAD
+
         // Check if the stable is full
         if (stable.getMemberships() != null && stable.getMemberships().size() >= stable.getCapacity()) {
             throw new ApiException("Stable capacity exceeded");
         }
-=======
 
->>>>>>> origin/NewBranch
         // Set values by membership type
         String type = membership.getMembershipType();
         LocalDate startDate = LocalDate.now();
