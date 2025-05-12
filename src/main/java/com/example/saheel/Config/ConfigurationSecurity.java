@@ -108,7 +108,7 @@ public class ConfigurationSecurity {
 
                 //  Invoice download for STABLEOWNER & HORSEOWNER
                 .requestMatchers("/api/v1/saheel/customer/get-invoice-as-pdf/**")
-                .hasAnyAuthority("HORSEOWNER", "STABLEOWNER")
+                .hasAnyAuthority("CUSTOMER", "STABLEOWNER")
 
                 //  Veterinary visit access for both STABLEOWNER and HORSEOWNER
                 .requestMatchers("/api/v1/saheel/veterinary-visit/**")

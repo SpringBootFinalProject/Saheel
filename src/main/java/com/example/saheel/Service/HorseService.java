@@ -26,7 +26,7 @@ public class HorseService {
     public List<Horse> getOwnerHorses(Integer horseOwnerId) {
         // Get the horse owner and check if it's in the database.
         HorseOwner horseOwner = getHorseOwnerOrThrow(horseOwnerId);
-        if(horseOwner == null) throw new ApiException("Horses Owner not found.");
+        if (horseOwner == null) throw new ApiException("Horses Owner not found.");
 
         return horseRepository.findHorsesByHorseOwner(horseOwner);
     }
@@ -53,6 +53,8 @@ public class HorseService {
             throw new ApiException("Horse not found");
         }
 
+        if (horse.getHorseOwner().equals(owner)) throw new ApiException("The horse does not belongs to the owner.");
+
 
         // Check if the horse is medically fit.
         if (!horse.getIsMedicallyFit().equals(false)) {
@@ -63,6 +65,8 @@ public class HorseService {
         if (membership == null) {
             throw new ApiException("Owner has no active membership");
         }
+
+        if(!membership.getHorseOwner().equals(owner)) throw new ApiException("The membership does not belongs to the owner.");
 
         int maxHorses = membership.getMembershipType().equalsIgnoreCase("monthly") ? 3 : 6;
 
@@ -146,14 +150,14 @@ public class HorseService {
     public void giftHorseToOwner(Integer oldOwnerId, Integer horseId, Integer newOwnerId) {
         // Get the old owner
         HorseOwner horseOwner = horseOwnerRepository.findHorseOwnerById(oldOwnerId);
-        if(horseOwner == null) throw new ApiException("Old horse owner nto found.");
+        if (horseOwner == null) throw new ApiException("Old horse owner nto found.");
 
         Horse horse = horseRepository.findHorseById(horseId);
         if (horse == null) {
             throw new ApiException("Horse not found");
         }
 
-        if(!horseOwner.getHorses().contains(horse)) throw new ApiException("The horse does not belongs to the owner.");
+        if (!horseOwner.getHorses().contains(horse)) throw new ApiException("The horse does not belongs to the owner.");
 
         if (horse.getMembership() == null || !horse.getMembership().getIsActive()) {
             throw new RuntimeException("Only horses with active memberships can be gifted.");
