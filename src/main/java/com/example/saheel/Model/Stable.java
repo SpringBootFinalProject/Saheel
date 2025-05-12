@@ -44,8 +44,6 @@ public class Stable {
     private Double totalNumberOfRatings;
 
 
-
-
     @ManyToOne
     @JsonIgnore
     private StableOwner stableOwner;

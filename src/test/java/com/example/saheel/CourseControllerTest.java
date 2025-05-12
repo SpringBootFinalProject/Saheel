@@ -10,8 +10,8 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -27,7 +27,8 @@ public class CourseControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
+    @MockitoBean
+
     private CourseService courseService;
 
     private Course course;
@@ -37,6 +38,7 @@ public class CourseControllerTest {
         course = new Course();
         course.setId(1);
         course.setName("Jumping Basics");
+        course.setCapacity(10);
         course.setDescription("Learn how to jump obstacles");
     }
 
@@ -50,4 +52,16 @@ public class CourseControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value("Jumping Basics"));
     }
+
+    @Test
+    public void testGetAvailableCourses() throws Exception {
+
+        Mockito.when(courseService.getAvailableCourses()).thenReturn(List.of(course));
+
+        mockMvc.perform(get("/api/v1/saheel/course/get-available-courses")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("Jumping Basics"));
+    }
+
 }
