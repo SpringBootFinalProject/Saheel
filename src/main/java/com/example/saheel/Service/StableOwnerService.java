@@ -37,6 +37,15 @@ public class StableOwnerService {
     // ( #1 of 50 endpoints )
     //register stableOwner
     public void registerStableOwner(StableOwnerDTO stableOwnerDTO) {
+        if (userRepository.existsByEmail(stableOwnerDTO.getUsername())) {
+            throw new ApiException("This Username is already in use");
+        }
+        if (userRepository.existsByEmail(stableOwnerDTO.getEmail())) {
+            throw new ApiException("This email is already in use");
+        }
+        if (userRepository.existsByEmail(stableOwnerDTO.getPhoneNumber())) {
+            throw new ApiException("This Phone Number is already in use");
+        }
         User user = new User();
         user.setUsername(stableOwnerDTO.getUsername());
         user.setPassword(new BCryptPasswordEncoder().encode(stableOwnerDTO.getPassword()));
@@ -71,6 +80,15 @@ public class StableOwnerService {
 
     //update StableOwner - Abeer
     public void updateStableOwner(Integer stableOwner_Id, StableOwnerDTO stableOwnerDTO) {
+        if (userRepository.existsByEmail(stableOwnerDTO.getUsername())) {
+            throw new ApiException("This Username is already in use");
+        }
+        if (userRepository.existsByEmail(stableOwnerDTO.getEmail())) {
+            throw new ApiException("This email is already in use");
+        }
+        if (userRepository.existsByEmail(stableOwnerDTO.getPhoneNumber())) {
+            throw new ApiException("This Phone Number is already in use");
+        }
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
         if (stableOwner == null) {
             throw new RuntimeException("HorseOwner not found");

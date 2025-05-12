@@ -1,5 +1,6 @@
 package com.example.saheel.Service;
 
+import com.example.saheel.Api.ApiException;
 import com.example.saheel.DTO.CustomerDTO;
 import com.example.saheel.Model.Customer;
 import com.example.saheel.Model.User;
@@ -29,6 +30,15 @@ public class CustomerService {
     // ( #8 of 50 endpoints )
     public void registerCustomer(CustomerDTO customerDtoIn) {
 
+        if (userRepository.existsByEmail(customerDtoIn.getUsername())) {
+            throw new ApiException("This Username is already in use");
+        }
+        if (userRepository.existsByEmail(customerDtoIn.getEmail())) {
+            throw new ApiException("This email is already in use");
+        }
+        if (userRepository.existsByEmail(customerDtoIn.getPhoneNumber())) {
+            throw new ApiException("This email is already in use");
+        }
         //Create the user and set the role.
         User user = new User(null, customerDtoIn.getUsername(), new BCryptPasswordEncoder().encode(customerDtoIn.getPassword()),
                 "CUSTOMER", customerDtoIn.getFullName(), customerDtoIn.getAge(), customerDtoIn.getEmail(), customerDtoIn.getPhoneNumber()
@@ -52,6 +62,15 @@ public class CustomerService {
 
         // Update
         user.setPassword(new BCryptPasswordEncoder().encode(customerDtoIn.getPassword()));
+        if (userRepository.existsByEmail(customerDtoIn.getUsername())) {
+            throw new ApiException("This Username is already in use");
+        }
+        if (userRepository.existsByEmail(customerDtoIn.getEmail())) {
+            throw new ApiException("This email is already in use");
+        }
+        if (userRepository.existsByEmail(customerDtoIn.getPhoneNumber())) {
+            throw new ApiException("This email is already in use");
+        }
         user.setUsername(customerDtoIn.getUsername());
         user.setEmail(customerDtoIn.getEmail());
         user.setPhoneNumber(customerDtoIn.getPhoneNumber());

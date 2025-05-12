@@ -58,7 +58,8 @@ public class ConfigurationSecurity {
                         "/api/v1/saheel/stable-review/add/**",
                         "/api/v1/saheel/stable-review/update/**",
                         "/api/v1/saheel/stable-review/delete/**",
-                        "/api/v1/saheel/staff-manager/veterinary/visit/**"
+                        "/api/v1/saheel/staff-manager/veterinary/visit/**",
+                        "/api/v1/saheel/payments/membership/**"
                 ).hasAuthority("HORSEOWNER")
 
                 //  CUSTOMER endpoints
@@ -130,6 +131,8 @@ public class ConfigurationSecurity {
                         "/api/v1/saheel/stableReview/reviews/sorted",
                         "/api/v1/saheel/stable-owner/register",
                         "/api/v1/saheel/customer/register-customer",
+                        "/api/v1/saheel/horse-owner/register",
+                        "/notifications/send-hello",  //
                         "/api/v1/saheel/horse-owner/register"
                 ).permitAll()
 

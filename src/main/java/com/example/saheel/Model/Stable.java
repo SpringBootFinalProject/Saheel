@@ -40,9 +40,9 @@ public class Stable {
     private String location; //What is the format of the location?
 
     @Column(columnDefinition = "double")
-    private Double totalRating;
-    private Double totalNumberOfRatings;
-    private Integer totalNumberOfHorses;
+    private Double totalRating = 0.0;
+    private Double totalNumberOfRatings = 0.0;
+    private Integer totalNumberOfHorses = 0;
 
 
     @ManyToOne
@@ -53,18 +53,23 @@ public class Stable {
 //    private List<Review> reviews;
 
     @OneToMany(mappedBy = "stable", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Breeder> breeders;
 
     @OneToMany(mappedBy = "stable", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Trainer> trainers;
 
     @OneToMany(mappedBy = "stable", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Veterinary> veterinaries;
 
     @OneToMany(mappedBy = "stable", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Course> courses;
 
     @OneToMany(mappedBy = "stable", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Membership> memberships = new ArrayList<>();
 
     @OneToMany(mappedBy = "stable", cascade = CascadeType.ALL)

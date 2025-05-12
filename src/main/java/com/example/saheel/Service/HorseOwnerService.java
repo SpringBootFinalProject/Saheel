@@ -27,6 +27,15 @@ public class HorseOwnerService {
     // ( #9 of 50 endpoints )
     // register HorseOwner
     public void registerHorseOwner(HorseOwnerDTO horseOwnerDTO) {
+        if (userRepository.existsByEmail(horseOwnerDTO.getUsername())) {
+            throw new ApiException("This Username is already in use");
+        }
+        if (userRepository.existsByEmail(horseOwnerDTO.getEmail())) {
+            throw new ApiException("This email is already in use");
+        }
+        if (userRepository.existsByEmail(horseOwnerDTO.getPhoneNumber())) {
+            throw new ApiException("This Phone Number is already in use");
+        }
         // Create and configure the user account.
         User user = new User();
         user.setUsername(horseOwnerDTO.getUsername());
@@ -53,6 +62,15 @@ public class HorseOwnerService {
             throw new ApiException("HorseOwner not found");
         }
 
+        if (userRepository.existsByEmail(horseOwnerDTO.getUsername())) {
+            throw new ApiException("This Username is already in use");
+        }
+        if (userRepository.existsByEmail(horseOwnerDTO.getEmail())) {
+            throw new ApiException("This email is already in use");
+        }
+        if (userRepository.existsByEmail(horseOwnerDTO.getPhoneNumber())) {
+            throw new ApiException("This Phone Number is already in use");
+        }
         // Update user information.
         User user = horseOwner.getUser();
         user.setUsername(horseOwnerDTO.getUsername());

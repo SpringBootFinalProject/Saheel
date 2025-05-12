@@ -16,6 +16,7 @@ public class VeterinaryService {
     private final MembershipRepository membershipRepository;
     private final HorseRepository horseRepository;
     private final StableRepository stableRepository;
+    private final UserRepository userRepository;
 
     // get Veterinary by ID - Abeer
     public Veterinary getVeterinaryById(Integer stableOwner_Id, Integer veterinary_Id){
@@ -63,6 +64,11 @@ public class VeterinaryService {
         if (!stable.getStableOwner().getId().equals(stableOwner_Id)) {
             throw new ApiException("Unauthorized error: This stable does not belong to the logged-in stable owner");
         }
+        if (userRepository.existsByEmail(veterinary.getEmail())) {
+            throw new ApiException("This email is already in use");
+        }
+
+
         veterinary.setStable(stable);
         veterinaryRepository.save(veterinary);
     }
@@ -88,6 +94,9 @@ public class VeterinaryService {
 
         oldVeterinary.setFullName(veterinary.getFullName());
         oldVeterinary.setAge(veterinary.getAge());
+        if (userRepository.existsByEmail(oldVeterinary.getEmail())) {
+            throw new ApiException("This email is already in use");
+        }
         oldVeterinary.setEmail(veterinary.getEmail());
         oldVeterinary.setYearsOfExperience(veterinary.getYearsOfExperience());
 

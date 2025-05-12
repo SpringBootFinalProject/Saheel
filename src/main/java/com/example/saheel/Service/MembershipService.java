@@ -92,11 +92,7 @@ public class MembershipService {
             default:
                 throw new ApiException("Membership type must be 'monthly' or 'yearly'");
         }
-        // Count how many horses the owner has
-//        int currentHorseCount = horseRepository.countByHorseOwner(owner);
-//        if (currentHorseCount > maxHorses) {
-//            throw new ApiException("Owner already has " + currentHorseCount + " horses, which exceeds the allowed limit for a " + type + " membership.");
-//        }
+
         // Set membership data
         membership.setHorseOwner(owner);
         membership.setStable(stable);
