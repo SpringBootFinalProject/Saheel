@@ -15,16 +15,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class ConfigurationSecurity {
-    //g
+
     private final MyUserDetailsService myUserDetailsService;
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
-
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(myUserDetailsService);
         authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder());
-
         return authenticationProvider;
     }
 
@@ -129,9 +127,9 @@ public class ConfigurationSecurity {
                         "/api/v1/saheel/stableReview/reviews/sorted",
                         "/api/v1/saheel/stable-owner/register",
                         "/api/v1/saheel/Customer/register-customer",
-                        "/api/v1/saheel/horse-owner/register"
+                        "/api/v1/saheel/horse-owner/register",
+                        "/notifications/send-hello"  //
                 ).permitAll()
-
 
                 .anyRequest().authenticated()
 
@@ -147,4 +145,3 @@ public class ConfigurationSecurity {
     }
 
 }
-
