@@ -20,5 +20,8 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
     @Query("select c from Course c where c.trainer = ?1 and c.courseCanceled = false")
     List<Course> findCoursesByTrainer(Trainer trainer);
 
+
+    List<Course> findCourseByTrainerAndDateBetween(Trainer trainer, LocalDateTime dateAfter, LocalDateTime dateBefore);
+
     List<Course> getCoursesByDateBetween(LocalDateTime dateAfter, LocalDateTime dateBefore);
 }

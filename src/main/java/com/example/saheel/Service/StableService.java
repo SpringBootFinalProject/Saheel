@@ -45,6 +45,9 @@ public class StableService {
             throw new ApiException("Error : Stable owner is not fond");
         }
         stable.setStableOwner(stableOwner);
+        stable.setTotalNumberOfHorses(0);
+        stable.setTotalNumberOfRatings(0.0);
+        stable.setTotalRating(0.0);
         stableRepository.save(stable);
         String subject = "تأكيد تسجيل الإسطبل وقواعد التشغيل";
         String body = "مرحبا " + user.getFullName() + ",\n\nتم تسجيل إسطبلك بنجاح، وهذه هي القواعد الخاصة:\n" +
