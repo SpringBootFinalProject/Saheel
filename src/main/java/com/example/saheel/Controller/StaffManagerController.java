@@ -38,16 +38,6 @@ public class StaffManagerController {
         return ResponseEntity.ok(new ApiResponse("Breeder assign successfully"));
     }
 
-<<<<<<< HEAD
-    //assignBreederToHorse - abeer
-    @PutMapping("/assign-breeder/{breeder_Id}/ToHorse/{horse_Id}")
-    public ResponseEntity<ApiResponse> assignBreederToHorse(@PathVariable Integer breeder_Id,@PathVariable Integer horse_Id) {
-        staffManagerService.assignBreederToHorse(breeder_Id, horse_Id);
-        return ResponseEntity.ok(new ApiResponse("Breeder Assign to horse successfully"));
-    }
-=======
-
-
 //    //assignBreederToHorse - abeer
 //    @PutMapping("/assign-breeder/{breeder_Id}/ToHorse/{horse_Id}")
 //    public ResponseEntity<ApiResponse> assignBreederToHorse(@PathVariable Integer breeder_Id,@PathVariable Integer horse_Id) {
@@ -55,7 +45,6 @@ public class StaffManagerController {
 //        return ResponseEntity.ok(new ApiResponse("Breeder Assign to horse successfully"));
 //    }
 
->>>>>>> origin/abeerDev
     //move veterinary To Stable by stable owner - Abeer
     @PostMapping("/move-veterinary/{veterinary_Id}/ToStable/{stable_Id}")
     public ResponseEntity<ApiResponse> moveVeterinaryToAnotherStable(@AuthenticationPrincipal User user , @PathVariable Integer stable_Id, @PathVariable Integer veterinary_Id) {

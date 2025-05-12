@@ -14,13 +14,10 @@ public class NotificationController {
 
     @PostMapping("/send-hello")
     public ResponseEntity<String> sendHelloMessage(@RequestParam String phoneNumber) {
-//        try {
-            // Send the "Hello" message to the provided phone number
+
             whatsAppNotifications.sendHelloMessage(phoneNumber);
             return ResponseEntity.ok("Message sent successfully!");
-//        } catch (Exception e) {
-//            return ResponseEntity.status(500).body("Failed to send message: " + e.getMessage());
-//        }
+
     }
 
 }

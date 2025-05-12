@@ -15,14 +15,16 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class ConfigurationSecurity {
-
+    //g
     private final MyUserDetailsService myUserDetailsService;
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
+
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(myUserDetailsService);
         authenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder());
+
         return authenticationProvider;
     }
 
@@ -35,17 +37,10 @@ public class ConfigurationSecurity {
                 .authenticationProvider(daoAuthenticationProvider())
                 .authorizeHttpRequests()
 
-<<<<<<< HEAD
                 //  ADMIN-only endpoints
                 .requestMatchers("/api/v1/saheel/admin/**").hasAuthority("ADMIN")
 
                 //  HORSEOWNER endpoints
-=======
-                // ADMIN-only endpoints
-                .requestMatchers("/api/v1/saheel/admin/**").hasAuthority("ADMIN")
-
-                // HORSE_OWNER endpoints
->>>>>>> origin/abeerDev
                 .requestMatchers(
                         "/api/v1/saheel/horse/get-owner-horses",
                         "/api/v1/saheel/horse/add-horse-by-owner",
@@ -111,25 +106,15 @@ public class ConfigurationSecurity {
                         "/api/v1/saheel/veterinary-visit/delete/**"
                 ).hasAuthority("STABLEOWNER")
 
-<<<<<<< HEAD
                 //  Invoice download for STABLEOWNER & HORSEOWNER
                 .requestMatchers("/api/v1/saheel/customer/get-invoice-as-pdf/**")
                 .hasAnyAuthority("HORSEOWNER", "STABLEOWNER")
-=======
-                // Invoices for STABLE_OWNER and HORSE_OWNER
-                .requestMatchers("/api/v1/saheel/customer/get-invoice-as-pdf/**")
-                .hasAnyAuthority("HORSE_OWNER", "STABLE_OWNER")
->>>>>>> origin/abeerDev
 
                 //  Veterinary visit access for both STABLEOWNER and HORSEOWNER
                 .requestMatchers("/api/v1/saheel/veterinary-visit/**")
                 .hasAnyAuthority("STABLEOWNER", "HORSEOWNER")
 
-<<<<<<< HEAD
                 //  Public access endpoints
-=======
-                //  Public endpoints (no authentication)
->>>>>>> origin/abeerDev
                 .requestMatchers(
                         "/api/v1/saheel/course/get-stable-courses/**",
                         "/api/v1/saheel/course/get-available-courses",
@@ -144,17 +129,10 @@ public class ConfigurationSecurity {
                         "/api/v1/saheel/stableReview/reviews/sorted",
                         "/api/v1/saheel/stable-owner/register",
                         "/api/v1/saheel/Customer/register-customer",
-<<<<<<< HEAD
-                        "/api/v1/saheel/horse-owner/register",
-                        "/notifications/send-hello"  //
-                ).permitAll()
-
-=======
                         "/api/v1/saheel/horse-owner/register"
                 ).permitAll()
 
-                // All other endpoints require authentication
->>>>>>> origin/abeerDev
+
                 .anyRequest().authenticated()
 
                 .and()
@@ -169,5 +147,4 @@ public class ConfigurationSecurity {
     }
 
 }
-
 

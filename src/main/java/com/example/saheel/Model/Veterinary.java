@@ -23,10 +23,6 @@ public class Veterinary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/abeerDev
     @Column(columnDefinition = "varchar(20) not null")
     private String fullName;
 

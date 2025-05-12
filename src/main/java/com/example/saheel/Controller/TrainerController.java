@@ -20,10 +20,7 @@ public class TrainerController {
     private final StaffManagerService staffManagerService;
 
 
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/abeerDev
     // Get trainer by ID - Abeer
     @GetMapping("/get/{trainer_Id}")
     public ResponseEntity<Trainer> getTrainerById(@AuthenticationPrincipal User user, @PathVariable Integer trainer_Id) {

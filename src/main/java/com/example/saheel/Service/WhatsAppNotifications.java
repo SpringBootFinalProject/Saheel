@@ -16,7 +16,7 @@ public class WhatsAppNotifications {
             PhoneNumber to = new PhoneNumber("whatsapp:" + phoneNumber);
             PhoneNumber from = new PhoneNumber(TWILIO_SANDBOX_NUMBER);
 
-            Message.creator(to, from, "Hello from Saheel 🐎").create();
+            Message.creator(to, from, "مرحبًا بك في منصة صهيل ,").create();
 
         } catch (Exception e) {
             System.out.println("Failed to send message: " + e.getMessage());
