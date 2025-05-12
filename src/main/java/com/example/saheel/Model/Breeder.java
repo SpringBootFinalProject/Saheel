@@ -23,14 +23,6 @@ public class Breeder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty(message = "The username can not be empty.")
-    @Column(columnDefinition = "varchar(20) unique not null")
-    private String username;
-
-    @NotEmpty(message = "The password can not be empty.")
-    @Column(columnDefinition = "varchar(50) not null ")
-    private String password;
-
     @NotEmpty(message = "The name can not be empty.")
     @Column(columnDefinition = "varchar(20) not null unique")
     private String fullName;
@@ -48,11 +40,10 @@ public class Breeder {
     @Column(columnDefinition = "int not null")
     private int yearsOfExperience;
 
-    @Column(columnDefinition = "double")
-    private double rating;
-
     private Boolean isActive = false;
 
+    @Column(columnDefinition = "double")
+    private double rating;
 
     @ManyToOne
     @JsonIgnore

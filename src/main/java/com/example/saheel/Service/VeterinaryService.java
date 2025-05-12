@@ -86,7 +86,6 @@ public class VeterinaryService {
         }
 
 
-        oldVeterinary.setUsername(veterinary.getUsername());
         oldVeterinary.setFullName(veterinary.getFullName());
         oldVeterinary.setAge(veterinary.getAge());
         oldVeterinary.setEmail(veterinary.getEmail());
