@@ -87,7 +87,6 @@ public class BreederService {
         oldBreeder.setAge(breeder.getAge());
         oldBreeder.setEmail(breeder.getEmail());
         oldBreeder.setYearsOfExperience(breeder.getYearsOfExperience());
-        oldBreeder.setRating(breeder.getRating());
 
         breederRepository.save(oldBreeder);
     }

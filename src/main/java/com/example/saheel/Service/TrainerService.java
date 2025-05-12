@@ -157,7 +157,6 @@ public class TrainerService {
         oldTrainer.setAge(trainer.getAge());
         oldTrainer.setEmail(trainer.getEmail());
         oldTrainer.setMembershipNumber(trainer.getMembershipNumber());
-//        oldTrainer.setSpecialty(trainer.getSpecialty());
         oldTrainer.setYearsOfExperience(trainer.getYearsOfExperience());
 
         trainerRepository.save(oldTrainer);

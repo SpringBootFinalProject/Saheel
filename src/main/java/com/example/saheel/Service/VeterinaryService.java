@@ -90,7 +90,6 @@ public class VeterinaryService {
         oldVeterinary.setAge(veterinary.getAge());
         oldVeterinary.setEmail(veterinary.getEmail());
         oldVeterinary.setYearsOfExperience(veterinary.getYearsOfExperience());
-        oldVeterinary.setRating(veterinary.getRating());
 
         veterinaryRepository.save(veterinary);
     }
