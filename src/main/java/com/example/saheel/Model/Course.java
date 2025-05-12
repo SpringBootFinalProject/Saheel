@@ -54,8 +54,8 @@ public class Course {
     @NotNull(message = "The final enrollment date can not be empty.")
     @Future
     private LocalDateTime finalEnrollmentDate;
-    private Double totalRating;
-    private Double totalNumberOfRatings;
+    private Double totalRating = 0.0;
+    private Double totalNumberOfRatings = 0.0;
     private Boolean courseCanceled = false;
 
     @ManyToOne
@@ -67,6 +67,7 @@ public class Course {
     private Trainer trainer;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<CourseEnrollment> courseEnrollments;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)

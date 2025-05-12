@@ -56,8 +56,12 @@ public class CourseService {
         if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
             throw new ApiException("Your account is not approved. Please wait for admin approval.");
         }
+        LocalDateTime start = course.getDate();
+        LocalDateTime end = start.plusMinutes(course.getDurationInMinute());
+
         // Check if the trainer available.
-        if (!courseRepository.findCoursesByTrainer(course.getTrainer()).isEmpty())
+        if (!courseRepository.findCourseByTrainerAndDateBetween(course.getTrainer(),
+                start, end).isEmpty())
             throw new ApiException("Trainer not available.");
 
         // Add the stable to the course and save the object in the database.
