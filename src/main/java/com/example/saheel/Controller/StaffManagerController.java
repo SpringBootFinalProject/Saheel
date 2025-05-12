@@ -5,7 +5,6 @@ import com.example.saheel.Api.ApiResponse;
 import com.example.saheel.Model.Horse;
 import com.example.saheel.Model.Trainer;
 import com.example.saheel.Model.User;
-import com.example.saheel.Repository.HorseRepository;
 import com.example.saheel.Service.StaffManagerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StaffManagerController {
     private final StaffManagerService staffManagerService;
-    private final HorseRepository horseRepository;
 
 
     // ( #42 of 50 endpoints)

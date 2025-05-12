@@ -7,6 +7,7 @@ import com.example.saheel.Model.HorseOwner;
 import com.example.saheel.Model.StableOwner;
 import com.example.saheel.Model.User;
 import com.example.saheel.Service.AdminService;
+import com.example.saheel.Service.MembershipService;
 import com.example.saheel.Service.StableOwnerService;
 import com.example.saheel.Service.WhatsAppNotifications;
 import lombok.RequiredArgsConstructor;
@@ -73,6 +74,7 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body(stableOwnerService.getUnapprovedStableOwners(user.getId()));
     }
 
+
     @PostMapping("/send-hello")
     public ResponseEntity<?> sendHelloMessage(
             @AuthenticationPrincipal User user,
@@ -100,7 +102,6 @@ public class AdminController {
         return ResponseEntity.ok(horseOwner);
     }
 
-
     @PostMapping("/send-expiring-membership-notifications")
     public ResponseEntity<ApiResponse> sendExpiringMembershipNotifications(@AuthenticationPrincipal User user) {
         adminService.notifyMembershipExpiringSoon(user.getId());
@@ -108,3 +109,4 @@ public class AdminController {
     }
 
 }
+

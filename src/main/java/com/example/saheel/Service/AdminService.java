@@ -160,34 +160,6 @@ public class AdminService {
                 + "Saheel Team";
     }
 
-
-    public List<StableOwner> getAllStableOwners(Integer adminId) {
-        User admin = userRepository.findUserByIdAndRole(adminId, "ADMIN");
-        if (admin == null) {
-            throw new ApiException("Only admins can view stakeholders.");
-        }
-
-        return stableOwnerRepository.findAll();
-    }
-
-    public List<Customer> getAllCustomer(Integer adminId) {
-        User admin = userRepository.findUserByIdAndRole(adminId, "ADMIN");
-        if (admin == null) {
-            throw new ApiException("Only admins can view Customer.");
-        }
-
-        return customerRepository.findAll();
-    }
-
-    public List<HorseOwner> getAllHorseOwner(Integer adminId) {
-        User admin = userRepository.findUserByIdAndRole(adminId, "ADMIN");
-        if (admin == null) {
-            throw new ApiException("Only admins can view Stable Owner.");
-        }
-
-        return horseOwnerRepository.findAll();
-    }
-
     public void notifyMembershipExpiringSoon(Integer admin_Id) {
         User admin = userRepository.findUserByIdAndRole(admin_Id, "ADMIN");
         if (admin == null) {
@@ -224,6 +196,37 @@ public class AdminService {
             }
         }
     }
+
+
+
+
+    public List<StableOwner> getAllStableOwners(Integer adminId) {
+        User admin = userRepository.findUserByIdAndRole(adminId, "ADMIN");
+        if (admin == null) {
+            throw new ApiException("Only admins can view stakeholders.");
+        }
+
+        return stableOwnerRepository.findAll();
+    }
+
+    public List<Customer> getAllCustomer(Integer adminId) {
+        User admin = userRepository.findUserByIdAndRole(adminId, "ADMIN");
+        if (admin == null) {
+            throw new ApiException("Only admins can view Customer.");
+        }
+
+        return customerRepository.findAll();
+    }
+
+    public List<HorseOwner> getAllHorseOwner(Integer adminId) {
+        User admin = userRepository.findUserByIdAndRole(adminId, "ADMIN");
+        if (admin == null) {
+            throw new ApiException("Only admins can view Stable Owner.");
+        }
+
+        return horseOwnerRepository.findAll();
+    }
+
 
 
 
