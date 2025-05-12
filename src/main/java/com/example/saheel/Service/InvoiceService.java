@@ -93,7 +93,7 @@ public class InvoiceService {
             document.add(new Paragraph("Coach:           " + invoice.getCourseEnrollment().getCourse().getTrainer().getFullName()));
             document.add(Chunk.NEWLINE);
 
-            // Line separator
+            // Line separator   
             document.add(new Paragraph("----------------------------------------------"));
 
             // Course Info
