@@ -1,10 +1,5 @@
+package com.example.saheel.Config;
 
-        package com.example.saheel.Config;
-
-import com.example.saheel.Service.MyUserDetailsService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import com.example.saheel.Service.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class ConfigurationSecurity {
-    //g
+//g
     private final MyUserDetailsService myUserDetailsService;
 
     @Bean
@@ -42,10 +37,10 @@ public class ConfigurationSecurity {
                 .authenticationProvider(daoAuthenticationProvider())
                 .authorizeHttpRequests()
 
-                //  ADMIN-only endpoints
+                // ADMIN-only endpoints
                 .requestMatchers("/api/v1/saheel/admin/**").hasAuthority("ADMIN")
 
-                //  HORSEOWNER endpoints
+                // HORSE_OWNER endpoints
                 .requestMatchers(
                         "/api/v1/saheel/horse/get-owner-horses",
                         "/api/v1/saheel/horse/add-horse-by-owner",
@@ -111,15 +106,15 @@ public class ConfigurationSecurity {
                         "/api/v1/saheel/veterinary-visit/delete/**"
                 ).hasAuthority("STABLEOWNER")
 
-                //  Invoice download for STABLEOWNER & HORSEOWNER
+                // Invoices for STABLE_OWNER and HORSE_OWNER
                 .requestMatchers("/api/v1/saheel/customer/get-invoice-as-pdf/**")
-                .hasAnyAuthority("HORSEOWNER", "STABLEOWNER")
+                .hasAnyAuthority("HORSE_OWNER", "STABLE_OWNER")
 
                 //  Veterinary visit access for both STABLEOWNER and HORSEOWNER
                 .requestMatchers("/api/v1/saheel/veterinary-visit/**")
                 .hasAnyAuthority("STABLEOWNER", "HORSEOWNER")
 
-                //  Public access endpoints
+                //  Public endpoints (no authentication)
                 .requestMatchers(
                         "/api/v1/saheel/course/get-stable-courses/**",
                         "/api/v1/saheel/course/get-available-courses",
@@ -137,7 +132,7 @@ public class ConfigurationSecurity {
                         "/api/v1/saheel/horse-owner/register"
                 ).permitAll()
 
-
+                // All other endpoints require authentication
                 .anyRequest().authenticated()
 
                 .and()
@@ -152,3 +147,5 @@ public class ConfigurationSecurity {
     }
 
 }
+
+

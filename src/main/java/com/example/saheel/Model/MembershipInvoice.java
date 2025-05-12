@@ -22,7 +22,7 @@ public class MembershipInvoice {
 
     private String paymentId;
 
-    @Pattern(regexp = "pending|intiated|failed|paid")
+    @Pattern(regexp = "pending|initiated|failed|paid")
     private String status;
 
     private Double totalPrice;

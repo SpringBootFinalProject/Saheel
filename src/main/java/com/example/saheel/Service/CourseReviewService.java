@@ -16,6 +16,8 @@ public class CourseReviewService {
     private final CourseEnrollmentRepository courseEnrollmentRepository;
     private final CustomerRepository customerRepository;
     private final StableOwnerRepository stableOwnerRepository;
+    private final TrainerRepository trainerRepository;
+
 
     public List<CourseReview> getAllCourseReviews(Integer courseId) {
         // Get the course and check if it's in the database.
@@ -26,7 +28,7 @@ public class CourseReviewService {
     }
 
     // ( #4 of 50 endpoints )
-    public void ReviewCourseByCustomer(Integer customerId, Integer courseId, CourseReview courseReview) {
+    public void reviewCourseByCustomer(Integer customerId, Integer courseId, CourseReview courseReview) {
         // Get the customer and check if it's in the database.
         Customer customer = customerRepository.findCustomerById(customerId);
         if (customer == null) throw new ApiException("Customer not found.");
@@ -37,27 +39,37 @@ public class CourseReviewService {
         // Check if the customer enrolled in the course.
         helperService.checkIfCustomerEnrolled(course, customer);
 
-        // Check if the customer reviewed this course.
+        // Check if the customer already reviewed this course.
         if (!courseReviewRepository.findCourseReviewsByCourseAndCustomer(course, customer).isEmpty())
-            throw new ApiException("Customer can not make more than one review");
+            throw new ApiException("Customer can not make more than one review.");
 
-        // Rate the course.
-        course.setTotalRating(course.getTotalRating() + courseReview.getRating());
-        course.setTotalNumberOfRatings(course.getTotalNumberOfRatings()+1);
+        // Ensure course rating fields are not null
+        if (course.getTotalRating() == null) course.setTotalRating(0.0);
+        if (course.getTotalNumberOfRatings() == null) course.setTotalNumberOfRatings(0.0);
 
-        //Rate the trainer
-        course.getTrainer().setTotalRating(course.getTrainer().getTotalRating()+courseReview.getRating());
-        course.getTrainer().setTotalNumberOfRatings(course.getTrainer().getTotalNumberOfRatings()+1);
+        // Ensure trainer rating fields are not null
+        if (course.getTrainer().getTotalRating() == null) course.getTrainer().setTotalRating(0.0);
+        if (course.getTrainer().getTotalNumberOfRatings() == null) course.getTrainer().setTotalNumberOfRatings(0.0);
 
-        // Set the customer
+        // Update course rating
+        double updatedCourseRating = course.getTotalRating() + courseReview.getRating();
+        course.setTotalRating(updatedCourseRating);
+        course.setTotalNumberOfRatings(course.getTotalNumberOfRatings() + 1);
+
+        // Update trainer rating
+        double updatedTrainerRating = course.getTrainer().getTotalRating() + courseReview.getRating();
+        course.getTrainer().setTotalRating(updatedTrainerRating);
+        course.getTrainer().setTotalNumberOfRatings(course.getTrainer().getTotalNumberOfRatings() + 1);
+
+        // Set the customer and course for the review
         courseReview.setCustomer(customer);
-
-        // Set the course
         courseReview.setCourse(course);
 
-        // Save the review.
+        // Save the review
         courseReviewRepository.save(courseReview);
+        trainerRepository.save(course.getTrainer());
     }
+
 
     public void updateReview(Integer customerId, Integer courseReviewId, CourseReview courseReview) {
         // Get the customer and check if it's in the database.

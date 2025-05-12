@@ -47,6 +47,12 @@ public class CourseEnrollmentService {
         // Get the course and check if it's in the database.
         Course course = helperService.getCourseOrThrow(courseId);
 
+        if (course.getTotalRating() == null) {
+            course.setTotalRating(0.0);
+        }
+        if (course.getTotalNumberOfRatings() == null) {
+            course.setTotalNumberOfRatings(0.0);
+        }
         // Check if the final enrollment date.
         if (!course.getFinalEnrollmentDate().isAfter(LocalDateTime.now()))
             throw new ApiException("The course enrollment date has passed.");
@@ -64,6 +70,8 @@ public class CourseEnrollmentService {
         // Create the courseEnrollmentObject.
         CourseEnrollment courseEnrollment = new CourseEnrollment(null, course.getDate(), course.getPrice(),
                 course.getDurationInMinute(), course.getDate().minusDays(1), false, false, false, customer, course, null);
+
+
 
         // Create the invoice.
         createInvoice(customer, courseEnrollment, courseEnrollment.getCourse().getPrice());
