@@ -23,7 +23,7 @@ public class CourseService {
     private final HelperService helperService;
     private final TrainerRepository trainerRepository;
 
-    //7
+    // ( #7 of 50 endpoints )
     public List<Course> getStableCourses(Integer stableId) {
         // Get the stable and check if it's in the database.
         Stable stable = getStableOrThrow(stableId);
@@ -34,8 +34,6 @@ public class CourseService {
 
 
     // ( #5 of 50 endpoints )
-
-    //    #5
     public void addCourseByOwner(Integer stableOwnerId, Integer stableId, Integer trainerId, Course course) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);
@@ -103,9 +101,6 @@ public class CourseService {
 
 
     // ( #6 of 50 endpoints )
-
-    //#6
-
     public void cancelCourse(Integer stableOwnerId, Integer stableId, Integer courseId) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = getStableOwnerOrThrow(stableOwnerId);

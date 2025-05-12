@@ -19,6 +19,7 @@ public class MembershipService {
     private final StableRepository stableRepository;
     private final HorseRepository horseRepository;
     private final MembershipInvoiceRepository membershipInvoiceRepository;
+    private final VeterinaryRepository veterinaryRepository;
 
     // ( #10 of 50 endpoints )
     // get All Memberships
@@ -55,6 +56,11 @@ public class MembershipService {
         Stable stable = stableRepository.findStableById(stableId);
         if (stable == null) {
             throw new ApiException("Stable not found");
+        }
+
+        // Check if the stable is full
+        if (stable.getMemberships() != null && stable.getMemberships().size() >= stable.getCapacity()) {
+            throw new ApiException("Stable capacity exceeded");
         }
 
         // Set values by membership type
@@ -180,6 +186,8 @@ public class MembershipService {
         List<Horse> horses = horseRepository.findAllByMembership(membership);
         for (Horse horse : horses) {
             horse.setMembership(null);
+            horse.setVeterinary(null);
+            horse.setBreeder(null);
             horseRepository.save(horse);
         }
 

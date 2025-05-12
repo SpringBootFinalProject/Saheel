@@ -26,7 +26,7 @@ public class TwilioConfigurationProperties {
     @Pattern(regexp = "^MG[0-9a-fA-F]{32}$")
     private String messagingSid;
 
-    private String fromPhoneNumber;  // Add this field for the sender's phone number
+    private String fromPhoneNumber;
 
     private NewArticleNotification newArticleNotification;
 

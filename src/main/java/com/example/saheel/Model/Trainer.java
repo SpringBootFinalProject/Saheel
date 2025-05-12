@@ -24,8 +24,12 @@ public class Trainer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+
+
+
+
     @NotEmpty(message = "The name can not be empty.")
-    @Column(columnDefinition = "varchar(20) not null")
+    @Column(columnDefinition = "varchar(20) not null ")
     private String fullName;
 
     @NotNull(message = "The age can not be empty.")

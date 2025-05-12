@@ -22,15 +22,17 @@ public class BreederController {
 
     // Get breeder by ID - Abeer
     @GetMapping("/get/{breeder_Id}")
-    public ResponseEntity<Breeder> getBreederById(@PathVariable Integer breeder_Id) {
-        Breeder breeder = breederService.getBreederById(breeder_Id);
+    public ResponseEntity<Breeder> getBreederById(@AuthenticationPrincipal User user, @PathVariable Integer breeder_Id) {
+        Breeder breeder = breederService.getBreederById(user.getId(), breeder_Id);
         return ResponseEntity.ok(breeder);
     }
 
-    // TODO تغير الاسم
-    //searchVeterinaryByName
+
+    // ( #6 of 50 endpoints )
+   // search name of Breeder By stable owner
     @GetMapping("/search-by-name/{fullName}")
-    public ResponseEntity<Breeder> searchVeterinaryByName(@AuthenticationPrincipal User user, @PathVariable String fullName) {
+    public ResponseEntity<Breeder> searchBreederByName(@AuthenticationPrincipal User user, @PathVariable String fullName) {
+
         Breeder breeder = breederService.searchBreederByName(user.getId(),fullName);
         return ResponseEntity.ok(breeder);
     }
@@ -41,14 +43,6 @@ public class BreederController {
         breederService.addBreeder(user.getId(), stable_Id, breeder);
         return ResponseEntity.ok(new ApiResponse("Breeder added successfully"));
     }
-
-    //move breeder To Stable by stable owner - Abeer
-    @PostMapping("/moveBreeder/{breeder_Id}/ToStable/{stable_Id}")
-    public ResponseEntity<ApiException> moveBreederToAnotherStable(@AuthenticationPrincipal User user , @PathVariable Integer breeder_Id, @PathVariable Integer stable_Id) {
-        staffManagerService.moveBreederToAnotherStable(user.getId(),breeder_Id, stable_Id);
-        return ResponseEntity.ok(new ApiException("Breeder assign successfully"));
-    }
-
 
     // Update breeder - Abeer
     @PutMapping("/update-breeder/{breeder_Id}/by-stable/{stable_Id}")
