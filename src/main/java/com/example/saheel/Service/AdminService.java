@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -157,6 +158,45 @@ public class AdminService {
                 + "Thank you for joining us!\n"
                 + "Saheel Team";
     }
+
+    public void notifyMembershipExpiringSoon(Integer admin_Id) {
+        User admin = userRepository.findUserByIdAndRole(admin_Id, "ADMIN");
+        if (admin == null) {
+            throw new ApiException("Only admins can perform this action.");
+        }
+
+        List<Membership> memberships = membershipRepository.findAllByIsActiveTrue();
+        LocalDate today = LocalDate.now();
+
+        for (Membership membership : memberships) {
+            LocalDate endDate = membership.getEndDate();
+            if (endDate == null) continue;
+
+            long daysBetween = ChronoUnit.DAYS.between(today, endDate);
+            if (daysBetween == 3 || daysBetween == 2) {
+                for (Horse horse : membership.getHorses()) {
+                    HorseOwner owner = horse.getHorseOwner();
+                    if (owner == null || owner.getUser() == null) continue;
+
+                    User user = owner.getUser();
+                    String horseName = horse.getName();
+
+                    String subject = "تنبيه بانتهاء الاشتراك / Membership Expiry Reminder";
+                    String body = "مرحبًا " + user.getFullName() + "،\n\n"
+                            + "نود إعلامك بأن اشتراك الحصان \"" + horseName + "\" سينتهي بعد " + daysBetween + " أيام، بتاريخ " + endDate + ".\n"
+                            + "يرجى تجديد الاشتراك لتفادي إيقاف الخدمات.\n\n"
+                            + "Dear " + user.getFullName() + ",\n"
+                            + "This is a reminder that your horse \"" + horseName + "\"'s membership will expire in " + daysBetween + " days, on " + endDate + ".\n"
+                            + "Please renew to avoid service interruption.\n\n"
+                            + "شكراً لاستخدامك صهيل.\nThank you for using Saheel.";
+
+                    emailService.sendEmail(user.getEmail(), subject, body);
+                }
+            }
+        }
+    }
+
+
 
 
 
