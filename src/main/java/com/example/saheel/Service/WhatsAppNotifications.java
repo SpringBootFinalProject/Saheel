@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class WhatsAppNotifications {
 
-    // رقم Twilio Sandbox المخصص للـ WhatsApp
     private static final String TWILIO_SANDBOX_NUMBER = "whatsapp:+14155238886";
 
     public void sendHelloMessage(String phoneNumber) {

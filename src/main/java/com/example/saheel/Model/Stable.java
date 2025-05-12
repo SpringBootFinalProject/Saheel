@@ -24,7 +24,7 @@ public class Stable {
     private Integer id;
 
     @NotEmpty(message = "The name can not be empty.")
-    @Column(columnDefinition = "varchar(20) not null unique")
+    @Column(columnDefinition = "varchar(20) not null ")
     private String name;
 
     @NotEmpty(message = "The description can not be empty.")

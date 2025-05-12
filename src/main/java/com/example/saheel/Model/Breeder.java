@@ -40,11 +40,10 @@ public class Breeder {
     @Column(columnDefinition = "int not null")
     private int yearsOfExperience;
 
-    @Column(columnDefinition = "double")
-    private double rating;
-
     private Boolean isActive = false;
 
+    @Column(columnDefinition = "double")
+    private double rating;
 
     @ManyToOne
     @JsonIgnore

@@ -18,82 +18,79 @@ public class StableReviewService {
     private final StableRepository stableRepository;
     private final MembershipRepository membershipRepository;
 
-    // ( #15 of 50 endpoints )
-    // Get all stable reviews
+    // Get all reviews for a stable
     public List<StableReview> getReviewsByStable(Integer stableId) {
         Stable stable = stableRepository.findStableById(stableId);
         if (stable == null) {
             throw new ApiException("Stable not found");
         }
-
         return stableReviewRepository.findAllByStable(stable);
     }
 
-
-    // ( #16 of 50 endpoints )
-    // add Review
+    // Add review to stable
     public void reviewStable(StableReview review, Integer horseOwnerId, Integer stableId) {
-        // Get the horse owner and check
+        // Get the horse owner
         HorseOwner horseOwner = horseOwnerRepository.findHorseOwnerById(horseOwnerId);
         if (horseOwner == null) {
             throw new ApiException("Horse owner not found");
         }
-        // Get the stable and check
+
+        // Get the stable
         Stable stable = stableRepository.findStableById(stableId);
         if (stable == null) {
-                throw new ApiException("Stable not found");
+            throw new ApiException("Stable not found");
         }
 
-
-        // Check if the owner is subscribed to this stable
+        // Check subscription
         boolean isSubscribed = membershipRepository.existsByHorseOwnerAndStable(horseOwner, stable);
         if (!isSubscribed) {
             throw new ApiException("Horse owner is not subscribed to this stable");
         }
 
-        // Check if
-        if (!stableReviewRepository.findCourseReviewsByStableAndHorseOwner(stable, horseOwner).isEmpty())
-            throw new ApiException("Customer can not make more than one review");
+        // Prevent multiple reviews
+        if (!stableReviewRepository.findCourseReviewsByStableAndHorseOwner(stable, horseOwner).isEmpty()) {
+            throw new ApiException("Customer cannot make more than one review");
+        }
 
-        // Rate the stable.
-        stable.setTotalRating(stable.getTotalRating() + review.getRating());
+        // Ensure stable rating fields are not null
+        if (stable.getTotalRating() == null) stable.setTotalRating(0.0);
+        if (stable.getTotalNumberOfRatings() == null) stable.setTotalNumberOfRatings(1.0);
+
+        // Update stable rating
+        double updatedStableRating = stable.getTotalRating() + review.getRating();
+        stable.setTotalRating(updatedStableRating);
         stable.setTotalNumberOfRatings(stable.getTotalNumberOfRatings() + 1);
 
-        // Set relationships and save the review.
+        // Set relationships and save the review
         review.setHorseOwner(horseOwner);
         review.setStable(stable);
-
         stableReviewRepository.save(review);
     }
 
-    //  update Review
+    // Update a review
     public void updateReview(Integer reviewId, StableReview updatedReview, Integer horseOwnerId) {
-        // Get the horse owner and check
         HorseOwner horseOwner = horseOwnerRepository.findHorseOwnerById(horseOwnerId);
         if (horseOwner == null) {
             throw new ApiException("Horse owner not found");
         }
-        // Get the review and check
+
         StableReview existingReview = stableReviewRepository.findStableReviewById(reviewId);
         if (existingReview == null) {
             throw new ApiException("Review not found");
         }
-        // Update review fields and save it.
+
         existingReview.setRating(updatedReview.getRating());
         existingReview.setHorseOwner(horseOwner);
-
         stableReviewRepository.save(existingReview);
     }
 
-
-    //delete Review
+    // Delete a review
     public void deleteReview(Integer reviewId, Integer horseOwnerId) {
-        // Get the horse owner and check
         HorseOwner horseOwner = horseOwnerRepository.findHorseOwnerById(horseOwnerId);
         if (horseOwner == null) {
             throw new ApiException("Horse owner not found");
         }
-        // Get the review and check
+
         StableReview review = stableReviewRepository.findStableReviewById(reviewId);
         if (review == null) {
             throw new ApiException("Review not found");
@@ -102,11 +99,8 @@ public class StableReviewService {
         stableReviewRepository.delete(review);
     }
 
-    // ( #22 of 50 endpoints)
-    // The reviews are sorted from best rating to worst rating.
+    // Get all reviews sorted by rating
     public List<StableReview> getAllReviewsSortedByRating() {
         return stableReviewRepository.findAllByOrderByRatingDesc();
     }
-
-
 }

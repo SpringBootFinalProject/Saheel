@@ -12,10 +12,7 @@ import com.example.saheel.Repository.StableRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.Element;
-import com.lowagie.text.Paragraph;
+import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfWriter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -74,33 +71,52 @@ public class InvoiceService {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Document document = new Document();
             PdfWriter.getInstance(document, baos);
-
             document.open();
 
-            // Title (Plain, Centered)
-            Paragraph title = new Paragraph("Invoice");
+            // Title
+            Paragraph title = new Paragraph("ENROLLMENT INVOICE", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16));
             title.setAlignment(Element.ALIGN_CENTER);
+            title.setSpacingAfter(20);
             document.add(title);
-            document.add(Chunk.NEWLINE); // Blank line
-            // Format the renters
-            StringBuilder renters = new StringBuilder("");
 
-            // Format the pdf
-            document.add(new Paragraph("---------------------------------------------------------------------"));
-            document.add(new Paragraph("Invoice ID: " + invoice.getId()));
-            document.add(new Paragraph("payment status: " + invoice.getStatus()));
-            document.add(new Paragraph("Customer Name: " + invoice.getCustomer().getUser().getFullName()));
-//             document.add(new Paragraph("Renters:\n" + renters));
-            document.add(new Paragraph("---------------------------------------------------------------------"));
+            // Invoice Info
+            document.add(new Paragraph("Invoice ID:      #" + invoice.getId()));
+            document.add(new Paragraph("Date:            " + invoice.getDateTime().toLocalDate()));
+            document.add(new Paragraph("Time:            " + invoice.getDateTime().toLocalTime()));
+            document.add(new Paragraph("Status:          " + invoice.getStatus()));
+            document.add(new Paragraph("----------------------------------------------"));
 
+            // Customer Info
+            document.add(new Paragraph("Customer:        " + invoice.getCustomer().getUser().getFullName()));
+            document.add(new Paragraph("Course:          " + invoice.getCourseEnrollment().getCourse().getName()));
+            document.add(new Paragraph("Stable:          " + invoice.getCourseEnrollment().getCourse().getStable().getName()));
+            document.add(new Paragraph("Coach:           " + invoice.getCourseEnrollment().getCourse().getTrainer().getFullName()));
+            document.add(Chunk.NEWLINE);
+
+            // Line separator
+            document.add(new Paragraph("----------------------------------------------"));
+
+            // Course Info
+            document.add(new Paragraph("Description:     Course Enrollment"));
+            document.add(new Paragraph("Quantity:        1"));
+            document.add(new Paragraph("Price:           " + String.format("%.2f SAR", invoice.getTotalPrice())));
+            document.add(new Paragraph("----------------------------------------------"));
+
+            // Footer
+            document.add(Chunk.NEWLINE);
+            Paragraph footer = new Paragraph("Thank you for choosing Saheel Academy!",
+                    FontFactory.getFont(FontFactory.HELVETICA_OBLIQUE, 10));
+            footer.setAlignment(Element.ALIGN_CENTER);
+            document.add(footer);
 
             document.close();
             return baos.toByteArray();
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to generate PDF", e);
+            throw new RuntimeException("Failed to generate enhanced PDF", e);
         }
     }
+
 
     public List<Invoice> getPendingEnrollmentInvoices(Integer stableOwnerId, Integer stableId) {
         // Get the stable owner and check if it's in the database.
