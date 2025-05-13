@@ -54,7 +54,7 @@ public class InvoiceService {
             JsonNode jsonNode = new ObjectMapper().readTree(payment);
             String paymentStatus = jsonNode.get("status").asText();
             invoice.setStatus(paymentStatus);
-
+            invoiceRepository.save(invoice);
             // Add your PDF generation logic here
             return createPlainTextPdf(invoice);
 

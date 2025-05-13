@@ -38,8 +38,6 @@ public class Veterinary {
 
     private Boolean isActive = false;
 
-    @Column
-    private double rating;
 
     @ManyToOne
     @JsonIgnore

@@ -75,13 +75,13 @@ public class AdminService {
 
     // ( #27 of 50 endpoints )
     // This method allows an admin to approve a stable owner account.
-    public void approveStableOwner(Integer adminId, Integer stableId) {
+    public void approveStableOwner(Integer adminId, Integer stableOwnerId) {
         User admin = userRepository.findUserByIdAndRole(adminId, "ADMIN");
         if (admin == null) {
             throw new ApiException("Only admins can perform this action.");
         }
 
-        StableOwner owner = stableOwnerRepository.findStableOwnerById(stableId);
+        StableOwner owner = stableOwnerRepository.findStableOwnerById(stableOwnerId);
         if (owner == null) {
             throw new ApiException("Stable owner not found");
         }
@@ -129,7 +129,7 @@ public class AdminService {
     }
 
     private String buildMembershipWelcomeBody(String name, Membership membership) {
-        String type = membership.getMembershipType().equals("yearly") ? "السنوية / Yearly" : "6شهور / Monthly";
+        String type = membership.getMembershipType().equals("saheel++") ? "السنوية / saheel++" : "6شهور / saheel";
         String price = membership.getPrice() + " ريال";
         String start = membership.getStartDate().toString();
         String end = membership.getEndDate().toString();

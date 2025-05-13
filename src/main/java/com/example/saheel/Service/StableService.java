@@ -41,9 +41,14 @@ public class StableService {
     //add stable to stable owner- Abeer
     public void addStable(User user,Stable stable){
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerByUser(user);
+
         if (stableOwner == null ){
             throw new ApiException("Error : Stable owner is not fond");
         }
+        if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
+            throw new ApiException("Your account is not approved. Please wait for admin approval.");
+        }
+
         stable.setStableOwner(stableOwner);
         stable.setTotalNumberOfHorses(0);
         stable.setTotalNumberOfRatings(0.0);

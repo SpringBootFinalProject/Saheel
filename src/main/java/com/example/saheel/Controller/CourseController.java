@@ -41,10 +41,10 @@ public class CourseController {
     }
 
     // ( #9 of 50 endpoints )
-    @DeleteMapping("/delete-course/{stableId}/{courseId}")
-    public ResponseEntity<ApiResponse> removeCourse(@AuthenticationPrincipal User user, @PathVariable Integer stableId, @PathVariable Integer courseId) {
+    @PutMapping("/cancel-course/{stableId}/{courseId}")
+    public ResponseEntity<ApiResponse> cancelCourse(@AuthenticationPrincipal User user, @PathVariable Integer stableId, @PathVariable Integer courseId) {
         courseService.cancelCourse(user.getId(), stableId, courseId);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course deleted successfully."));
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course cancel successfully."));
     }
 
     // ( #10 of 50 endpoints )

@@ -17,14 +17,14 @@ public class VeterinaryService {
     private final UserRepository userRepository;
 
     // get Veterinary by ID - Abeer
-    public Veterinary getVeterinaryById(Integer stableOwner_Id, Integer veterinary_Id){
+    public Veterinary getVeterinaryById(Integer stableOwner_Id, Integer veterinary_Id) {
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
         if (stableOwner == null) {
             throw new ApiException("Error : stable owner is not found");
         }
 
         Veterinary veterinary = veterinaryRepository.findVeterinaryById(veterinary_Id);
-        if (veterinary == null){
+        if (veterinary == null) {
             throw new ApiException("Error : Veterinary is not found");
         }
 
@@ -32,10 +32,9 @@ public class VeterinaryService {
     }
 
 
-
     //( #38 of 50 endpoints)
     //search Veterinary By Name
-    public Veterinary searchVeterinaryByName(Integer stableOwner_Id ,String fullName){
+    public Veterinary searchVeterinaryByName(Integer stableOwner_Id, String fullName) {
 
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
         if (stableOwner == null) {
@@ -45,17 +44,25 @@ public class VeterinaryService {
             throw new ApiException("Your account is not approved. Please wait for admin approval.");
         }
         Veterinary veterinary = veterinaryRepository.findVeterinaryByFullName(fullName);
-        if (veterinary == null){
+        if (veterinary == null) {
             throw new ApiException("Error : veterinary is not found");
         }
         return veterinary;
     }
 
     //add veterinary - Abeer
-    public void addVeterinary(Integer stableOwner_Id, Integer stable_Id , Veterinary veterinary){
+    public void addVeterinary(Integer stableOwner_Id, Integer stable_Id, Veterinary veterinary) {
+        StableOwner stableOwner= stableOwnerRepository.findStableOwnerById(stableOwner_Id);
+        if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
+            throw new ApiException("Your account is not approved. Please wait for admin approval.");
+        }
 
+
+        if (userRepository.existsByEmail(veterinary.getEmail())) {
+            throw new ApiException("This Email is already in use");
+        }
         Stable stable = stableRepository.findStableById(stable_Id);
-        if (stable == null){
+        if (stable == null) {
             throw new ApiException("Error : stable is not fond");
         }
         // Check that this stable belongs to the registered owner.
@@ -66,17 +73,16 @@ public class VeterinaryService {
             throw new ApiException("This email is already in use");
         }
 
-
+        veterinary.setIsActive(true);
         veterinary.setStable(stable);
         veterinaryRepository.save(veterinary);
     }
 
 
-
     //update Veterinary - Abeer
-    public void updateVeterinary( Integer stableOwner_Id, Integer stable_Id , Integer veterinary_Id, Veterinary veterinary ) {
+    public void updateVeterinary(Integer stableOwner_Id, Integer stable_Id, Integer veterinary_Id, Veterinary veterinary) {
         Stable stable = stableRepository.findStableById(stable_Id);
-        if (stable == null){
+        if (stable == null) {
             throw new ApiException("Error : stable is not fond");
         }
 

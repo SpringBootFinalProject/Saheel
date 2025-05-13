@@ -26,7 +26,7 @@ public class StableController {
     }
     // ( #34 of 50 endpoints.)
     // Get stable by ID - Abeer
-    @GetMapping("/get-my-stable/{stable_Id}")
+    @GetMapping("/get-stable-by-id/{stable_Id}")
     public ResponseEntity<Stable> getStableById(@PathVariable Integer stable_Id) {
         Stable stable = stableService.getStableById(stable_Id);
         return ResponseEntity.ok(stable);

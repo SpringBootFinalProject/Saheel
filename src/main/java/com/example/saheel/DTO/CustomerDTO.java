@@ -17,7 +17,7 @@ public class CustomerDTO {
 
     @NotEmpty(message = "The password can not be empty.")
     @Column(columnDefinition = "varchar(50) not null")
-    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "Password must be at least 8 characters and include uppercase, lowercase, and a number")
+    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*\\d).{7,}$", message = "Password must contain at least one letter and one number")
     private String password;
 
     @Pattern(regexp = "admin|customer|horseowner|satbleowner")

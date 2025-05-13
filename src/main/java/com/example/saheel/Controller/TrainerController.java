@@ -60,8 +60,8 @@ public class TrainerController {
 
     //( #54 of 50 endpoints)
     @GetMapping("/get-top-rated-trainer")
-    public ResponseEntity<String> getTopRatedTrainer(){
-        return ResponseEntity.status(HttpStatus.OK).body(trainerService.getTopRatedTrainer());
+    public ResponseEntity<?> getTopRatedTrainer(){
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(trainerService.getTopRatedTrainer()));
     }
 
     //( #55 of 50 endpoints)

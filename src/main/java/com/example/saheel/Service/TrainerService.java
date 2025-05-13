@@ -62,6 +62,16 @@ public class TrainerService {
 
     // add Trainer - Abeer
     public void addTrainer(Integer stableOwner_Id, Integer stable_Id, Trainer trainer) {
+        StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);
+        if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
+            throw new ApiException("Your account is not approved. Please wait for admin approval.");
+        }
+
+
+        if (userRepository.existsByEmail(trainer.getEmail())) {
+            throw new ApiException("This Email is already in use");
+        }
+
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null) {
             throw new ApiException("Error : Stable is not found");
@@ -77,7 +87,6 @@ public class TrainerService {
         trainer.setStable(stable);
         trainerRepository.save(trainer);
     }
-
 
 
     //update Trainer - Abeer

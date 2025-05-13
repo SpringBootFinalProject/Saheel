@@ -55,9 +55,9 @@ public class AdminController {
 
     // ( #4 of 50 endpoints )
     // This method allows an admin to approve a stable owner account.
-    @PutMapping("/approve-stable-owner/{stableId}")
-    public ResponseEntity<?> approveStableOwner(@AuthenticationPrincipal User user, @PathVariable Integer stableId) {
-        adminService.approveStableOwner(user.getId(), stableId);
+    @PutMapping("/approve-stable-owner/{stableOwnerId}")
+    public ResponseEntity<?> approveStableOwner(@AuthenticationPrincipal User user, @PathVariable Integer stableOwnerId) {
+        adminService.approveStableOwner(user.getId(), stableOwnerId);
         return ResponseEntity.ok(new ApiResponse("Stable owner account has been approved."));
     }
 

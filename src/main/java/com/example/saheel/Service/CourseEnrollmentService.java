@@ -95,6 +95,10 @@ public class CourseEnrollmentService {
         if (!courseEnrollment.getCustomer().equals(customer))
             throw new ApiException("The course enrollment does not belongs to the customer.");
 
+
+        if(courseEnrollment.getInvoice().getStatus().equals("paid")){
+            throw new ApiException("Paid enrollments can not be canceled");
+        }
         // Check if the cancellation date passed.
         if (courseEnrollment.getLastCancellationDate().isAfter(LocalDateTime.now()))
             throw new ApiException("The cancellation date has passed.");

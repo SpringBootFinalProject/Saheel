@@ -120,6 +120,8 @@ public class CourseService {
 
         // Cancel the course
         course.setCourseCanceled(true);
+        // Unlink the trainer
+        course.setTrainer(null);
 
         // Change the status in the course enrollments object of this course.
         changeEnrollmentsCourseStatus(course.getCourseEnrollments());

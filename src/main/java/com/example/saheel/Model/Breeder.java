@@ -42,8 +42,6 @@ public class Breeder {
 
     private Boolean isActive = false;
 
-    @Column(columnDefinition = "double")
-    private double rating;
 
     @ManyToOne
     @JsonIgnore

@@ -35,11 +35,9 @@ public class VeterinaryVisit {
 
 
 
-//    @NotNull(message = "The duration can not be empty.")
-//    @Column(columnDefinition = "int not null")
-//    private int durationInMinute; //Should this be removed? or added after the visit is completed?
-//
-
+    @ManyToOne
+    @JsonIgnore
+    private Stable stable;
     @ManyToOne
     @JsonIgnore
     private Veterinary veterinary;

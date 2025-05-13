@@ -3,6 +3,7 @@ package com.example.saheel.Service;
 import com.example.saheel.Api.ApiException;
 import com.example.saheel.Model.*;
 import com.example.saheel.Repository.*;
+import com.twilio.rest.voice.v1.dialingpermissions.CountryReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -25,6 +26,7 @@ public class StaffManagerService {
     private final VeterinaryVisitRepository veterinaryVisitRepository;
     private final UserRepository userRepository;
     private final JavaMailSender mailSender;
+    private final CourseRepository courseRepository;
     private final StableOwnerRepository stableOwnerRepository;
 
 
@@ -37,27 +39,26 @@ public class StaffManagerService {
             throw new ApiException("Error Breeder is not found");
         }
 
+        if (!breeder.getStable().getStableOwner().getId().equals(stableOwner_Id))
+            throw new ApiException("The trainer does not belongs to the stable owner.");
+
         Stable newStable = stableRepository.findStableById(stable_Id);
         if (newStable == null) {
             throw new ApiException("Target stable not found");
         }
 
+        if (breeder.getStable() != null && breeder.getStable().getId().equals(stable_Id)) {
+            throw new ApiException("Error: This veterinary is already assigned to this stable");
+        }
         // Check that this stable belongs to the registered owner.
         if (!newStable.getStableOwner().getId().equals(stableOwner_Id)) {
             throw new ApiException("Error : You are not the owner of this stable");
         }
 
         List<Horse> horses = horseRepository.findHorsesByBreederId(breeder_Id);
-
         if (!horses.isEmpty()) {
-            for (Horse horse : horses) {
-                horse.setVeterinary(null);
-            }
-            horseRepository.saveAll(horses);
-
-            breeder.setIsActive(false);
+            throw new ApiException(" Cannot move,because breeder have horses .");
         }
-
 
         breeder.setStable(newStable);
         breederRepository.save(breeder);
@@ -71,17 +72,22 @@ public class StaffManagerService {
         if (trainer == null) {
             throw new ApiException("Error Trainer is not found");
         }
-
+        if (!trainer.getStable().getStableOwner().getId().equals(stableOwner_Id))
+            throw new ApiException("The trainer does not belongs to the stable owner.");
         Stable newStable = stableRepository.findStableById(stable_Id);
         if (newStable == null) {
             throw new ApiException("Target stable not found");
         }
-
+        if (trainer.getStable() != null && trainer.getStable().getId().equals(stable_Id)) {
+            throw new ApiException("Error: This veterinary is already assigned to this stable");
+        }
         // Check that this stable belongs to the registered owner.
         if (!newStable.getStableOwner().getId().equals(stableOwner_Id)) {
             throw new ApiException("Error : You are not the owner of this stable");
         }
-
+        // Check if the trainer has courses at his current stable.
+        if (!courseRepository.findCourseByTrainerAndDateBetween(trainer, LocalDateTime.now(), LocalDateTime.now().plusYears(5)).isEmpty())
+            throw new ApiException("Trainer has a courses at his current stable.");
 
         trainer.setStable(newStable);
         trainerRepository.save(trainer);
@@ -90,30 +96,30 @@ public class StaffManagerService {
     //( #33 of 50 endpoints)
     //move veterinary To Another Stable -Abeer
     public void moveVeterinaryToAnotherStable(Integer stableOwner_Id, Integer veterinary_Id, Integer stable_Id) {
-
-        Veterinary veterinary = veterinaryRepository.findVeterinaryById(veterinary_Id);
-        if (veterinary == null) {
-            throw new ApiException("Error Trainer is not found");
-        }
-
         Stable newStable = stableRepository.findStableById(stable_Id);
         if (newStable == null) {
             throw new ApiException("Target stable not found");
         }
-
         // Check that this stable belongs to the registered owner.
         if (!newStable.getStableOwner().getId().equals(stableOwner_Id)) {
             throw new ApiException("Error : You are not the owner of this stable");
         }
-        List<Horse> horses = horseRepository.findHorsesByVeterinaryId(veterinary_Id);
 
+        Veterinary veterinary = veterinaryRepository.findVeterinaryById(veterinary_Id);
+        if (veterinary == null) {
+            throw new ApiException("Error veterinary is not found");
+        }
+        if (!veterinary.getStable().getStableOwner().getId().equals(stableOwner_Id))
+            throw new ApiException("The veterinary does not belongs to the stable owner.");
+
+        if (veterinary.getStable() != null && veterinary.getStable().getId().equals(stable_Id)) {
+            throw new ApiException("Error: This veterinary is already assigned to this stable");
+        }
+
+
+        List<Horse> horses = horseRepository.findHorsesByBreederId(veterinary_Id);
         if (!horses.isEmpty()) {
-            for (Horse horse : horses) {
-                horse.setVeterinary(null);
-            }
-            horseRepository.saveAll(horses);
-
-            veterinary.setIsActive(false);
+            throw new ApiException(" Cannot move,because veterinary have horses .");
         }
 
         veterinary.setStable(newStable);
@@ -195,7 +201,6 @@ public class StaffManagerService {
             throw new ApiException("Error: This horse is already assigned to this veterinary");
         }
 
-
         int count = horseRepository.countByVeterinaryId(veterinary_Id);
         if (count >= 2) {
             throw new ApiException("Error: each veterinarian only cares for 2 horses");
@@ -233,9 +238,11 @@ public class StaffManagerService {
         return horses;
     }
 
-    //( #41 of 50 endpoints)
-    //Request a visit to the vet
-    public String requestVisitToVet(Integer horseOwner_Id, Integer horse_Id) {
+    public String requestVisitToVet(Integer horseOwner_Id, Integer horse_Id, Integer membershipId, LocalDateTime dateTime) {
+        // Get the membership and check if it's in the database.
+        Membership membership = membershipRepository.findMembershipById(membershipId);
+        if (membership == null) throw new ApiException("Membership not found.");
+
         Horse horse = horseRepository.findHorseById(horse_Id);
         if (horse == null) {
             throw new ApiException("Error: Horse is not found");
@@ -249,34 +256,27 @@ public class StaffManagerService {
             throw new ApiException("Error: You do not own this horse");
         }
 
-        if (horse.getMembership() == null) {
-            throw new ApiException("Error: The horse is not in an active membership");
-        }
+        if (horse.getVeterinary() == null) throw new ApiException("Horse does not have an assigned veterinary.");
 
-        Stable stable = horse.getMembership().getStable();
-        if (stable == null) {
-            throw new ApiException("Error: There is no stable associated with this horse's membership.");
-        }
+        Veterinary veterinary = horse.getVeterinary();
+        if (veterinaryVisitRepository.findVeterinaryVisitByVeterinaryAndVisitDateTime(veterinary, dateTime) != null)
+            throw new ApiException("The horse veterinary is busy at " + dateTime);
 
-        Veterinary vet = veterinaryRepository.findFirstByStableAndIsActive(stable, true);
-        if (vet == null) {
-            throw new ApiException(" Error: There is no veterinarian available at this stable.");
-        }
 
         VeterinaryVisit visit = new VeterinaryVisit();
         visit.setHorse(horse);
-        visit.setVeterinary(vet);
+        visit.setVeterinary(veterinary);
         visit.setReason("Request a medical examination to enter the stable");
-        visit.setVisitDateTime(LocalDateTime.now());
+        visit.setVisitDateTime(dateTime);
         visit.setIsCompleted(false);
 
         veterinaryVisitRepository.save(visit);
-        return "A veterinary visit was successfully performed for the horse:" + horse.getName();
+        return "A veterinary visit was successfully performed for the horse: " + horse.getName();
     }
 
     //( #42 of 50 endpoints)
     //mark Visit AsCompleted
-    public void markHorseAsFit(Integer stableOwner_Id ,Integer visit_Id, String medicalReport) {
+    public void markHorseAsFit(Integer stableOwner_Id, Integer visit_Id, String medicalReport) {
         VeterinaryVisit visit = veterinaryVisitRepository.findVeterinaryVisitById(visit_Id);
         if (visit == null) {
             throw new ApiException("The visit does not exist");
@@ -319,7 +319,8 @@ public class StaffManagerService {
             sendEmailToUser(owner.getUser().getId(), subject, body, "saheelproject@gmail.com");
         }
     }
-    public void markHorseAsUnFit(Integer stableOwner_Id ,Integer visit_Id, String medicalReport){
+
+    public void markHorseAsUnFit(Integer stableOwner_Id, Integer visit_Id, String medicalReport) {
         VeterinaryVisit visit = veterinaryVisitRepository.findVeterinaryVisitById(visit_Id);
         if (visit == null) {
             throw new ApiException("The visit does not exist");
@@ -365,7 +366,7 @@ public class StaffManagerService {
     }
 
 
-    public void sendEmailToUser (Integer userId, String subject, String body, String from){
+    public void sendEmailToUser(Integer userId, String subject, String body, String from) {
         User user = userRepository.findUserById(userId);
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(user.getEmail());

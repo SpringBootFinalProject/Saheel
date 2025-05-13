@@ -32,6 +32,9 @@ public class    HorseService {
     }
 
     public void addHorseByOwner(Integer horseOwnerId, Horse horse) {
+        if (horseRepository.existsByPassportNumber(horse.getPassportNumber())) {
+            throw new ApiException("This Passport Number is already in use");
+        }
         // Get the horse owner and check if it's in the database.
         HorseOwner horseOwner = getHorseOwnerOrThrow(horseOwnerId);
 
@@ -53,14 +56,13 @@ public class    HorseService {
             throw new ApiException("Horse not found");
         }
 
-//        // Check if the horse is medically fit.
-//        if (!horse.getIsMedicallyFit().equals(false)) {
-//            throw new ApiException("Horse is Medically unfit");
-//        }
-
         Membership membership = membershipRepository.findByHorseOwnerAndIsActive(owner, true);
         if (membership == null) {
             throw new ApiException("Owner has no active membership");
+        }
+        //        // Check if the horse is medically fit.
+        if (horse.getIsMedicallyFit().equals(false)) {
+            throw new ApiException("Horse is Medically unfit");
         }
 
         if(!membership.getHorseOwner().equals(owner)) throw new ApiException("The membership does not belongs to the owner.");

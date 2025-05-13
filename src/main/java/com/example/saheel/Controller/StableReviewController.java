@@ -13,7 +13,7 @@
     import java.util.List;
 
     @RestController
-    @RequestMapping("/api/v1/saheel/stableReview")
+    @RequestMapping("/api/v1/saheel/stable-review")
     @RequiredArgsConstructor
     public class StableReviewController {
         private final StableReviewService stableReviewService;

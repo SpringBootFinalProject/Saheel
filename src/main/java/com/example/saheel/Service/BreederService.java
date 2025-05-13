@@ -54,6 +54,14 @@ public class BreederService {
 
     //add Breeder - Abeer
     public void addBreeder(Integer stableOwner_Id ,Integer stable_Id , Breeder breeder){
+       StableOwner stableOwner= stableOwnerRepository.findStableOwnerById(stableOwner_Id);
+        if (!Boolean.TRUE.equals(stableOwner.getIsApproved())) {
+            throw new ApiException("Your account is not approved. Please wait for admin approval.");
+        }
+
+        if (userRepository.existsByEmail(breeder.getEmail())) {
+            throw new ApiException("This Email is already in use");
+        }
         Stable stable = stableRepository.findStableById(stable_Id);
         if (stable == null){
             throw new ApiException("Error : stable is not fond");
@@ -62,6 +70,7 @@ public class BreederService {
         if (!stable.getStableOwner().getId().equals(stableOwner_Id)) {
             throw new ApiException("Unauthorized error: This stable does not belong to the logged-in stable owner");
         }
+
         if (userRepository.existsByEmail(breeder.getEmail())) {
             throw new ApiException("This email is already in use");
         }
