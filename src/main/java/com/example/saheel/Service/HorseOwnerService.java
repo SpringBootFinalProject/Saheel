@@ -34,12 +34,8 @@ public class HorseOwnerService {
         if (userRepository.existsByEmail(horseOwnerDTO.getEmail())) {
             throw new ApiException("This Email is already in use");
         }
-<<<<<<< HEAD
 
         if (userRepository.existsByPhoneNumber(horseOwnerDTO.getPhoneNumber())) {
-=======
-        if (userRepository.existsByEmail(horseOwnerDTO.getPhoneNumber())) {
->>>>>>> abrarDev
             throw new ApiException("This Phone Number is already in use");
         }
         // Create and configure the user account.
