@@ -53,14 +53,14 @@ public class CourseController {
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getAvailableCourses());
     }
 
-    // ( #11 of 50 endpoints )
+//     ( #11 of 50 endpoints )
     @GetMapping("/get-top-rated-course")
     public ResponseEntity<ApiResponse> getTopRatedCourse(){
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(courseService.getTopRatedCourse()));
     }
 
 
-    @GetMapping("/get-courses-by-trainer{trainerId}")
+    @GetMapping("/get-courses-by-trainer/{trainerId}")
     public ResponseEntity<List<Course>> getCoursesByTrainer(@PathVariable Integer trainerId){
         return ResponseEntity.status(HttpStatus.OK).body(courseService.getCoursesByTrainer(trainerId));
     }

@@ -14,18 +14,24 @@ public class CustomerDTO {
     @NotEmpty(message = "The username can not be empty.")
     @Column(columnDefinition = "varchar(20) unique not null")
     private String username;
+
     @NotEmpty(message = "The password can not be empty.")
     @Column(columnDefinition = "varchar(50) not null")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "Password must be at least 8 characters and include uppercase, lowercase, and a number")
     private String password;
+
     @Pattern(regexp = "admin|customer|horseowner|satbleowner")
     @Column(columnDefinition = "varchar(15)")
+
     private String role;
     @NotEmpty(message = "The name can not be empty.")
     @Column(columnDefinition = "varchar(20) not null")
     private String fullName;
+
     @NotNull(message = "The password can not be empty.")
     @Column(columnDefinition = "int not null")
     private int age;
+
     @Email
     @NotEmpty(message = "The email can not be empty.")
     @Column(columnDefinition = "varchar(50) unique not null")
