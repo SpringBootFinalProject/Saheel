@@ -35,9 +35,16 @@ public class CourseReviewService {
 
         // Get the course and check if it's in the database.
         Course course = helperService.getCourseOrThrow(courseId);
+        CourseEnrollment courseEnrollment = courseEnrollmentRepository.findCourseEnrollmentByCourseAndCustomer(course, customer);
+        // If the courseEnrollment is null than the customer has not attended this course.
+        if (courseEnrollment == null) throw new ApiException("Customer has not attended this course.");
 
         // Check if the customer enrolled in the course.
         helperService.checkIfCustomerEnrolled(course, customer);
+
+        if (courseEnrollment.getCourseCanceled())
+            throw new ApiException("Customer can not review canceled enrollments.");
+
 
         // Check if the customer already reviewed this course.
         if (!courseReviewRepository.findCourseReviewsByCourseAndCustomer(course, customer).isEmpty())

@@ -43,6 +43,9 @@ public class PaymentService {
         if (!customer.getCourseEnrollments().contains(courseEnrollment))
             throw new ApiException("The enrollment does not belongs to the customer.");
 
+        if (courseEnrollment.getEnrollmentCanceled())
+            throw new ApiException("This enrollments have been canceled.");
+
         String url = "https://api.moyasar.com/v1/payments";
         String callbackUrl = "https://your-server.com/api/payments/callback";
         String requestBody = String.format(
@@ -82,7 +85,7 @@ public class PaymentService {
         String paymentId = jsonNode.get("id").asText();
 
         // Get the invoice and set the paymentId and change the status of the invoice.
-        Invoice invoice = courseEnrollment.getInvoice();
+        EnrollmentInvoice invoice = courseEnrollment.getInvoice();
         if (invoice == null) throw new ApiException("Invoice not found.");
         invoice.setPaymentId(paymentId);
 

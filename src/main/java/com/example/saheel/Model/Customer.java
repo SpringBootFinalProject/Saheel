@@ -34,7 +34,7 @@ public class Customer {
     private Set<CourseReview> courseReviews;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    private Set<Invoice> invoices;
+    private Set<EnrollmentInvoice> invoices;
 
 
 }

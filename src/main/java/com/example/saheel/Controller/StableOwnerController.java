@@ -2,7 +2,7 @@ package com.example.saheel.Controller;
 
 import com.example.saheel.Api.ApiResponse;
 import com.example.saheel.DTO.StableOwnerDTO;
-import com.example.saheel.Model.Invoice;
+import com.example.saheel.Model.EnrollmentInvoice;
 import com.example.saheel.Model.StableOwner;
 import com.example.saheel.Model.User;
 import com.example.saheel.Service.InvoiceService;
@@ -26,7 +26,7 @@ public class StableOwnerController {
 
     // ( #37 of 50 endpoints.)
     // Get stableOwner by ID - Abeer
-    @GetMapping("/get-my-stable")
+    @GetMapping("/get-stable-owner")
     public ResponseEntity<StableOwner> getStableOwnerById(@AuthenticationPrincipal User user ) {
         StableOwner stableOwner = stableOwnerService.getStableOwnerById(user.getId());
         return ResponseEntity.ok(stableOwner);
@@ -55,7 +55,7 @@ public class StableOwnerController {
     }
 
     @GetMapping("/get-pending-invoices{stableId}")
-    public ResponseEntity<List<Invoice>> getPendingInvoices(@AuthenticationPrincipal User user, @PathVariable Integer stableId){
+    public ResponseEntity<List<EnrollmentInvoice>> getPendingInvoices(@AuthenticationPrincipal User user, @PathVariable Integer stableId){
         return ResponseEntity.status(HttpStatus.OK).body(invoiceService.getPendingEnrollmentInvoices(user.getId(), stableId));
     }
 

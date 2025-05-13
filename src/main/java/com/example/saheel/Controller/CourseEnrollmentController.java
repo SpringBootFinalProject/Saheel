@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/saheel/course-enrollment")
-public class CourseEnrollmentController {
+public class        CourseEnrollmentController {
     private final CourseEnrollmentService courseEnrollmentService;
 
     // ( #12 of 50 endpoints )

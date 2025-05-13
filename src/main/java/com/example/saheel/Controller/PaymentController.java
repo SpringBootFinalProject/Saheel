@@ -21,7 +21,7 @@ public class PaymentController {
     private final MembershipPaymentService membershipPaymentService;
 
     // ( #31 of 50 endpoints.)
-    @PostMapping("/card/{courseEnrollmentId}")
+    @PostMapping("/course-enrollment-card/{courseEnrollmentId}")
     public ResponseEntity<ApiResponse> processPaymentOfEnrollment(@AuthenticationPrincipal User user, @PathVariable Integer courseEnrollmentId, @RequestBody PaymentRequest paymentRequest){
         try {
             return paymentService.processPayment(paymentRequest, user.getId(), courseEnrollmentId);
