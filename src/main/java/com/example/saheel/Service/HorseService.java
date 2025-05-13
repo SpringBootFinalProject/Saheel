@@ -65,7 +65,7 @@ public class HorseService {
 
         if(!membership.getHorseOwner().equals(owner)) throw new ApiException("The membership does not belongs to the owner.");
 
-        int maxHorses = membership.getMembershipType().equalsIgnoreCase("monthly") ? 3 : 6;
+        int maxHorses = membership.getMembershipType().equalsIgnoreCase("saheel") ? 3 : 6;
 
         int currentCount = horseRepository.countByMembership(membership);
         System.out.println("Current count for owner " + owner.getId() + " = " + currentCount);

@@ -33,7 +33,7 @@ public class Membership {
     private Boolean isActive = false;
 
     @Column(length = 20)
-    @Pattern(regexp = "monthly|yearly")
+    @Pattern(regexp = "saheel|saheel++")
     @NotEmpty(message = "The membership Type can not be empty.")
     private String membershipType; // "MONTHLY", "YEARLY"
 
