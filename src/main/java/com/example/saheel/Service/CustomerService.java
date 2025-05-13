@@ -1,5 +1,6 @@
 package com.example.saheel.Service;
 
+import com.example.saheel.Api.ApiException;
 import com.example.saheel.DTO.CustomerDTO;
 import com.example.saheel.Model.Customer;
 import com.example.saheel.Model.User;
@@ -29,6 +30,17 @@ public class CustomerService {
     // ( #8 of 50 endpoints )
     public void registerCustomer(CustomerDTO customerDtoIn) {
 
+        if (userRepository.existsByUsername(customerDtoIn.getUsername())) {
+            throw new ApiException("This Username is already in use");
+        }
+
+        if (userRepository.existsByEmail(customerDtoIn.getEmail())) {
+            throw new ApiException("This Email is already in use");
+        }
+
+        if (userRepository.existsByPhoneNumber(customerDtoIn.getPhoneNumber())) {
+            throw new ApiException("This Phone Number is already in use");
+        }
         //Create the user and set the role.
         User user = new User(null, customerDtoIn.getUsername(), new BCryptPasswordEncoder().encode(customerDtoIn.getPassword()),
                 "CUSTOMER", customerDtoIn.getFullName(), customerDtoIn.getAge(), customerDtoIn.getEmail(), customerDtoIn.getPhoneNumber()
@@ -47,11 +59,23 @@ public class CustomerService {
     }
 
     public void updateCustomer(Integer userId, CustomerDTO customerDtoIn) {
+        if (userRepository.existsByUsername(customerDtoIn.getUsername())) {
+            throw new ApiException("This Username is already in use");
+        }
+
+        if (userRepository.existsByEmail(customerDtoIn.getEmail())) {
+            throw new ApiException("This Email is already in use");
+        }
+
+        if (userRepository.existsByPhoneNumber(customerDtoIn.getPhoneNumber())) {
+            throw new ApiException("This Phone Number is already in use");
+        }
         // Get the user and check if it's in the database.
         User user = helperService.getCustomerOrThrow(userId);
 
         // Update
         user.setPassword(new BCryptPasswordEncoder().encode(customerDtoIn.getPassword()));
+
         user.setUsername(customerDtoIn.getUsername());
         user.setEmail(customerDtoIn.getEmail());
         user.setPhoneNumber(customerDtoIn.getPhoneNumber());

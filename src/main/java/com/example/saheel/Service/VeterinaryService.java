@@ -13,8 +13,6 @@ public class VeterinaryService {
     private final VeterinaryRepository veterinaryRepository;
 
     private final StableOwnerRepository stableOwnerRepository;
-    private final MembershipRepository membershipRepository;
-    private final HorseRepository horseRepository;
     private final StableRepository stableRepository;
 
     // get Veterinary by ID - Abeer

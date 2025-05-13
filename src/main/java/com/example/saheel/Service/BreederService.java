@@ -15,8 +15,7 @@ public class BreederService {
 
     private final StableOwnerRepository stableOwnerRepository;
     private final StableRepository stableRepository;
-    private final HorseRepository horseRepository;
-    private final MembershipRepository membershipRepository;
+
 
     //get Breeder by ID - Abeer
     public Breeder getBreederById(Integer stableOwner_Id, Integer breeder_Id){

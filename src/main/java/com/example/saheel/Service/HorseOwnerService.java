@@ -27,6 +27,17 @@ public class HorseOwnerService {
     // ( #9 of 50 endpoints )
     // register HorseOwner
     public void registerHorseOwner(HorseOwnerDTO horseOwnerDTO) {
+        if (userRepository.existsByUsername(horseOwnerDTO.getUsername())) {
+            throw new ApiException("This Username is already in use");
+        }
+
+        if (userRepository.existsByEmail(horseOwnerDTO.getEmail())) {
+            throw new ApiException("This Email is already in use");
+        }
+
+        if (userRepository.existsByPhoneNumber(horseOwnerDTO.getPhoneNumber())) {
+            throw new ApiException("This Phone Number is already in use");
+        }
         // Create and configure the user account.
         User user = new User();
         user.setUsername(horseOwnerDTO.getUsername());
