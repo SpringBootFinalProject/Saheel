@@ -47,7 +47,8 @@ public class CourseService {
         // Get the trainer and check if it's in the database.
         Trainer trainer = trainerRepository.findTrainerById(trainerId);
         if (trainer == null) throw new ApiException("Trainer not found.");
-
+        if (!stable.getTrainers().contains(trainer))
+            throw new ApiException("The trainer does not belongs to the stable.");
         // Assign the trainer to the course.
         course.setTrainer(trainer);
 
@@ -137,7 +138,7 @@ public class CourseService {
         return availableCourses;
     }
 
-    public String getTopRatedCourse(){
+    public String getTopRatedCourse() {
         List<Course> courses = courseRepository.findAll();
         // Check if there is courses on the system.
         if (courses.isEmpty()) return "There are no courses";
@@ -153,13 +154,13 @@ public class CourseService {
                 + (topRatedCourse.getTotalRating() / topRatedCourse.getTotalNumberOfRatings()) + ".";
     }
 
-    public Course findTopRatedCourse(List<Course> courses){
+    public Course findTopRatedCourse(List<Course> courses) {
         Course topRatedCourse = courses.get(0);
         boolean flag = false;
         for (Course course : courses) {
             // Handle division by 0.
-            if(course.getTotalNumberOfRatings() == 0) continue;
-            if(!flag) {
+            if (course.getTotalNumberOfRatings() == 0) continue;
+            if (!flag) {
                 topRatedCourse = course;
                 flag = true;
             }
@@ -170,16 +171,16 @@ public class CourseService {
 
     }
 
-    public List<Course> getCoursesByTrainer(Integer trainerId){
+    public List<Course> getCoursesByTrainer(Integer trainerId) {
         // Get the trainer and check if it's in the database.
         Trainer trainer = trainerRepository.findTrainerById(trainerId);
-        if(trainer == null) throw new ApiException("Trainer not found.");
+        if (trainer == null) throw new ApiException("Trainer not found.");
 
         // Return the courses.
         return courseRepository.findCoursesByTrainer(trainer);
     }
 
-    public List<Course> getCoursesByDate(LocalDateTime dateTime){
+    public List<Course> getCoursesByDate(LocalDateTime dateTime) {
         return courseRepository.getCoursesByDateBetween(dateTime, dateTime.plusDays(1));
     }
 
