@@ -19,7 +19,7 @@ public class CourseReviewController {
     private final CourseReviewService courseReviewService;
 
     // ( #16 of 50 endpoints )
-    @GetMapping("/get-stable-course-reviews/{courseId}")
+    @GetMapping("/get-course-reviews/{courseId}")
     public ResponseEntity<List<CourseReview>> getCourseReviews(@PathVariable Integer courseId) {
         return ResponseEntity.status(HttpStatus.OK).body(courseReviewService.getAllCourseReviews(courseId));
     }

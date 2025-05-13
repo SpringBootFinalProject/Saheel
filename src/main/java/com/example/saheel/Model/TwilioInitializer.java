@@ -20,7 +20,6 @@ public class TwilioInitializer implements ApplicationRunner {
         String accountSid = twilioConfigurationProperties.getAccountSid();
         String authToken = twilioConfigurationProperties.getAuthToken();
 
-        System.out.println("✅ Twilio initialized with SID: " + accountSid);
         Twilio.init(accountSid, authToken);
     }
 }

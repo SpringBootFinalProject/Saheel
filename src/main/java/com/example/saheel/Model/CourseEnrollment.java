@@ -43,5 +43,5 @@ public class CourseEnrollment {
     private Course course;
 
     @OneToOne(mappedBy = "courseEnrollment", cascade = CascadeType.ALL)
-    private Invoice invoice;
+    private EnrollmentInvoice invoice;
 }

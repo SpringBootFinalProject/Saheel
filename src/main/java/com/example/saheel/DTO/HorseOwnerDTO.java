@@ -14,7 +14,8 @@ public class HorseOwnerDTO {
     @NotEmpty
     private String username;
 
-    @NotEmpty
+    @NotEmpty(message = "The password can not be empty.")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "Password must be at least 8 characters and include uppercase, lowercase, and a number")
     private String password;
 
     @NotEmpty
