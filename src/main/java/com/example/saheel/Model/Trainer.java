@@ -54,8 +54,6 @@ public class Trainer {
     private Double totalRating = 0.0;
     private Double totalNumberOfRatings = 0.0;
 
-    private Boolean isActive = false;
-
     @ManyToOne
     @JsonIgnore
     private Stable stable;
