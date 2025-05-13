@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class HorseService {
+public class    HorseService {
     private final HorseRepository horseRepository;
     private final UserRepository userRepository;
     private final HorseOwnerRepository horseOwnerRepository;
