@@ -58,7 +58,8 @@ public class ConfigurationSecurity {
                         "/api/v1/saheel/stable-review/add/**",
                         "/api/v1/saheel/stable-review/update/**",
                         "/api/v1/saheel/stable-review/delete/**",
-                        "/api/v1/saheel/staff-manager/veterinary/visit/**"
+                        "/api/v1/saheel/staff-manager/veterinary/visit/**",
+                        "/api/v1/saheel/payments/membership/**"
                 ).hasAuthority("HORSEOWNER")
 
                 //  CUSTOMER endpoints
@@ -97,8 +98,9 @@ public class ConfigurationSecurity {
                         "/api/v1/saheel/staff-manager/get-available-trainer",
                         "/api/v1/saheel/staff-manager/all-horse-to-breeder/**",
                         "/api/v1/saheel/staff-manager/all-horse-to-veterinary/**",
-                        "/api/v1/saheel/staff-manager/veterinary/visit/**",
+                        "/api/v1/saheel/staff-manager/veterinary/visit/un-fit/**",
                         "/api/v1/saheel/staff-manager/veterinary/visit/fit/**",
+                        "/api/v1/saheel/staff-manager/veterinary/visit/**",
                         "/api/v1/saheel/veterinary/get/**",
                         "/api/v1/saheel/veterinary/search-by-name/**",
                         "/api/v1/saheel/veterinary/add/**",

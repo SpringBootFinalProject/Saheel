@@ -28,7 +28,7 @@ public class    HorseService {
         HorseOwner horseOwner = getHorseOwnerOrThrow(horseOwnerId);
         if (horseOwner == null) throw new ApiException("Horses Owner not found.");
 
-        return horseRepository.findHorsesByHorseOwner(horseOwner);
+        return horseRepository.findByHorseOwner(horseOwner);
     }
 
     public void addHorseByOwner(Integer horseOwnerId, Horse horse) {
@@ -53,13 +53,10 @@ public class    HorseService {
             throw new ApiException("Horse not found");
         }
 
-        if (horse.getHorseOwner().equals(owner)) throw new ApiException("The horse does not belongs to the owner.");
-
-
-        // Check if the horse is medically fit.
-        if (!horse.getIsMedicallyFit().equals(false)) {
-            throw new ApiException("Horse is Medically unfit");
-        }
+//        // Check if the horse is medically fit.
+//        if (!horse.getIsMedicallyFit().equals(false)) {
+//            throw new ApiException("Horse is Medically unfit");
+//        }
 
         Membership membership = membershipRepository.findByHorseOwnerAndIsActive(owner, true);
         if (membership == null) {

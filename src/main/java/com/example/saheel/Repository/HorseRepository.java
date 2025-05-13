@@ -12,15 +12,13 @@ import java.util.List;
 public interface HorseRepository extends JpaRepository<Horse, Integer> {
     Horse findHorseById(Integer horseId);
 
-
-    List<Horse> findHorsesByHorseOwner(HorseOwner horseOwner);
-    int countByHorseOwner(HorseOwner horseOwner);
-
     int countByMembership(Membership membership);
     List<Horse> findAllByMembership(Membership membership);
     List<Horse> findByHorseOwnerIdAndMembershipIsNull(Integer ownerId);
 
     List<Horse>findHorsesByVeterinaryId(Integer veterinary_Id);
     List<Horse>findHorsesByBreederId(Integer breeder_Id);
-
+    List<Horse> findByHorseOwner(HorseOwner horseOwner);
+    int countByVeterinaryId(Integer veterinary_Id);
+    int countByBreederId(Integer veterinaryId);
 }

@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 public class BreederService {
 
     private final BreederRepository breederRepository;
-
     private final StableOwnerRepository stableOwnerRepository;
     private final StableRepository stableRepository;
+
+    private final UserRepository userRepository;
 
 
     //get Breeder by ID - Abeer
@@ -61,6 +62,10 @@ public class BreederService {
         if (!stable.getStableOwner().getId().equals(stableOwner_Id)) {
             throw new ApiException("Unauthorized error: This stable does not belong to the logged-in stable owner");
         }
+        if (userRepository.existsByEmail(breeder.getEmail())) {
+            throw new ApiException("This email is already in use");
+        }
+
         breeder.setStable(stable);
         breederRepository.save(breeder);
     }
@@ -84,6 +89,9 @@ public class BreederService {
 
         oldBreeder.setFullName(breeder.getFullName());
         oldBreeder.setAge(breeder.getAge());
+        if (userRepository.existsByEmail(oldBreeder.getEmail())) {
+            throw new ApiException("This email is already in use");
+        }
         oldBreeder.setEmail(breeder.getEmail());
         oldBreeder.setYearsOfExperience(breeder.getYearsOfExperience());
 
