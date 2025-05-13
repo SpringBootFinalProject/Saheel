@@ -1,5 +1,31 @@
 # Saheel (صَهيل) -  Management Platform
 This project is part of the **Web Development Program Using Java and SpringBoot** presented by **Tuwaiq Academy**.
+
+
+## Overview
+A comprehensive REST API for managing equestrian businesses, stables, and horse care operations. This system provides structured endpoints for:
+
+-  **Stable Management** (staff, facilities, services)  
+-  **Horse Tracking** (ownership, health, memberships)  
+-  **Course Scheduling** (enrollments, payments, reviews)  
+-  **Multi-role Access** (admins, stable owners, horse owners, customers)  
+
+## Key Features
+ **Role-based workflows** for different user types  
+ **End-to-end operations** from horse care to financials  
+ **Review systems** for courses and stables  
+ **Modern RESTful design** with JSON responses  
+
+## Ideal for
+- Equestrian businesses  
+- Riding schools  
+- Horse boarding facilities  
+- Veterinary clinics with stable partnerships  
+
+## Why Use This API?
+- **Structured** – Logical endpoint organization mirroring real-world operations  
+- **Scalable** – Supports everything from small stables to large enterprises  
+- **User-Centric** – Dedicated flows for each stakeholder type  
 ## Table of Contents  
 - [Models](#models)  
 - [Controllers](#controllers)  
@@ -210,6 +236,10 @@ This project is part of the **Web Development Program Using Java and SpringBoot*
 
 ## Contact Information  
 For questions or support:  
-- **Email**: ayman.f.alharbi@gmail.com
+- **Email**: abrar4013@gmail.com
+- **Email** ayman.f.alharbi@gmail.com
 - **Email** Aboor.1048@gmail.com
-- **Email** abrar4013@gmail.com
+## LinkedIn
+- **Abrar Saud** link
+- **Ayman Alharbi** https://www.linkedin.com/in/ayman-alharbi1
+- **Abeer secondName** link
