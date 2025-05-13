@@ -19,44 +19,44 @@
         private final StableReviewService stableReviewService;
         private final UserRepository userRepository;
 
-        // ( #39 of 50 endpoints )
-        @GetMapping("/stables/{stableId}/reviews")
-        public ResponseEntity<List<StableReview>> getReviewsByStable(@PathVariable Integer stableId) {
-            List<StableReview> reviews = stableReviewService.getReviewsByStable(stableId);
-            return ResponseEntity.ok(reviews);
-        }
+    // ( #39 of 50 endpoints )
+    @GetMapping("/stables/{stableId}/reviews")
+    public ResponseEntity<List<StableReview>> getReviewsByStable(@PathVariable Integer stableId) {
+        List<StableReview> reviews = stableReviewService.getReviewsByStable(stableId);
+        return ResponseEntity.ok(reviews);
+    }
 
-        // ( #40 of 50 endpoints )
-        //  add Review of  Stable
-        @PostMapping("/add/{stableId}")
-        public ResponseEntity<?> reviewStable(@AuthenticationPrincipal User user,
-                                           @PathVariable Integer stableId,
-                                           @RequestBody StableReview review) {
-            stableReviewService.reviewStable(review, user.getId(), stableId);
-            return ResponseEntity.status(200).body(new ApiResponse("Review added"));
-        }
+    // ( #40 of 50 endpoints )
+    //  add Review of  Stable
+    @PostMapping("/add/{stableId}")
+    public ResponseEntity<?> reviewStable(@AuthenticationPrincipal User user,
+                                       @PathVariable Integer stableId,
+                                       @RequestBody StableReview review) {
+        stableReviewService.reviewStable(review, user.getId(), stableId);
+        return ResponseEntity.status(200).body(new ApiResponse("Review added"));
+    }
 
-        // Update Review
-        @PutMapping("/update/{reviewId}")
-        public ResponseEntity<?> updateReview(@AuthenticationPrincipal User user,
-                                              @RequestBody StableReview review, @PathVariable Integer reviewId) {
-            stableReviewService.updateReview(reviewId, review, user.getId());
+    // Update Review
+    @PutMapping("/update/{reviewId}")
+    public ResponseEntity<?> updateReview(@AuthenticationPrincipal User user,
+                                          @RequestBody StableReview review, @PathVariable Integer reviewId) {
+        stableReviewService.updateReview(reviewId, review, user.getId());
 
-            return ResponseEntity.status(200).body(new ApiResponse("Review Updated"));
-        }
+        return ResponseEntity.status(200).body(new ApiResponse("Review Updated"));
+    }
 
-        // Delete Review
-        @DeleteMapping("/delete/{reviewId}")
-        public ResponseEntity<?> deleteReview(@AuthenticationPrincipal User user, @PathVariable Integer reviewId) {
-            stableReviewService.deleteReview(reviewId, user.getId());
-            return ResponseEntity.status(200).body(new ApiResponse("Review Deleted"));
-        }
+    // Delete Review
+    @DeleteMapping("/delete/{reviewId}")
+    public ResponseEntity<?> deleteReview(@AuthenticationPrincipal User user, @PathVariable Integer reviewId) {
+        stableReviewService.deleteReview(reviewId, user.getId());
+        return ResponseEntity.status(200).body(new ApiResponse("Review Deleted"));
+    }
 
-        // ( #41 of 50 endpoints)
-        // The reviews are sorted from best rating to worst rating.
-        @GetMapping("/reviews/sorted")
-        public ResponseEntity<List<StableReview>> getSortedReviews() {
-            return ResponseEntity.ok(stableReviewService.getAllReviewsSortedByRating());
-        }
+    // ( #41 of 50 endpoints)
+    // The reviews are sorted from best rating to worst rating.
+    @GetMapping("/reviews/sorted")
+    public ResponseEntity<List<StableReview>> getSortedReviews() {
+        return ResponseEntity.ok(stableReviewService.getAllReviewsSortedByRating());
+    }
 
     }

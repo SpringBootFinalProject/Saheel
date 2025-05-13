@@ -21,6 +21,7 @@ import java.util.Collections;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "user")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +30,8 @@ public class User implements UserDetails {
     @NotEmpty(message = "The username can not be empty.")
     @Column(name = "username", nullable = false, unique = true)
     private String username;
+
+
 
     @NotEmpty(message = "The password can not be empty.")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$", message = "Password must be at least 8 characters and include uppercase, lowercase, and a number")
