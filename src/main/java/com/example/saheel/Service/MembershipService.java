@@ -70,7 +70,7 @@ public class MembershipService {
         double price;
         int maxHorses;
         switch (type) {
-            case "monthly":
+            case "saheel":
                 // Check if the stable is full
                 if (stable.getTotalNumberOfHorses() + 3 > stable.getCapacity()) {
                     throw new ApiException("Stable capacity exceeded");
@@ -79,7 +79,7 @@ public class MembershipService {
                 price = 500;
                 stable.setTotalNumberOfHorses(stable.getTotalNumberOfHorses() + 3);
                 break;
-            case "yearly":
+            case "saheel++":
                 // Check if the stable is full
                 if (stable.getTotalNumberOfHorses() + 6 > stable.getCapacity()) {
                     throw new ApiException("Stable capacity exceeded");
@@ -90,13 +90,9 @@ public class MembershipService {
 
                 break;
             default:
-                throw new ApiException("Membership type must be 'monthly' or 'yearly'");
+                throw new ApiException("Membership type must be 'saheel' or 'saheel++'");
         }
-        // Count how many horses the owner has
-//        int currentHorseCount = horseRepository.countByHorseOwner(owner);
-//        if (currentHorseCount > maxHorses) {
-//            throw new ApiException("Owner already has " + currentHorseCount + " horses, which exceeds the allowed limit for a " + type + " membership.");
-//        }
+
         // Set membership data
         membership.setHorseOwner(owner);
         membership.setStable(stable);
@@ -128,7 +124,7 @@ public class MembershipService {
         }
         Stable stable = membership.getStable();
         String type = updatedMembership.getMembershipType();
-        if (type == null || (!type.equalsIgnoreCase("monthly") && !type.equalsIgnoreCase("yearly"))) {
+        if (type == null || (!type.equalsIgnoreCase("saheel") && !type.equalsIgnoreCase("saheel++"))) {
             throw new ApiException("Invalid membership type");
         }
         LocalDate startDate = membership.getEndDate();
@@ -136,14 +132,14 @@ public class MembershipService {
         double price;
 
         switch (type.toLowerCase()) {
-            case "monthly":
-                if (membership.getMembershipType().equalsIgnoreCase("yearly"))
+            case "saheel":
+                if (membership.getMembershipType().equalsIgnoreCase("saheel"))
                     stable.setCapacity(stable.getCapacity() - 3);
                 endDate = startDate.plusMonths(6);
                 price = 1;
                 break;
-            case "yearly":
-                if (membership.getMembershipType().equalsIgnoreCase("monthly"))
+            case "saheel++":
+                if (membership.getMembershipType().equalsIgnoreCase("saheel++"))
                     stable.setCapacity(stable.getCapacity() + 3);
 
                 endDate = startDate.plusYears(1);
@@ -191,7 +187,7 @@ public class MembershipService {
             horseRepository.save(horse);
         }
 
-        if (membership.getMembershipType().equalsIgnoreCase("yearly"))
+        if (membership.getMembershipType().equalsIgnoreCase("saheel++"))
             stable.setCapacity(stable.getCapacity() - 6);
         else stable.setCapacity(stable.getCapacity() - 3);
 
