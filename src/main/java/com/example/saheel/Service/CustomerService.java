@@ -40,6 +40,10 @@ public class CustomerService {
 
         if (userRepository.existsByPhoneNumber(customerDtoIn.getPhoneNumber())) {
             throw new ApiException("This Phone Number is already in use");
+<<<<<<< HEAD
+=======
+
+>>>>>>> abrarDev
         }
         //Create the user and set the role.
         User user = new User(null, customerDtoIn.getUsername(), new BCryptPasswordEncoder().encode(customerDtoIn.getPassword()),
@@ -76,6 +80,18 @@ public class CustomerService {
         // Update
         user.setPassword(new BCryptPasswordEncoder().encode(customerDtoIn.getPassword()));
 
+<<<<<<< HEAD
+=======
+        if (userRepository.existsByUsername(customerDtoIn.getUsername())) {
+            throw new ApiException("This Username is already in use");
+        }
+        if (userRepository.existsByEmail(customerDtoIn.getEmail())) {
+            throw new ApiException("This email is already in use");
+        }
+        if (userRepository.existsByPhoneNumber(customerDtoIn.getPhoneNumber())) {
+            throw new ApiException("This PhoneNumber is already in use");
+        }
+>>>>>>> abrarDev
         user.setUsername(customerDtoIn.getUsername());
         user.setEmail(customerDtoIn.getEmail());
         user.setPhoneNumber(customerDtoIn.getPhoneNumber());

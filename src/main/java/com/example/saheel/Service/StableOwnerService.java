@@ -45,7 +45,11 @@ public class StableOwnerService {
             throw new ApiException("This Email is already in use");
         }
 
+<<<<<<< HEAD
         if (userRepository.existsByPhoneNumber(stableOwnerDTO.getPhoneNumber())) {
+=======
+        if (userRepository.existsByEmail(stableOwnerDTO.getPhoneNumber())) {
+>>>>>>> abrarDev
             throw new ApiException("This Phone Number is already in use");
         }
         User user = new User();
@@ -82,6 +86,7 @@ public class StableOwnerService {
 
     //update StableOwner - Abeer
     public void updateStableOwner(Integer stableOwner_Id, StableOwnerDTO stableOwnerDTO) {
+<<<<<<< HEAD
         if (userRepository.existsByUsername(stableOwnerDTO.getUsername())) {
             throw new ApiException("This Username is already in use");
         }
@@ -91,6 +96,15 @@ public class StableOwnerService {
         }
 
         if (userRepository.existsByPhoneNumber(stableOwnerDTO.getPhoneNumber())) {
+=======
+        if (userRepository.existsByEmail(stableOwnerDTO.getUsername())) {
+            throw new ApiException("This Username is already in use");
+        }
+        if (userRepository.existsByEmail(stableOwnerDTO.getEmail())) {
+            throw new ApiException("This email is already in use");
+        }
+        if (userRepository.existsByEmail(stableOwnerDTO.getPhoneNumber())) {
+>>>>>>> abrarDev
             throw new ApiException("This Phone Number is already in use");
         }
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwner_Id);

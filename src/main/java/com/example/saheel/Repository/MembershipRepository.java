@@ -20,4 +20,5 @@ public interface MembershipRepository extends JpaRepository<Membership,Integer> 
 
     Membership findByHorsesIdAndIsActiveTrue(Integer horse_Id);
 
+    List<Membership> findAllByIsActiveTrue();
 }

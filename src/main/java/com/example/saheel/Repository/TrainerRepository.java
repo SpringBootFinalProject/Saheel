@@ -12,8 +12,6 @@ public interface TrainerRepository extends JpaRepository<Trainer  ,Integer> {
 
     Trainer findTrainerByFullName(String fullName);
 
-    List<Trainer> findTrainersByIsActiveTrue();
-
     Trainer findTrainerById(Integer trainer_Id);
 
     List<Trainer> findTrainerByStable(Stable stable);

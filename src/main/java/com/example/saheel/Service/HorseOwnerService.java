@@ -34,8 +34,12 @@ public class HorseOwnerService {
         if (userRepository.existsByEmail(horseOwnerDTO.getEmail())) {
             throw new ApiException("This Email is already in use");
         }
+<<<<<<< HEAD
 
         if (userRepository.existsByPhoneNumber(horseOwnerDTO.getPhoneNumber())) {
+=======
+        if (userRepository.existsByEmail(horseOwnerDTO.getPhoneNumber())) {
+>>>>>>> abrarDev
             throw new ApiException("This Phone Number is already in use");
         }
         // Create and configure the user account.
@@ -64,6 +68,15 @@ public class HorseOwnerService {
             throw new ApiException("HorseOwner not found");
         }
 
+        if (userRepository.existsByEmail(horseOwnerDTO.getUsername())) {
+            throw new ApiException("This Username is already in use");
+        }
+        if (userRepository.existsByEmail(horseOwnerDTO.getEmail())) {
+            throw new ApiException("This email is already in use");
+        }
+        if (userRepository.existsByEmail(horseOwnerDTO.getPhoneNumber())) {
+            throw new ApiException("This Phone Number is already in use");
+        }
         // Update user information.
         User user = horseOwner.getUser();
         user.setUsername(horseOwnerDTO.getUsername());

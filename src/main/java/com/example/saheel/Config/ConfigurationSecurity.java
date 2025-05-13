@@ -41,36 +41,6 @@ public class ConfigurationSecurity {
                 //  ADMIN-only endpoints
                 .requestMatchers("/api/v1/saheel/admin/**").hasAuthority("ADMIN")
 
-                //  HORSEOWNER endpoints
-                .requestMatchers(
-                        "/api/v1/saheel/horse/get-owner-horses",
-                        "/api/v1/saheel/horse/add-horse-by-owner",
-                        "/api/v1/saheel/horse/assign/**",
-                        "/api/v1/saheel/horse/update-horse/**",
-                        "/api/v1/saheel/horse/delete-horse/**",
-                        "/api/v1/saheel/horse/owner/horses-without-membership",
-                        "/api/v1/saheel/horse/gift/**",
-                        "/api/v1/saheel/horse-owner/update",
-                        "/api/v1/saheel/horse-owner/delete",
-                        "/api/v1/saheel/membership/request-membership/**",
-                        "/api/v1/saheel/membership/renew-membership/**",
-                        "/api/v1/saheel/membership/delete/**",
-                        "/api/v1/saheel/stable-review/add/**",
-                        "/api/v1/saheel/stable-review/update/**",
-                        "/api/v1/saheel/stable-review/delete/**",
-                        "/api/v1/saheel/staff-manager/veterinary/visit/**"
-                ).hasAuthority("HORSEOWNER")
-
-                //  CUSTOMER endpoints
-                .requestMatchers(
-                        "/api/v1/saheel/course-enrollment/enroll-to-course/**",
-                        "/api/v1/saheel/course-enrollment/cancel-enrollment/**",
-                        "/api/v1/saheel/course-review/review-course-by-customer/**",
-                        "/api/v1/saheel/course-review/update-course-review/**",
-                        "/api/v1/saheel/payments/card/**",
-                        "/api/v1/saheel/payments/get-status"
-                ).hasAuthority("CUSTOMER")
-
                 //  STABLEOWNER endpoints
                 .requestMatchers(
                         "/api/v1/saheel/breeder/get/**",
@@ -97,7 +67,7 @@ public class ConfigurationSecurity {
                         "/api/v1/saheel/staff-manager/get-available-trainer",
                         "/api/v1/saheel/staff-manager/all-horse-to-breeder/**",
                         "/api/v1/saheel/staff-manager/all-horse-to-veterinary/**",
-                        "/api/v1/saheel/staff-manager/veterinary/visit/**",
+                        "/api/v1/saheel/staff-manager/veterinary/visit/un-fit/**",
                         "/api/v1/saheel/staff-manager/veterinary/visit/fit/**",
                         "/api/v1/saheel/veterinary/get/**",
                         "/api/v1/saheel/veterinary/search-by-name/**",
@@ -106,6 +76,38 @@ public class ConfigurationSecurity {
                         "/api/v1/saheel/veterinary/delete/**",
                         "/api/v1/saheel/veterinary-visit/delete/**"
                 ).hasAuthority("STABLEOWNER")
+
+
+                //  HORSEOWNER endpoints
+                .requestMatchers(
+                        "/api/v1/saheel/horse/get-owner-horses",
+                        "/api/v1/saheel/horse/add-horse-by-owner",
+                        "/api/v1/saheel/horse/assign/**",
+                        "/api/v1/saheel/horse/update-horse/**",
+                        "/api/v1/saheel/horse/delete-horse/**",
+                        "/api/v1/saheel/horse/owner/horses-without-membership",
+                        "/api/v1/saheel/horse/gift/**",
+                        "/api/v1/saheel/horse-owner/update",
+                        "/api/v1/saheel/horse-owner/delete",
+                        "/api/v1/saheel/membership/request-membership/**",
+                        "/api/v1/saheel/membership/renew-membership/**",
+                        "/api/v1/saheel/membership/delete/**",
+                        "/api/v1/saheel/stable-review/add/**",
+                        "/api/v1/saheel/stable-review/update/**",
+                        "/api/v1/saheel/stable-review/delete/**",
+                        "/api/v1/saheel/staff-manager/veterinary/visit/**",
+                        "/api/v1/saheel/payments/membership/**"
+                ).hasAuthority("HORSEOWNER")
+
+                //  CUSTOMER endpoints
+                .requestMatchers(
+                        "/api/v1/saheel/course-enrollment/enroll-to-course/**",
+                        "/api/v1/saheel/course-enrollment/cancel-enrollment/**",
+                        "/api/v1/saheel/course-review/review-course-by-customer/**",
+                        "/api/v1/saheel/course-review/update-course-review/**",
+                        "/api/v1/saheel/payments/card/**",
+                        "/api/v1/saheel/payments/get-status"
+                ).hasAuthority("CUSTOMER")
 
                 //  Invoice download for STABLEOWNER & HORSEOWNER
                 .requestMatchers("/api/v1/saheel/customer/get-invoice-as-pdf/**")

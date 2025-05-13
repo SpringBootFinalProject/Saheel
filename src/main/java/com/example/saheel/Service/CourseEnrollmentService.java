@@ -148,7 +148,7 @@ public class CourseEnrollmentService {
     }
 
     public void createInvoice(Customer customer, CourseEnrollment courseEnrollment, double price) {
-        Invoice invoice = new Invoice(null, "No Payment From The Customer", "pending", price, LocalDateTime.now(), courseEnrollment, customer);
+        EnrollmentInvoice invoice = new EnrollmentInvoice(null, "No Payment From The Customer", "pending", price, LocalDateTime.now(), courseEnrollment, customer);
         invoiceRepository.save(invoice);
     }
 }

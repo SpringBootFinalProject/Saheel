@@ -1,23 +1,23 @@
-package com.example.saheel.Controller;
+    package com.example.saheel.Controller;
 
-import com.example.saheel.Api.ApiResponse;
-import com.example.saheel.Model.StableReview;
-import com.example.saheel.Model.User;
-import com.example.saheel.Repository.UserRepository;
-import com.example.saheel.Service.StableReviewService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
+    import com.example.saheel.Api.ApiResponse;
+    import com.example.saheel.Model.StableReview;
+    import com.example.saheel.Model.User;
+    import com.example.saheel.Repository.UserRepository;
+    import com.example.saheel.Service.StableReviewService;
+    import lombok.RequiredArgsConstructor;
+    import org.springframework.http.ResponseEntity;
+    import org.springframework.security.core.annotation.AuthenticationPrincipal;
+    import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+    import java.util.List;
 
-@RestController
-@RequestMapping("/api/v1/saheel/stableReview")
-@RequiredArgsConstructor
-public class StableReviewController {
-    private final StableReviewService stableReviewService;
-    private final UserRepository userRepository;
+    @RestController
+    @RequestMapping("/api/v1/saheel/stableReview")
+    @RequiredArgsConstructor
+    public class StableReviewController {
+        private final StableReviewService stableReviewService;
+        private final UserRepository userRepository;
 
     // ( #39 of 50 endpoints )
     @GetMapping("/stables/{stableId}/reviews")
@@ -59,4 +59,4 @@ public class StableReviewController {
         return ResponseEntity.ok(stableReviewService.getAllReviewsSortedByRating());
     }
 
-}
+    }

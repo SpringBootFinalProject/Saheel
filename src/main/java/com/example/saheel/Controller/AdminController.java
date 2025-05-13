@@ -2,10 +2,12 @@
 package com.example.saheel.Controller;
 
 import com.example.saheel.Api.ApiResponse;
+import com.example.saheel.Model.Customer;
 import com.example.saheel.Model.HorseOwner;
 import com.example.saheel.Model.StableOwner;
 import com.example.saheel.Model.User;
 import com.example.saheel.Service.AdminService;
+import com.example.saheel.Service.MembershipService;
 import com.example.saheel.Service.StableOwnerService;
 import com.example.saheel.Service.WhatsAppNotifications;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,7 @@ import java.util.List;
 public class AdminController {
     private final AdminService adminService;
     private final StableOwnerService stableOwnerService;
-
+    private final WhatsAppNotifications whatsAppNotifications;
 
 
     // ( #1 of 50 endpoints )
@@ -68,9 +70,43 @@ public class AdminController {
     }
 
     @GetMapping("/get-unapproved-stable-owners")
-    public ResponseEntity<List<StableOwner>> getUnapprovedStableOwners(@AuthenticationPrincipal User user){
+    public ResponseEntity<List<StableOwner>> getUnapprovedStableOwners(@AuthenticationPrincipal User user) {
         return ResponseEntity.status(HttpStatus.OK).body(stableOwnerService.getUnapprovedStableOwners(user.getId()));
     }
 
 
+    @PostMapping("/send-hello")
+    public ResponseEntity<?> sendHelloMessage(
+            @AuthenticationPrincipal User user,
+            @RequestParam String phoneNumber) {
+
+        whatsAppNotifications.sendHelloMessage(phoneNumber, user.getId());
+        return ResponseEntity.ok(new ApiResponse("Message sent successfully!"));
+    }
+
+    @GetMapping("/get-all-stable-owners")
+    public ResponseEntity<List<StableOwner>> getAllStableOwners(@AuthenticationPrincipal User user) {
+        List<StableOwner> stableOwner = adminService.getAllStableOwners(user.getId());
+        return ResponseEntity.ok(stableOwner);
+    }
+
+    @GetMapping("/get-all-customers")
+    public ResponseEntity<List<Customer>> getAllCustomers(@AuthenticationPrincipal User user) {
+        List<Customer> customer = adminService.getAllCustomer(user.getId());
+        return ResponseEntity.ok(customer);
+    }
+
+    @GetMapping("/get-all-horse-owner")
+    public ResponseEntity<List<HorseOwner>> getAllHorseOwners(@AuthenticationPrincipal User user) {
+        List<HorseOwner> horseOwner = adminService.getAllHorseOwner(user.getId());
+        return ResponseEntity.ok(horseOwner);
+    }
+
+    @PostMapping("/send-expiring-membership-notifications")
+    public ResponseEntity<ApiResponse> sendExpiringMembershipNotifications(@AuthenticationPrincipal User user) {
+        adminService.notifyMembershipExpiringSoon(user.getId());
+        return ResponseEntity.ok(new ApiResponse("Expiring membership notifications sent successfully."));
+    }
+
 }
+

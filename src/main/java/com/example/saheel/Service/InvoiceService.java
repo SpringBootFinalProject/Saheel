@@ -2,7 +2,7 @@ package com.example.saheel.Service;
 
 import com.example.saheel.Api.ApiException;
 import com.example.saheel.Model.Customer;
-import com.example.saheel.Model.Invoice;
+import com.example.saheel.Model.EnrollmentInvoice;
 import com.example.saheel.Model.Stable;
 import com.example.saheel.Model.StableOwner;
 import com.example.saheel.Repository.CustomerRepository;
@@ -37,7 +37,7 @@ public class InvoiceService {
         if (customer == null) throw new ApiException("Customer not found.");
 
         // Get the invoice and check if it's in the database.
-        Invoice invoice = invoiceRepository.findInvoiceById(invoiceId);
+        EnrollmentInvoice invoice = invoiceRepository.findInvoiceById(invoiceId);
         if (invoice == null) throw new ApiException("Contract not found.");
 
         // Check if the invoice belongs to the customer.
@@ -66,11 +66,12 @@ public class InvoiceService {
     }
 
 
-    private byte[] createPlainTextPdf(Invoice invoice) {
+    private byte[] createPlainTextPdf(EnrollmentInvoice invoice) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             Document document = new Document();
             PdfWriter.getInstance(document, baos);
+
             document.open();
 
             // Title
@@ -118,7 +119,7 @@ public class InvoiceService {
     }
 
 
-    public List<Invoice> getPendingEnrollmentInvoices(Integer stableOwnerId, Integer stableId) {
+    public List<EnrollmentInvoice> getPendingEnrollmentInvoices(Integer stableOwnerId, Integer stableId) {
         // Get the stable owner and check if it's in the database.
         StableOwner stableOwner = stableOwnerRepository.findStableOwnerById(stableOwnerId);
         if (stableOwner == null) throw new ApiException("Stable owner not found.");
@@ -131,9 +132,9 @@ public class InvoiceService {
         if (!stableOwner.getStables().contains(stable))
             throw new ApiException("The stable does not belongs to the owner.");
 
-        List<Invoice> pendingInvoices = invoiceRepository.findInvoicesByStatus("pending");
-        List<Invoice> stablePendingInvoices = new ArrayList<>();
-        for (Invoice invoice : pendingInvoices)
+        List<EnrollmentInvoice> pendingInvoices = invoiceRepository.findInvoicesByStatus("pending");
+        List<EnrollmentInvoice> stablePendingInvoices = new ArrayList<>();
+        for (EnrollmentInvoice invoice : pendingInvoices)
             if (invoice.getCourseEnrollment().getCourse().getStable().equals(stable))
                 stablePendingInvoices.add(invoice);
 
