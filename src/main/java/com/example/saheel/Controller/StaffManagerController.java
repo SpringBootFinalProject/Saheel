@@ -58,14 +58,6 @@ public class StaffManagerController {
         return ResponseEntity.ok(new ApiResponse("veterinary Assign to horse successfully"));
     }
 
-    // ( #47 of 50 endpoints)
-    // Get Available Trainer - Abeer
-    @GetMapping("/get-available-trainer")
-    public ResponseEntity<List<Trainer>> getTrainerById() {
-        List<Trainer> trainers = staffManagerService.getAvailableTrainer();
-        return ResponseEntity.ok(trainers);
-    }
-
     // ( #48 of 50 endpoints)
     // Get all horses to veterinary
     @GetMapping("/all-horse-to-veterinary/{veterinary_Id}")

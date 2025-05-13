@@ -210,16 +210,6 @@ public class StaffManagerService {
         horseRepository.save(horse);
     }
 
-    //( #35 of 50 endpoints)
-    //get list of trainer is active
-    public List<Trainer> getAvailableTrainer() {
-        List<Trainer> trainers = trainerRepository.findTrainersByIsActiveTrue();
-
-        if (trainers.isEmpty()) {
-            throw new ApiException("Error: No active trainers found");
-        }
-        return trainers;
-    }
 
     //( #36 of 50 endpoints)
     //get list of hours by veterinary
