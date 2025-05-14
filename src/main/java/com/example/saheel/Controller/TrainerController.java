@@ -28,7 +28,7 @@ public class TrainerController {
         return ResponseEntity.ok(trainer);
     }
 
-    //( #53 of 50 endpoints)
+    //( #53 of 50 endpoints) Abeer
     @GetMapping("/search-by-name/{fullName}")
     public ResponseEntity<Trainer> searchTrainerByName(@AuthenticationPrincipal User user, @PathVariable String fullName) {
         Trainer trainer = trainerService.searchByTrainerName(user.getId(),fullName);
@@ -58,13 +58,13 @@ public class TrainerController {
         return ResponseEntity.ok(new ApiResponse("Trainer deleted successfully"));
     }
 
-    //( #54 of 50 endpoints)
+    //( #55 of 50 endpoints) Abrar
     @GetMapping("/get-top-rated-trainer")
     public ResponseEntity<?> getTopRatedTrainer(){
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(trainerService.getTopRatedTrainer()));
     }
 
-    //( #55 of 50 endpoints)
+    //( #56 of 50 endpoints) Ayman
     @GetMapping("/get-top-rated-trainer-of-stable/{stableId}")
     public ResponseEntity<String> getTopRatedTrainerOfStable(@PathVariable Integer stableId){
         return ResponseEntity.status(HttpStatus.OK).body(trainerService.getTopRatedTrainerOfStable(stableId));

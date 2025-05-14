@@ -26,7 +26,7 @@ public class VeterinaryController {
     }
 
 
-    //( #56 of 50 endpoints)
+    //( #57 of 50 endpoints) Abeer
     //search Veterinary By Name
     @GetMapping("/search-by-name/{fullName}")
     public ResponseEntity<Veterinary> searchVeterinaryByName(@AuthenticationPrincipal User user, @PathVariable String fullName) {

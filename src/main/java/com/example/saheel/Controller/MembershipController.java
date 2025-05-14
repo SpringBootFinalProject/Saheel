@@ -20,14 +20,14 @@ import java.util.List;
 public class MembershipController {
     private final MembershipService membershipService;
 
-    // ( #26 of 50 endpoints)
+    // ( #31 of 50 endpoints ) Abrar
     // get All Memberships
     @GetMapping("/get")
     public ResponseEntity<MembershipDTO> getAllMemberships(@AuthenticationPrincipal User user) {
         MembershipDTO dto = membershipService.getOwnerActiveMembership(user.getId());
         return ResponseEntity.ok(dto);
     }
-    // ( #27 of 50 endpoints)
+    // ( #33 of 50 endpoints ) Abrar -Ayman -Abeer
     //  add Membership
     @PostMapping("/request-membership/{stableId}")
     public ResponseEntity<?> requestMembership(@AuthenticationPrincipal User user, @Valid @RequestBody Membership membership, @PathVariable Integer stableId) {
@@ -37,22 +37,21 @@ public class MembershipController {
 
 
 
-    // ( #28 of 50 endpoints)
+    // ( #34 of 50 endpoints ) Abrar -Ayman -Abeer
     @PutMapping("/renew-membership/{id}")
     public ResponseEntity<?> renewMembership(@AuthenticationPrincipal User user, @PathVariable Integer id, @RequestBody Membership membership) {
         membershipService.renewMembership(user.getId(), membership, id);
         return ResponseEntity.ok(new ApiResponse("Membership renewed successfully"));
     }
 
-    // ( #29 of 50 endpoints)
     // delete Membership
-    @DeleteMapping("/delete/{membershipId}/{stableId}")
-    public ResponseEntity<?> cancelMembership(@AuthenticationPrincipal User user, @PathVariable Integer membershipId, @PathVariable Integer stableId) {
-        membershipService.cancelMembership(user.getId(), stableId, membershipId);
-        return ResponseEntity.status(200).body(new ApiResponse("Membership deleted"));
-    }
+//    @DeleteMapping("/delete/{membershipId}/{stableId}")
+//    public ResponseEntity<?> cancelMembership(@AuthenticationPrincipal User user, @PathVariable Integer membershipId, @PathVariable Integer stableId) {
+//        membershipService.cancelMembership(user.getId(), stableId, membershipId);
+//        return ResponseEntity.status(200).body(new ApiResponse("Membership deleted"));
+//    }
 
-    // ( #30 of 50 endpoints.)
+    // ( #35 of 50 endpoints.) Abrar
     // This method gets all memberships that are expired.
     // A membership is expired if its end date is before today.
     @GetMapping("/get-expired-memberships")

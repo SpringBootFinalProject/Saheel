@@ -20,6 +20,7 @@ public class MembershipService {
     private final HorseRepository horseRepository;
     private final MembershipInvoiceRepository membershipInvoiceRepository;
     private final VeterinaryRepository veterinaryRepository;
+    private final EmailService emailService;
 
     // ( #10 of 50 endpoints )
     // get All Memberships
@@ -179,22 +180,33 @@ public class MembershipService {
         }
 
         //  Unlink all horses from this membership
-        List<Horse> horses = horseRepository.findAllByMembership(membership);
-        for (Horse horse : horses) {
-            horse.setMembership(null);
-            horse.setVeterinary(null);
-            horse.setBreeder(null);
-            horseRepository.save(horse);
-        }
+//        List<Horse> horses = horseRepository.findAllByMembership(membership);
+//        for (Horse horse : horses) {
+//            horse.setMembership(null);
+//            horse.setVeterinary(null);
+//            horse.setBreeder(null);
+//            horseRepository.save(horse);
+//        }
 
         if (membership.getMembershipType().equalsIgnoreCase("saheel++"))
             stable.setCapacity(stable.getCapacity() - 6);
         else stable.setCapacity(stable.getCapacity() - 3);
 
-
         // Deactivate the membership
         membership.setIsActive(false);
         membershipRepository.save(membership);
+
+        User user = owner.getUser();
+        if (user != null && user.getEmail() != null) {
+            String subject = "تم إلغاء اشتراكك في صهيل / Membership Cancelled";
+            String body = "مرحبًا " + user.getFullName() + ",\n\n"
+                    + "تم إلغاء اشتراكك في منصة صهيل. ستظل خدمات الاشتراك فعّالة حتى تاريخ: " + membership.getEndDate() + ".\n\n"
+                    + "Dear " + user.getFullName() + ",\n"
+                    + "Your membership has been cancelled. Services remain active until: " + membership.getEndDate() + ".\n\n"
+                    + "شكراً لاستخدامك صهيل.\nThank you for using Saheel.";
+
+            emailService.sendEmail(user.getEmail(), subject, body);
+        }
     }
 
 

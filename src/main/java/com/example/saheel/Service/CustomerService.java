@@ -18,6 +18,9 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final UserRepository userRepository;
     private final HelperService helperService;
+    private final EmailService emailService;
+    private final WhatsAppNotifications whatsAppNotifications;
+
 
     public List<Customer> getAllCustomers(String username) {
         // Check if the admin in the database.
@@ -53,8 +56,15 @@ public class CustomerService {
         // Create the customer and save it.
         Customer customer = new Customer(null, customerDtoIn.getLevel(), user, null, null, null);
         customerRepository.save(customer);
+        sendWelcomeEmail(user);
+        // Send WhatsApp welcome message
+        String whatsappMessage = "أهلاً بك " + user.getFullName() + " في منصة صهيل!\n"
+                + "نتمنى لك تجربة ممتعة ومليئة بالإنجازات في عالم الفروسية 🐎\n\n"
+                + "Dear " + user.getFullName() + ",\n"
+                + "Welcome to Saheel Platform!\n"
+                + "We hope you enjoy a great experience full of achievements in the world of horsemanship 🐎";
 
-        // Set the user and save it.
+        whatsAppNotifications.sendHelloMessage(user.getPhoneNumber(), whatsappMessage);        // Set the user and save it.
         user.setCustomer(customer);
         userRepository.save(user);
     }
@@ -105,5 +115,18 @@ public class CustomerService {
 
         // Delete
         userRepository.delete(user);
+    }
+
+    private void sendWelcomeEmail(User user) {
+        String to = user.getEmail();
+        String subject = "Welcome to Saheel / مرحبًا بك في منصة صهيل\"";
+        String body = "أهلاً بك " + user.getFullName() + " في منصة صهيل!\n"
+                + "نتمنى لك تجربة ممتعة ومليئة بالإنجازات في عالم الفروسية 🐎\n\n"
+
+                + "Dear " + user.getFullName() + ",\n"
+                + "Welcome to Saheel Platform!\n"
+                + "We hope you enjoy a great experience full of achievements in the world of horsemanship 🐎";
+
+        emailService.sendEmail(to, subject, body);
     }
 }

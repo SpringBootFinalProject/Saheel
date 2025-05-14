@@ -24,7 +24,7 @@ public class CustomerController {
     private final CustomerService customerService;
     private final InvoiceService invoiceService;
 
-    // ( #18 of 50 endpoints )
+    // ( #22 of 50 endpoints ) Ayman
     @PostMapping("/register-customer")
     public ResponseEntity<ApiResponse> registerCustomer(@RequestBody @Valid CustomerDTO customerDtoIn) {
         customerService.registerCustomer(customerDtoIn);
@@ -48,7 +48,7 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Customer deleted successfully."));
     }
 
-    // ( #19 of 50 endpoints )
+    // ( #23 of 50 endpoints ) Ayman
     @GetMapping("/get-invoice-as-pdf/{invoiceId}")
     public ResponseEntity<byte[]> getInvoiceAsPdf(@AuthenticationPrincipal User user, @PathVariable Integer invoiceId) {
         byte[] pdfBytes = invoiceService.getEnrollmentInvoiceAsPdf(user.getId(), invoiceId);

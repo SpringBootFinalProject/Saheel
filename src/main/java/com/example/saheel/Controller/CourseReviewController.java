@@ -18,12 +18,12 @@ import java.util.List;
 public class CourseReviewController {
     private final CourseReviewService courseReviewService;
 
-    // ( #16 of 50 endpoints )
+    // ( #20 of 50 endpoints ) Ayman
     @GetMapping("/get-course-reviews/{courseId}")
     public ResponseEntity<List<CourseReview>> getCourseReviews(@PathVariable Integer courseId) {
         return ResponseEntity.status(HttpStatus.OK).body(courseReviewService.getAllCourseReviews(courseId));
     }
-    // ( #17 of 50 endpoints )
+    // ( #21 of 50 endpoints ) Ayman
     @PostMapping("/review-course-by-customer/{courseId}")
     public ResponseEntity<ApiResponse> ReviewCourseByCustomer(@AuthenticationPrincipal User user, @PathVariable Integer courseId,
                                                               @RequestBody CourseReview courseReview) {

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,6 +20,7 @@ public class TwilioInitializer implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         String accountSid = twilioConfigurationProperties.getAccountSid();
         String authToken = twilioConfigurationProperties.getAuthToken();
+        System.out.println(new BCryptPasswordEncoder().encode("admin123"));
 
         Twilio.init(accountSid, authToken);
     }

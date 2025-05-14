@@ -24,7 +24,7 @@ public class StableOwnerController {
     private final StableOwnerService stableOwnerService;
     private final InvoiceService invoiceService;
 
-    // ( #37 of 50 endpoints.)
+    // ( #41 of 50 endpoints.)
     // Get stableOwner by ID - Abeer
     @GetMapping("/get-stable-owner")
     public ResponseEntity<StableOwner> getStableOwnerById(@AuthenticationPrincipal User user ) {
@@ -32,7 +32,7 @@ public class StableOwnerController {
         return ResponseEntity.ok(stableOwner);
     }
 
-    // ( #38 of 50 endpoints )
+    // ( #42 of 50 endpoints.)
     // Add new stable owner
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> registerStableOwner(@RequestBody StableOwnerDTO stableOwnerDTO) {
@@ -54,6 +54,7 @@ public class StableOwnerController {
         return ResponseEntity.ok(new ApiResponse("Stable owner deleted successfully"));
     }
 
+    // ( #41 of 50 endpoints.) Ayman
     @GetMapping("/get-pending-invoices{stableId}")
     public ResponseEntity<List<EnrollmentInvoice>> getPendingInvoices(@AuthenticationPrincipal User user, @PathVariable Integer stableId){
         return ResponseEntity.status(HttpStatus.OK).body(invoiceService.getPendingEnrollmentInvoices(user.getId(), stableId));

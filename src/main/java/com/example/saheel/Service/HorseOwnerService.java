@@ -18,6 +18,8 @@ import java.util.List;
 public class HorseOwnerService {
     private final HorseOwnerRepository horseOwnerRepository;
     private final UserRepository userRepository;
+    private final EmailService emailService;
+
 
     // get all  Horses
     public List<HorseOwner> getAllHorses() {
@@ -53,6 +55,7 @@ public class HorseOwnerService {
 
         HorseOwner owner = new HorseOwner();
         owner.setUser(user);
+        sendWelcomeEmail(user);
         horseOwnerRepository.save(owner);
     }
 
@@ -98,5 +101,18 @@ public class HorseOwnerService {
         // Delete the user and the horse owner.
         horseOwnerRepository.delete(horseOwner);
         userRepository.delete(user);
+    }
+
+    private void sendWelcomeEmail(User user) {
+        String to = user.getEmail();
+        String subject = "Welcome to Saheel / مرحبًا بك في منصة صهيل\"";
+        String body = "أهلاً بك " + user.getFullName() + " في منصة صهيل!\n"
+                + "نتمنى لك تجربة ممتعة ومليئة بالإنجازات في عالم الفروسية 🐎\n\n"
+
+                + "Dear " + user.getFullName() + ",\n"
+                + "Welcome to Saheel Platform!\n"
+                + "We hope you enjoy a great experience full of achievements in the world of horsemanship 🐎";
+
+        emailService.sendEmail(to, subject, body);
     }
 }

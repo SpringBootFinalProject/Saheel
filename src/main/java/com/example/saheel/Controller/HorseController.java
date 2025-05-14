@@ -18,7 +18,7 @@ import java.util.List;
 public class HorseController {
     private final HorseService horseService;
 
-    // ( #20 of 50 endpoints )
+    // ( #24 of 50 endpoints ) Ayman
     @GetMapping("/get-owner-horses")
     public ResponseEntity<List<Horse>> getOwnerHorses(@AuthenticationPrincipal User user) {
         return ResponseEntity.status(HttpStatus.OK).body(horseService.getOwnerHorses(user.getId()));
@@ -30,7 +30,7 @@ public class HorseController {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Horse added successfully."));
     }
 
-    // ( #21 of 50 endpoints )
+    // ( #25 of 50 endpoints ) Abrar
     @PostMapping("/assign/{horseId}")
     public ResponseEntity<?> assignHorseToMembership(@AuthenticationPrincipal User user, @PathVariable Integer horseId) {
         horseService.assignHorseToMembership(horseId, user.getId());
@@ -50,7 +50,7 @@ public class HorseController {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Horse deleted successfully."));
     }
 
-    // ( #22 of 50 endpoints)
+    // ( #26 of 50 endpoints ) Abrar
     // This method gets all horses for one specific owner
     // that do not have a membership.
     @GetMapping("/owner/horses-without-membership")
@@ -59,7 +59,7 @@ public class HorseController {
         return ResponseEntity.ok(horses);
     }
 
-    // ( #23 of 50 endpoints)
+    // ( #27 of 50 endpoints ) Abrar
     // This method sends (gifts) a horse to a new owner.
     // The horse must have an active membership to be gifted.
     @PutMapping("/gift/{horseId}/to/{newOwnerId}")

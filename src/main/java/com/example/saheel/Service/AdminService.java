@@ -159,7 +159,6 @@ public class AdminService {
                 + "Thank you for joining us!\n"
                 + "Saheel Team";
     }
-
     public void notifyMembershipExpiringSoon(Integer admin_Id) {
         User admin = userRepository.findUserByIdAndRole(admin_Id, "ADMIN");
         if (admin == null) {
@@ -198,8 +197,6 @@ public class AdminService {
     }
 
 
-
-
     public List<StableOwner> getAllStableOwners(Integer adminId) {
         User admin = userRepository.findUserByIdAndRole(adminId, "ADMIN");
         if (admin == null) {
@@ -227,7 +224,22 @@ public class AdminService {
         return horseOwnerRepository.findAll();
     }
 
+    public void changeMembershipStatus(Integer adminId, Integer membershipId) {
+        // Get the membership and check if it's in the database.
+        Membership membership = membershipRepository.findMembershipById(membershipId);
+        if (membership == null)
+            throw new ApiException("Membership not found.");
 
+        if (userRepository.findUserByIdAndRole(adminId, "ADMIN") == null)
+            throw new ApiException("Admin not found.");
+
+        // Check the membership end date and check if the membership expired.
+        if(LocalDate.now().isAfter(membership.getEndDate())){
+            membership.setIsActive(false);
+            membershipRepository.save(membership);
+        } else
+            throw new ApiException("The membership has not expired yet.");
+    }
 
 
 }

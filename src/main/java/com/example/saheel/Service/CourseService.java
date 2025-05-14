@@ -64,6 +64,7 @@ public class CourseService {
             throw new ApiException("Trainer not available.");
 
         // Add the stable to the course and save the object in the database.
+
         course.setStable(stable);
         courseRepository.save(course);
     }

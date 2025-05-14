@@ -20,7 +20,7 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final MembershipPaymentService membershipPaymentService;
 
-    // ( #31 of 50 endpoints.)
+    // ( #36 of 50 endpoints.) Ayman
     @PostMapping("/course-enrollment-card/{courseEnrollmentId}")
     public ResponseEntity<ApiResponse> processPaymentOfEnrollment(@AuthenticationPrincipal User user, @PathVariable Integer courseEnrollmentId, @RequestBody PaymentRequest paymentRequest){
         try {
@@ -33,14 +33,14 @@ public class PaymentController {
         }
     }
 
-    // ( #32 of 50 endpoints.)
+    // ( #37 of 50 endpoints.) Ayman
     @GetMapping("/get-status")
     public ResponseEntity<ApiResponse> getPaymentStatus(@AuthenticationPrincipal String id){
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(paymentService.getPaymentStatus(id)));
     }
 
 
-    // ( #33 of 50 endpoints.)
+    // ( #38 of 50 endpoints.) Abrar
     @PostMapping("/membership/{membershipId}")
     public ResponseEntity<ApiResponse> processPaymentOfMembership(
             @AuthenticationPrincipal User user,
