@@ -240,6 +240,6 @@ For questions or support:
 - **Email** ayman.f.alharbi@gmail.com
 - **Email** Aboor.1048@gmail.com
 ## LinkedIn
-- **Abrar Saud** [link](https://www.linkedin.com/in/abrar-saud/)
-- **Ayman Alharbi** https://www.linkedin.com/in/ayman-alharbi1
-- **Abeer secondName** https://www.linkedin.com/in/abeer-alhawsawi-516b282b8
+- [**Abrar Saud**](https://www.linkedin.com/in/abrar-saud/)
+- [**Ayman Alharbi**](https://www.linkedin.com/in/ayman-alharbi1)
+- [**Abeer secondName**](https://www.linkedin.com/in/abeer-alhawsawi-516b282b8)
