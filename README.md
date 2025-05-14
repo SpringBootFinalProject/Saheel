@@ -242,4 +242,4 @@ For questions or support:
 ## LinkedIn
 - **Abrar Saud** [link](https://www.linkedin.com/in/abrar-saud/)
 - **Ayman Alharbi** https://www.linkedin.com/in/ayman-alharbi1
-- **Abeer secondName** link
+- **Abeer secondName** https://www.linkedin.com/in/abeer-alhawsawi-516b282b8
