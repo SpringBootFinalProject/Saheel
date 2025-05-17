@@ -20,7 +20,9 @@ public class EnrollmentInvoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String paymentId;
-    @Pattern(regexp = "pending|intiated|failed|paid")
+    @Pattern(regexp = "pending|initiated|failed|paid")
+    //initiated
+    //intiated
     private String status;
     private Double totalPrice;
     private LocalDateTime dateTime;

@@ -119,6 +119,9 @@ public class CourseService {
         // Check if the course belongs to the stable.
         checkIfCourseBelongsToStable(stable, course);
 
+        // Unlink the trainer
+        course.setTrainer(null);
+
         // Cancel the course
         course.setCourseCanceled(true);
         // Unlink the trainer

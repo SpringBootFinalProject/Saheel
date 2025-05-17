@@ -38,9 +38,11 @@ public class VeterinaryVisit {
     @ManyToOne
     @JsonIgnore
     private Stable stable;
+
     @ManyToOne
     @JsonIgnore
     private Veterinary veterinary;
+
 
     @ManyToOne
     @JsonIgnore

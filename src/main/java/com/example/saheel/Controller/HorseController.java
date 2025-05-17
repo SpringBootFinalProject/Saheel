@@ -31,9 +31,9 @@ public class HorseController {
     }
 
     // ( #25 of 50 endpoints ) Abrar
-    @PostMapping("/assign/{horseId}")
-    public ResponseEntity<?> assignHorseToMembership(@AuthenticationPrincipal User user, @PathVariable Integer horseId) {
-        horseService.assignHorseToMembership(horseId, user.getId());
+    @PostMapping("/assign/{horseId}/{membershipId}")
+    public ResponseEntity<?> assignHorseToMembership(@AuthenticationPrincipal User user, @PathVariable Integer horseId, @PathVariable Integer membershipId) {
+        horseService.assignHorseToMembership(horseId, user.getId(), membershipId);
         return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse("Horse assigned successfully"));
     }
 

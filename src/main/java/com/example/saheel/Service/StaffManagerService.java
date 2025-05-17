@@ -178,10 +178,10 @@ public class StaffManagerService {
     //( #34 of 50 endpoints)
 //assign veterinary it horse-Abeer
     public void assignVeterinaryToHorse(Integer stableOwner_Id, Integer veterinary_Id, Integer horse_Id) {
-        Membership membership = membershipRepository.findByHorsesIdAndIsActiveTrue(horse_Id);
-        if (membership == null) {
-            throw new ApiException("Error: This horse does not have an active membership");
-        }
+       // Membership membership = membershipRepository.findMembershipById(horse_Id);
+//        if (membership == null) {
+//            throw new ApiException("Error: This horse does not have an active membership");
+//        }
 
         Horse horse = horseRepository.findHorseById(horse_Id);
         if (horse == null) {
@@ -193,9 +193,9 @@ public class StaffManagerService {
             throw new ApiException("Error: veterinary is not found");
         }
 
-        if (!membership.getStable().getStableOwner().getId().equals(stableOwner_Id)) {
-            throw new ApiException("Error: You are not the owner of the stable this horse belongs to");
-        }
+//        if (!membership.getStable().getStableOwner().getId().equals(stableOwner_Id)) {
+//            throw new ApiException("Error: You are not the owner of the stable this horse belongs to");
+//        }
 
         if (horse.getVeterinary() != null && horse.getVeterinary().getId().equals(veterinary_Id)) {
             throw new ApiException("Error: This horse is already assigned to this veterinary");

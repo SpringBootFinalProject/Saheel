@@ -27,7 +27,7 @@ public class StableOwnerController {
     // ( #41 of 50 endpoints.)
     // Get stableOwner by ID - Abeer
     @GetMapping("/get-stable-owner")
-    public ResponseEntity<StableOwner> getStableOwnerById(@AuthenticationPrincipal User user ) {
+    public ResponseEntity<StableOwner> getStableOwnerById(@AuthenticationPrincipal User user) {
         StableOwner stableOwner = stableOwnerService.getStableOwnerById(user.getId());
         return ResponseEntity.ok(stableOwner);
     }

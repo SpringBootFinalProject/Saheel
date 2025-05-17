@@ -83,11 +83,14 @@ public class PaymentService {
         String responseBody = response.getBody();
         JsonNode jsonNode = new ObjectMapper().readTree(responseBody);
         String paymentId = jsonNode.get("id").asText();
-
+        String paymentStatus = jsonNode.get("status").asText(); // This one
+        System.out.println(paymentStatus);
+        System.out.println(paymentStatus.toLowerCase());
         // Get the invoice and set the paymentId and change the status of the invoice.
         EnrollmentInvoice invoice = courseEnrollment.getInvoice();
         if (invoice == null) throw new ApiException("Invoice not found.");
         invoice.setPaymentId(paymentId);
+        invoice.setStatus(paymentStatus); // And This one
 
 
         // Save

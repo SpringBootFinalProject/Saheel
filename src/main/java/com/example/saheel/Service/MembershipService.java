@@ -49,7 +49,7 @@ public class MembershipService {
 
     // ( #11 of 50 endpoints )
     // add Membership
-    public void requestMembership(Membership membership, Integer ownerId, Integer stableId) {
+        public void requestMembership(Membership membership, Integer ownerId, Integer stableId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
         if (owner == null) {
             throw new ApiException("Horse Owner not found");

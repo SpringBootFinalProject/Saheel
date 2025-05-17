@@ -108,7 +108,7 @@ public class ConfigurationSecurity {
                         "/api/v1/saheel/payments/get-status"
                 ).hasAuthority("CUSTOMER")
 
-                //  Invoice download for STABLEOWNER & HORSEOWNER
+                //  Invoice download for STABLEOWNER & CUSTOMER
                 .requestMatchers("/api/v1/saheel/customer/get-invoice-as-pdf/**")
                 .hasAnyAuthority("CUSTOMER", "STABLEOWNER")
 

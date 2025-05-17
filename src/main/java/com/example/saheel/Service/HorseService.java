@@ -45,7 +45,7 @@ public class    HorseService {
 
 
     // ( #17 of 50 endpoints )
-    public void assignHorseToMembership(Integer horseId, Integer ownerId) {
+    public void assignHorseToMembership(Integer horseId, Integer ownerId, Integer membershipId) {
         HorseOwner owner = horseOwnerRepository.findHorseOwnerById(ownerId);
         if (owner == null) {
             throw new ApiException("Horse owner not found");
@@ -56,7 +56,7 @@ public class    HorseService {
             throw new ApiException("Horse not found");
         }
 
-        Membership membership = membershipRepository.findByHorseOwnerAndIsActive(owner, true);
+        Membership membership = membershipRepository.findMembershipById(membershipId);
         if (membership == null) {
             throw new ApiException("Owner has no active membership");
         }
