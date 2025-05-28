@@ -238,7 +238,7 @@ A comprehensive REST API for managing equestrian businesses, stables, and horse 
 For questions or support:  
 - **Email**: alotaibi.s.abrar@gmail.com
 - **Email** ayman.f.alharbi@gmail.com
-- **Email** abeer.alhawsawi73.com
+- **Email** abeer.alhawsawi73@gmail.com
 ## LinkedIn
 - [**Abrar Saud**](https://www.linkedin.com/in/abrar-saud/)
 - [**Ayman Alharbi**](https://www.linkedin.com/in/ayman-alharbi1)
